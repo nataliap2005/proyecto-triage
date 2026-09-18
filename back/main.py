@@ -7,6 +7,7 @@ import jwt
 import psycopg2
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from psycopg2.errors import UniqueViolation
 from psycopg2.extras import Json, RealDictCursor
@@ -29,6 +30,13 @@ app=FastAPI(
     title="API de Triaje Hospitalario",
     version="2.0.0",
     description="API clínica y administrativa alineada con la BD corregida."
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
 
 security=HTTPBearer()
@@ -1134,8 +1142,7 @@ def ver_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("
         e=obtener_encuentro(cur,id_encuentro,False)
         exigir_acceso_encuentro(cur,e,u)
         return e
-    finally:
-        cur.close()
+    finally:cur.close()
 
 @app.put("/encuentros/{id_encuentro}/triage",tags=["Encuentros"])
 def registrar_triage(id_encuentro:int,data:TriageUpdate,db=Depends(get_db),u=Depends(requerir_roles("Medico"))):
@@ -2548,4 +2555,3 @@ def sincronizar_todo_fhir(db=Depends(get_db),u=Depends(requerir_roles("Admin")))
             fhir_put("Invoice",fhir_id("factura",f["id_factura"]),build_invoice(f)); resumen["Invoice"]+=1
         return {"mensaje":"Sincronización FHIR R4 completada","hapi_fhir_url":HAPI_FHIR_URL,"recursos":resumen}
     finally: cur.close()
-

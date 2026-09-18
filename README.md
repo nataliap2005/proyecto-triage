@@ -1,176 +1,85 @@
-# Instructivo de ejecución del proyecto
+# Ejecución del proyecto
 
-Este instructivo explica cómo ejecutar el proyecto de forma local y cómo publicarlo temporalmente mediante Cloudflare Tunnel.
-
----
-
-# Parte A. Ejecución local
-
-## 1. Requisitos previos
-
-Antes de iniciar, se recomienda tener instalado:
-
-- Python 3.13
-- Docker Desktop
-- Git
-- PowerShell
-- `cloudflared`
-
-También se debe tener acceso a:
-
-- La base de datos en Neon PostgreSQL
-- El repositorio del proyecto
-- El archivo `pass.env` con las variables necesarias
-
-La estructura principal del proyecto debe verse aproximadamente así:
-
-```text
-proyecto_triaje/
-│
-├── main.py
-├── pass.env
-├── requirements.txt
-├── docker-compose.yml
-├── squema_bd.sql
-├── creacion_tablas.ipynb
-├── create_roles.ipynb
-├── generacion_datos.ipynb
-└── ...
-```
+> **Importante:** para ejecutar el sistema no es necesario correr los notebooks del backend.  
+> La base de datos ya se encuentra creada y alojada en Neon PostgreSQL.
+>
+> Los notebooks incluidos en el proyecto corresponden a procesos de creación, carga y validación de la base de datos y no hacen parte del proceso normal de ejecución.
 
 ---
 
-## 2. Descargar el proyecto
+# Ejecución local
 
-Clonar el repositorio:
+## 1. Clonar el repositorio
 
 ```powershell
 git clone https://github.com/nataliap2005/proyecto-triage.git
-```
-
-Entrar a la carpeta del proyecto:
-
-```powershell
 cd proyecto-triage
 ```
 
----
+## 2. Entrar al backend
+
+```powershell
+cd back
+```
 
 ## 3. Crear el entorno virtual
-
-Crear el entorno virtual:
 
 ```powershell
 python -m venv .venv
 ```
 
-Activarlo:
+## 4. Activar el entorno virtual
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-Si se activó correctamente, la terminal debe mostrar algo parecido a:
-
-```text
-(.venv) PS C:\...\proyecto-triage>
-```
-
----
-
-## 4. Instalar dependencias
-
-Instalar las dependencias desde `requirements.txt`:
+## 5. Instalar las dependencias
 
 ```powershell
 pip install -r requirements.txt
 ```
 
-Las principales dependencias utilizadas por el proyecto son:
+## 6. Crear el archivo `pass.env`
 
-```text
-fastapi
-uvicorn
-psycopg2-binary
-python-dotenv
-PyJWT
-pwdlib
-pydantic
-requests
-```
-
----
-
-## 5. Configurar `pass.env`
-
-Cada integrante debe crear localmente un archivo llamado:
+Dentro de la carpeta `back/` crear el archivo:
 
 ```text
 pass.env
 ```
 
-Este archivo **no debe subirse a GitHub**.
-
-Debe contener:
+con las variables necesarias:
 
 ```env
-PG_CONNECTION_STRING=CONEXION_DE_NEON
-JWT_SECRET_KEY=CLAVE_SECRETA_JWT
+PG_CONNECTION_STRING=CONEXION_NEON
+JWT_SECRET_KEY=CLAVE_JWT
 HAPI_FHIR_URL=http://localhost:8080/fhir
 ```
 
-Descripción de las variables:
-
-```text
-PG_CONNECTION_STRING → conexión a Neon PostgreSQL
-JWT_SECRET_KEY       → clave utilizada para firmar los tokens JWT
-HAPI_FHIR_URL        → dirección local del servidor HAPI FHIR
-```
-
-No se deben compartir públicamente estos valores.
+> `pass.env` contiene información sensible y no debe subirse al repositorio.
 
 ---
 
-## 6. Base de datos
+## 7. Abrir Docker Desktop
 
-La base de datos principal está alojada en **Neon PostgreSQL**, por lo que normalmente no es necesario levantar PostgreSQL de forma local.
-
-Para comprobar posteriormente la conexión se puede utilizar:
-
-```text
-GET /estado-bd
-```
-
-Si fuera necesario crear la base de datos nuevamente desde cero, ejecutar los archivos en este orden:
-
-```text
-1. creacion_tablas.ipynb
-2. create_roles.ipynb
-3. generacion_datos.ipynb
-4. inspeccionar_bd.py
-```
-
-Si la base de datos ya está creada y poblada en Neon, **no es necesario volver a ejecutar estos archivos**.
+Antes de iniciar HAPI FHIR, verificar que Docker Desktop esté ejecutándose.
 
 ---
 
-## 7. Levantar HAPI FHIR
+## 8. Levantar HAPI FHIR
 
-Primero verificar que **Docker Desktop** esté abierto.
-
-Desde la carpeta donde se encuentra `docker-compose.yml`:
+Desde la carpeta donde se encuentra el `docker-compose.yml` de HAPI FHIR:
 
 ```powershell
+cd HAPI-FHIR
 docker compose up -d
 ```
 
-Comprobar los contenedores:
+Verificar los contenedores:
 
 ```powershell
 docker ps
 ```
-
-Deben aparecer los contenedores correspondientes a HAPI FHIR y su PostgreSQL.
 
 HAPI FHIR debe quedar disponible en:
 
@@ -178,7 +87,7 @@ HAPI FHIR debe quedar disponible en:
 http://localhost:8080/fhir
 ```
 
-Para comprobarlo se puede abrir:
+Se puede comprobar desde:
 
 ```text
 http://localhost:8080/fhir/metadata
@@ -186,7 +95,13 @@ http://localhost:8080/fhir/metadata
 
 ---
 
-## 8. Levantar FastAPI
+## 9. Levantar FastAPI
+
+Volver a la carpeta `back/`:
+
+```powershell
+cd ..
+```
 
 Con el entorno virtual activo:
 
@@ -194,7 +109,7 @@ Con el entorno virtual activo:
 uvicorn main:app --reload
 ```
 
-La API quedará disponible en:
+FastAPI quedará disponible en:
 
 ```text
 http://127.0.0.1:8000
@@ -208,15 +123,15 @@ http://127.0.0.1:8000/docs
 
 ---
 
-## 9. Comprobar el funcionamiento local
+## 10. Comprobar la base de datos
 
-En Swagger probar primero:
+Desde Swagger probar:
 
 ```text
 GET /estado-bd
 ```
 
-Debe responder aproximadamente:
+La respuesta debe indicar:
 
 ```json
 {
@@ -224,186 +139,151 @@ Debe responder aproximadamente:
 }
 ```
 
-Después iniciar sesión mediante:
-
-```text
-POST /auth/login
-```
-
-Ejemplo:
-
-```json
-{
-  "username": "USUARIO",
-  "password": "CONTRASEÑA"
-}
-```
-
-Copiar el valor de:
-
-```text
-access_token
-```
-
-Luego hacer clic en:
-
-```text
-Authorize
-```
-
-y pegar únicamente el token.
-
-Después comprobar la sesión con:
-
-```text
-GET /auth/me
-```
-
 ---
 
-## 10. Comprobar HAPI FHIR
+## 11. Comprobar HAPI FHIR
 
-Con un usuario Admin o Médico:
+Iniciar sesión con un usuario autorizado y probar:
 
 ```text
 GET /fhir/estado
 ```
 
-Debe responder aproximadamente:
-
-```json
-{
-  "estado": "ok",
-  "url": "http://localhost:8080/fhir",
-  "fhirVersion": "4.0.1",
-  "software": "HAPI FHIR Server"
-}
-```
-
-Para sincronizar toda la información de la base de datos con HAPI FHIR:
-
-```text
-POST /fhir/sincronizar-todo
-```
-
-La respuesta esperada es similar a:
-
-```json
-{
-  "mensaje": "Sincronización FHIR R4 completada",
-  "recursos": {
-    "Practitioner": 4,
-    "Patient": 25,
-    "Medication": 12,
-    "Encounter": 53,
-    "Observation": 318
-  }
-}
-```
-
-Los valores pueden cambiar si la base de datos es modificada.
+Debe indicar que HAPI FHIR se encuentra disponible.
 
 ---
 
-# Parte B. Publicación con Cloudflare Tunnel
+# Ejecutar el frontend
 
-Cloudflare Tunnel permite exponer temporalmente los servicios locales por Internet.
+Abrir una nueva terminal.
 
-Se publican:
+Desde la raíz del proyecto entrar a:
+
+```powershell
+cd front
+```
+
+Levantar un servidor web local:
+
+```powershell
+python -m http.server 5500
+```
+
+Abrir en el navegador:
 
 ```text
-FastAPI   → puerto 8000
+http://localhost:5500
+```
+
+El frontend se conecta con FastAPI y utiliza:
+
+```text
+POST /auth/login
+GET /auth/me
+```
+
+para autenticar al usuario mediante JWT y reconocer su rol.
+
+Actualmente se contemplan los roles:
+
+```text
+Admin
+Medico
+Administrativo
+Paciente
+```
+
+El frontend está configurado para intentar utilizar primero la API publicada mediante Cloudflare.
+
+Si la URL pública no está disponible, utiliza automáticamente:
+
+```text
+http://127.0.0.1:8000
+```
+
+Por lo tanto, **Cloudflare no es necesario para trabajar de forma local**.
+
+---
+
+# Publicación con Cloudflare
+
+Cloudflare Tunnel se utiliza cuando se necesita acceder al sistema desde Internet, por ejemplo durante la demostración del proyecto.
+
+Se deben publicar dos servicios:
+
+```text
 HAPI FHIR → puerto 8080
+FastAPI   → puerto 8000
 ```
 
-Durante la demostración deben mantenerse activos:
+## 1. Publicar HAPI FHIR
 
-- Docker Desktop
-- HAPI FHIR
-- FastAPI
-- Tunnel de FastAPI
-- Tunnel de HAPI FHIR
-
----
-
-## 11. Instalar `cloudflared`
-
-Descargar para Windows:
+Con HAPI FHIR funcionando en:
 
 ```text
-cloudflared-windows-amd64.exe
+http://localhost:8080
 ```
 
-Por ejemplo, guardarlo en:
-
-```text
-C:\Users\USUARIO\Downloads
-```
-
-Abrir PowerShell y entrar a esa carpeta:
+abrir otra terminal y ejecutar:
 
 ```powershell
-cd C:\Users\USUARIO\Downloads
+.\cloudflared-windows-amd64.exe tunnel --url http://localhost:8080
 ```
 
-Comprobar la instalación:
-
-```powershell
-.\cloudflared-windows-amd64.exe --version
-```
-
----
-
-## 12. Publicar FastAPI
-
-Primero dejar FastAPI funcionando:
-
-```powershell
-uvicorn main:app --reload
-```
-
-Abrir otra ventana de PowerShell:
-
-```powershell
-cd C:\Users\USUARIO\Downloads
-```
-
-Ejecutar:
-
-```powershell
-.\cloudflared-windows-amd64.exe tunnel --url http://localhost:8000
-```
-
-Cloudflare mostrará una URL parecida a:
+Cloudflare generará una URL temporal similar a:
 
 ```text
 https://xxxxx.trycloudflare.com
 ```
 
-Esta será la URL pública de FastAPI.
-
-Swagger público:
+La URL pública de HAPI FHIR será:
 
 ```text
-https://xxxxx.trycloudflare.com/docs
+https://xxxxx.trycloudflare.com/fhir
 ```
-
-No cerrar la ventana del tunnel.
 
 ---
 
-## 13. Publicar HAPI FHIR
+## 2. Actualizar `HAPI_FHIR_URL`
 
-Abrir otra ventana de PowerShell:
+Modificar en:
 
-```powershell
-cd C:\Users\USUARIO\Downloads
+```text
+back/pass.env
 ```
 
-Ejecutar:
+la variable:
+
+```env
+HAPI_FHIR_URL=https://xxxxx.trycloudflare.com/fhir
+```
+
+---
+
+## 3. Reiniciar FastAPI
+
+Detener Uvicorn con:
+
+```text
+Ctrl + C
+```
+
+y volver a ejecutarlo:
 
 ```powershell
-.\cloudflared-windows-amd64.exe tunnel --url http://localhost:8080
+uvicorn main:app --reload
+```
+
+Esto permite que FastAPI utilice la nueva URL pública de HAPI FHIR.
+
+---
+
+## 4. Publicar FastAPI
+
+Abrir otra terminal y ejecutar:
+
+```powershell
+.\cloudflared-windows-amd64.exe tunnel --url http://localhost:8000
 ```
 
 Cloudflare generará otra URL:
@@ -412,179 +292,92 @@ Cloudflare generará otra URL:
 https://yyyyy.trycloudflare.com
 ```
 
-HAPI FHIR quedará accesible en:
+Swagger quedará disponible públicamente en:
 
 ```text
-https://yyyyy.trycloudflare.com/fhir
-```
-
-La metadata estará disponible en:
-
-```text
-https://yyyyy.trycloudflare.com/fhir/metadata
+https://yyyyy.trycloudflare.com/docs
 ```
 
 ---
 
-## 14. Actualizar la URL de HAPI en FastAPI
+## 5. Probar los servicios públicos
 
-Modificar el archivo `pass.env`.
-
-Antes:
-
-```env
-HAPI_FHIR_URL=http://localhost:8080/fhir
-```
-
-Después:
-
-```env
-HAPI_FHIR_URL=https://yyyyy.trycloudflare.com/fhir
-```
-
-Guardar el archivo.
-
-Reiniciar FastAPI:
-
-```powershell
-Ctrl + C
-```
-
-Luego:
-
-```powershell
-uvicorn main:app --reload
-```
-
----
-
-## 15. Probar el sistema publicado
-
-Desde otro computador o celular abrir:
+Probar:
 
 ```text
-https://URL_FASTAPI.trycloudflare.com/docs
-```
-
-Probar al menos:
-
-```text
-GET /estado-bd
 POST /auth/login
 GET /auth/me
+GET /estado-bd
 GET /fhir/estado
 GET /pacientes/{documento}/historia-clinica
 POST /fhir/sincronizar-todo
 ```
 
-En:
+---
 
-```text
-GET /fhir/estado
+# Resumen de ejecución
+
+## Local
+
+### Terminal 1 - Backend
+
+```powershell
+cd back
+.\.venv\Scripts\Activate.ps1
+uvicorn main:app --reload
 ```
 
-la URL ya no debería aparecer como:
+### Terminal 2 - HAPI FHIR
+
+```powershell
+cd back\HAPI-FHIR
+docker compose up -d
+```
+
+### Terminal 3 - Frontend
+
+```powershell
+cd front
+python -m http.server 5500
+```
+
+Abrir:
 
 ```text
+Frontend:
+http://localhost:5500
+
+Swagger:
+http://127.0.0.1:8000/docs
+
+HAPI FHIR:
 http://localhost:8080/fhir
 ```
 
-sino como:
-
-```text
-https://URL_HAPI.trycloudflare.com/fhir
-```
-
-Esto confirma que FastAPI está utilizando el servidor FHIR publicado.
-
 ---
 
-# Arquitectura final
+## Con Cloudflare
 
-```text
-                    INTERNET
-                       │
-              Cloudflare Tunnel
-                       │
-        ┌──────────────┴──────────────┐
-        ↓                             ↓
-FastAPI público                 HAPI FHIR público
-        │                             │
-        │                         FHIR R4
-        │
-        ↓
-Neon PostgreSQL
-```
-
----
-
-# Ventanas que deben permanecer abiertas durante la demostración
-
-No cerrar:
+Mantener activos:
 
 ```text
 1. Docker Desktop
-2. HAPI FHIR mediante Docker Compose
-3. FastAPI con Uvicorn
-4. Cloudflare Tunnel de FastAPI
-5. Cloudflare Tunnel de HAPI FHIR
+2. HAPI FHIR
+3. FastAPI
+4. Frontend
+5. Tunnel de HAPI FHIR
+6. Tunnel de FastAPI
 ```
 
-Los Quick Tunnels de Cloudflare generan URLs temporales.
-
-Si se cierra un tunnel y se vuelve a ejecutar, probablemente se generará una URL diferente.
-
-Si cambia la URL pública de HAPI FHIR, también se debe actualizar:
-
-```env
-HAPI_FHIR_URL=
-```
-
-en `pass.env` y reiniciar FastAPI.
+Si Cloudflare no está disponible, el proyecto puede seguir ejecutándose completamente de forma local.
 
 ---
 
-# Resumen rápido
+# Notas
 
-## Ejecución local
-
-```text
-1. Clonar el repositorio
-2. Crear y activar .venv
-3. Instalar requirements.txt
-4. Crear pass.env
-5. Abrir Docker Desktop
-6. docker compose up -d
-7. uvicorn main:app --reload
-8. Abrir http://127.0.0.1:8000/docs
-9. Probar /estado-bd
-10. Probar /fhir/estado
-```
-
-## Publicación con Cloudflare
-
-```text
-1. Crear tunnel para HAPI FHIR en puerto 8080
-2. Copiar la URL pública de HAPI
-3. Actualizar HAPI_FHIR_URL en pass.env
-4. Reiniciar FastAPI
-5. Crear tunnel para FastAPI en puerto 8000
-6. Abrir la URL pública de FastAPI + /docs
-7. Probar login, base de datos, historia clínica y FHIR
-```
-
----
-
-# Seguridad
-
-No subir al repositorio:
-
-```text
-pass.env
-.env
-.venv/
-__pycache__/
-*.pyc
-```
-
-Se recomienda incluir estos archivos y carpetas en `.gitignore`.
+- No ejecutar los notebooks para iniciar el proyecto.
+- No volver a crear la base de datos si ya se está utilizando la instancia de Neon.
+- No subir `pass.env` al repositorio.
+- Las URLs `trycloudflare.com` son temporales y pueden cambiar cada vez que se reinicia el tunnel.
+- Si cambia la URL pública de HAPI FHIR, actualizar `HAPI_FHIR_URL` en `pass.env` y reiniciar FastAPI.
+- Para desarrollo local, Cloudflare es opcional.
