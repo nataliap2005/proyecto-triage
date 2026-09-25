@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+psycopg2-binary
+python-dotenv
+python-multipart
+httpx
+requests
+argon2-cffi
+PyJWT
+pwdlib[argon2]
+pydantic

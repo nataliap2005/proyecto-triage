@@ -12,7 +12,7 @@ services:
     healthcheck:
       test:
         - CMD-SHELL
-        - pg_isready -U ${HAPI_DB_USER} -d ${HAPI_DB_NAME}
+        - pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
       interval: 10s
       timeout: 5s
       start_period: 10s
@@ -20,6 +20,7 @@ services:
 
     volumes:
       - hapi_postgres_data:/var/lib/postgresql/data
+
 
   hapi-fhir:
     image: hapiproject/hapi:latest
@@ -41,6 +42,44 @@ services:
     depends_on:
       hapi-postgres:
         condition: service_healthy
+
+
+  api:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+
+    container_name: triaje-api
+    restart: unless-stopped
+
+    env_file:
+      - ./back/pass.env
+
+    environment:
+      HAPI_FHIR_URL: http://hapi-fhir:8080/fhir
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      hapi-fhir:
+        condition: service_started
+
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+
+    container_name: triaje-frontend
+    restart: unless-stopped
+
+    ports:
+      - "5500:80"
+
+    depends_on:
+      - api
+
 
 volumes:
   hapi_postgres_data:
