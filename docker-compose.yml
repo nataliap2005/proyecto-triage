@@ -21,7 +21,6 @@ services:
     volumes:
       - hapi_postgres_data:/var/lib/postgresql/data
 
-
   hapi-fhir:
     image: hapiproject/hapi:latest
     container_name: triaje-hapi-fhir
@@ -43,6 +42,29 @@ services:
       hapi-postgres:
         condition: service_healthy
 
+  orthanc:
+    image: orthancteam/orthanc:latest
+    container_name: triaje-orthanc
+    restart: unless-stopped
+
+    environment:
+      ORTHANC_JSON: |
+        {
+          "Name": "Triaje Hospitalario PACS",
+          "DicomAet": "TRIAJEPACS",
+          "RemoteAccessAllowed": true,
+          "AuthenticationEnabled": true,
+          "RegisteredUsers": {
+            "${ORTHANC_USERNAME:-orthanc}": "${ORTHANC_PASSWORD:-orthanc}"
+          }
+        }
+
+    ports:
+      - "8042:8042"
+      - "4242:4242"
+
+    volumes:
+      - orthanc_data:/var/lib/orthanc/db
 
   api:
     build:
@@ -57,6 +79,9 @@ services:
 
     environment:
       HAPI_FHIR_URL: http://hapi-fhir:8080/fhir
+      ORTHANC_URL: http://orthanc:8042
+      ORTHANC_USERNAME: ${ORTHANC_USERNAME:-orthanc}
+      ORTHANC_PASSWORD: ${ORTHANC_PASSWORD:-orthanc}
 
     ports:
       - "8000:8000"
@@ -64,7 +89,8 @@ services:
     depends_on:
       hapi-fhir:
         condition: service_started
-
+      orthanc:
+        condition: service_started
 
   frontend:
     build:
@@ -80,6 +106,6 @@ services:
     depends_on:
       - api
 
-
 volumes:
   hapi_postgres_data:
+  orthanc_data:
