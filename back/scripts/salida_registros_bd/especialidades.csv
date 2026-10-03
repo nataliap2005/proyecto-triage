@@ -1,0 +1,13 @@
+﻿id_especialidad,nombre,descripcion,activo,created_at
+1,Medicina de Urgencias y Emergencias,"Atención inicial, reanimación y clasificación de riesgo vital inmediato",True,2026-10-03 00:43:46.723779+00:00
+2,Medicina General,Valoración inicial y atención de patologías agudas de baja y mediana complejidad,True,2026-10-03 00:43:46.723779+00:00
+3,Medicina Interna,Evaluación de patologías médicas complejas no quirúrgicas y descompensaciones crónicas,True,2026-10-03 00:43:46.723779+00:00
+4,Pediatría,"Atención de urgencias en lactantes, niños y adolescentes",True,2026-10-03 00:43:46.723779+00:00
+5,Ginecología y Obstetricia,"Atención de emergencias gestacionales, parto y urgencias ginecológicas",True,2026-10-03 00:43:46.723779+00:00
+6,Cirugía General,Valoración de abdomen agudo y patologías de resolución quirúrgica urgente,True,2026-10-03 00:43:46.723779+00:00
+7,Traumatología y Ortopedia,"Atención de fracturas, luxaciones, heridas complejas y politraumatismos",True,2026-10-03 00:43:46.723779+00:00
+8,Cardiología,"Manejo de dolor torácico, síndrome coronario agudo y arritmias severas",True,2026-10-03 00:43:46.723779+00:00
+9,Neurología,Evaluación de eventos cerebrovasculares agudos (Código ACV) y déficits neurológicos,True,2026-10-03 00:43:46.723779+00:00
+10,Psiquiatría,"Atención de crisis de salud mental, agitación psicomotora y riesgo de autolesión",True,2026-10-03 00:43:46.723779+00:00
+11,Medicina Intensiva,Manejo e ingreso de pacientes en estado crítico que requieren soporte vital en UCI,True,2026-10-03 00:43:46.723779+00:00
+12,Toxicología Clínica,"Atención de intoxicaciones agudas, sobredosis de sustancias o envenenamientos",True,2026-10-03 00:43:46.723779+00:00

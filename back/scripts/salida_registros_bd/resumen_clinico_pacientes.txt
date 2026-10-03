@@ -1,0 +1,1132 @@
+==========================================================================================
+RESUMEN CLÍNICO POR PACIENTE
+==========================================================================================
+
+------------------------------------------------------------------------------------------
+PACIENTE 1022992422 - Liliana Montoya
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=2010-08-31 | genero=female | municipio=El Charco | zona=urbana | cuenta_usuario=- | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 17 | tipo: familiar | codigo: - | descripcion: Antecedente familiar de enfermedad cardiovascular
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (2)
+    - ID: 41 | fecha: 2026-04-10 01:37:00+00:00 | estado: finalizado | motivo: Asma | triage: 4 | dolor: 3
+    - ID: 42 | fecha: 2026-05-23 19:04:00+00:00 | estado: finalizado | motivo: Rinofaringitis aguda (resfriado común) | triage: 4 | dolor: 1
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (2)
+    - ID: 57 | encuentro: 41 | CIE10: J45 | descripcion: Asma | tipo: principal | estado: inactive
+    - ID: 58 | encuentro: 42 | CIE10: J00 | descripcion: Rinofaringitis aguda (resfriado común) | tipo: principal | estado: resolved
+
+  OBSERVACIONES (12)
+    - ID: 241 | encuentro: 41 | nombre: Temperatura corporal | valor: 38.7000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 242 | encuentro: 41 | nombre: Frecuencia cardiaca | valor: 120.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 243 | encuentro: 41 | nombre: Frecuencia respiratoria | valor: 15.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 244 | encuentro: 41 | nombre: Presión arterial sistólica | valor: 147.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 245 | encuentro: 41 | nombre: Presión arterial diastólica | valor: 87.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 246 | encuentro: 41 | nombre: Saturación de oxígeno | valor: 91.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 247 | encuentro: 42 | nombre: Temperatura corporal | valor: 36.2000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 248 | encuentro: 42 | nombre: Frecuencia cardiaca | valor: 121.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 249 | encuentro: 42 | nombre: Frecuencia respiratoria | valor: 21.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 250 | encuentro: 42 | nombre: Presión arterial sistólica | valor: 148.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 251 | encuentro: 42 | nombre: Presión arterial diastólica | valor: 96.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 252 | encuentro: 42 | nombre: Saturación de oxígeno | valor: 88.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (2)
+    - ID: 45 | encuentro: 41 | nombre: Leucocitos | categoria: laboratorio | estado: completed | resultado: 12.9 10^3/uL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 46 | encuentro: 41 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: completed | resultado: 14 mg/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1032481817 - René Barragán
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1967-03-30 | genero=male | municipio=Roberto Payán | zona=urbana | cuenta_usuario=1032481817 | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 21 | tipo: patologico | codigo: I10 | descripcion: Hipertensión arterial diagnosticada
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (2)
+    - ID: 46 | fecha: 2026-03-11 18:44:00+00:00 | estado: finalizado | motivo: Fractura del fémur | triage: 3 | dolor: 6
+    - ID: 47 | fecha: 2026-06-12 02:06:00+00:00 | estado: en_atencion | motivo: Fractura del fémur | triage: 2 | dolor: 6
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (2)
+    - ID: 62 | encuentro: 46 | CIE10: S72 | descripcion: Fractura del fémur | tipo: principal | estado: resolved
+    - ID: 63 | encuentro: 47 | CIE10: S72 | descripcion: Fractura del fémur | tipo: principal | estado: active
+
+  OBSERVACIONES (12)
+    - ID: 271 | encuentro: 46 | nombre: Temperatura corporal | valor: 37.6000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 272 | encuentro: 46 | nombre: Frecuencia cardiaca | valor: 110.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 273 | encuentro: 46 | nombre: Frecuencia respiratoria | valor: 15.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 274 | encuentro: 46 | nombre: Presión arterial sistólica | valor: 104.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 275 | encuentro: 46 | nombre: Presión arterial diastólica | valor: 96.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 276 | encuentro: 46 | nombre: Saturación de oxígeno | valor: 98.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 277 | encuentro: 47 | nombre: Temperatura corporal | valor: 37.9000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 278 | encuentro: 47 | nombre: Frecuencia cardiaca | valor: 82.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 279 | encuentro: 47 | nombre: Frecuencia respiratoria | valor: 25.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 280 | encuentro: 47 | nombre: Presión arterial sistólica | valor: 147.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 281 | encuentro: 47 | nombre: Presión arterial diastólica | valor: 69.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 282 | encuentro: 47 | nombre: Saturación de oxígeno | valor: 94.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (0)
+    - Sin registros
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1041028029 - Fabio Serrano
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=2001-04-17 | genero=female | municipio=Olaya Herrera | zona=urbana | cuenta_usuario=1041028029 | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 12 | tipo: toxico | codigo: - | descripcion: Tabaquismo activo
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (3)
+    - ID: 25 | fecha: 2026-02-26 23:50:00+00:00 | estado: finalizado | motivo: Diarrea y gastroenteritis de presunto origen infeccioso | triage: 3 | dolor: 6
+    - ID: 26 | fecha: 2026-04-05 03:49:00+00:00 | estado: finalizado | motivo: Hipertensión esencial | triage: 4 | dolor: 7
+    - ID: 27 | fecha: 2026-05-29 02:38:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 2 | dolor: 8
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (3)
+    - ID: 38 | encuentro: 25 | CIE10: A09 | descripcion: Diarrea y gastroenteritis de presunto origen infeccioso | tipo: principal | estado: resolved
+    - ID: 39 | encuentro: 26 | CIE10: I10 | descripcion: Hipertensión esencial | tipo: principal | estado: inactive
+    - ID: 40 | encuentro: 27 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: inactive
+
+  OBSERVACIONES (18)
+    - ID: 145 | encuentro: 25 | nombre: Temperatura corporal | valor: 37.9000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 146 | encuentro: 25 | nombre: Frecuencia cardiaca | valor: 113.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 147 | encuentro: 25 | nombre: Frecuencia respiratoria | valor: 23.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 148 | encuentro: 25 | nombre: Presión arterial sistólica | valor: 123.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 149 | encuentro: 25 | nombre: Presión arterial diastólica | valor: 92.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 150 | encuentro: 25 | nombre: Saturación de oxígeno | valor: 94.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 151 | encuentro: 26 | nombre: Temperatura corporal | valor: 39.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 152 | encuentro: 26 | nombre: Frecuencia cardiaca | valor: 68.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 153 | encuentro: 26 | nombre: Frecuencia respiratoria | valor: 19.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 154 | encuentro: 26 | nombre: Presión arterial sistólica | valor: 150.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 155 | encuentro: 26 | nombre: Presión arterial diastólica | valor: 56.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 156 | encuentro: 26 | nombre: Saturación de oxígeno | valor: 97.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 157 | encuentro: 27 | nombre: Temperatura corporal | valor: 37.1000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 158 | encuentro: 27 | nombre: Frecuencia cardiaca | valor: 83.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 159 | encuentro: 27 | nombre: Frecuencia respiratoria | valor: 14.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 160 | encuentro: 27 | nombre: Presión arterial sistólica | valor: 149.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 161 | encuentro: 27 | nombre: Presión arterial diastólica | valor: 99.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 162 | encuentro: 27 | nombre: Saturación de oxígeno | valor: 92.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (2)
+    - ID: 28 | encuentro: 26 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: completed | resultado: 7 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 29 | encuentro: 26 | nombre: Glucosa | categoria: laboratorio | estado: completed | resultado: 169 mg/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1045939680 - Esther Londoño
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1992-12-02 | genero=male | municipio=Santa Bárbara | zona=urbana | cuenta_usuario=1045939680 | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 9 | tipo: alergico | codigo: - | descripcion: Alergia a penicilina
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (1)
+    - ID: 17 | fecha: 2026-07-13 23:44:00+00:00 | estado: en_observacion | motivo: Diarrea y gastroenteritis de presunto origen infeccioso | triage: 3 | dolor: 0
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (1)
+    - ID: 27 | encuentro: 17 | CIE10: A09 | descripcion: Diarrea y gastroenteritis de presunto origen infeccioso | tipo: principal | estado: active
+
+  OBSERVACIONES (6)
+    - ID: 97 | encuentro: 17 | nombre: Temperatura corporal | valor: 37.0000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 98 | encuentro: 17 | nombre: Frecuencia cardiaca | valor: 127.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 99 | encuentro: 17 | nombre: Frecuencia respiratoria | valor: 13.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 100 | encuentro: 17 | nombre: Presión arterial sistólica | valor: 153.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 101 | encuentro: 17 | nombre: Presión arterial diastólica | valor: 73.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 102 | encuentro: 17 | nombre: Saturación de oxígeno | valor: 100.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (1)
+    - ID: 17 | encuentro: 17 | nombre: Leucocitos | categoria: laboratorio | estado: completed | resultado: 7.3 10^3/uL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1067488462 - Sebastián Hernández
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1994-08-20 | genero=male | municipio=Santa Bárbara | zona=rural_dispersa | cuenta_usuario=- | eliminado=False
+
+  ANTECEDENTES (2)
+    - ID: 13 | tipo: familiar | codigo: - | descripcion: Antecedente familiar de enfermedad cardiovascular
+    - ID: 14 | tipo: toxico | codigo: - | descripcion: Tabaquismo activo
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (3)
+    - ID: 28 | fecha: 2026-02-09 19:15:00+00:00 | estado: finalizado | motivo: Diarrea y gastroenteritis de presunto origen infeccioso | triage: 3 | dolor: 7
+    - ID: 29 | fecha: 2026-05-11 12:53:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 4 | dolor: 5
+    - ID: 30 | fecha: 2026-08-20 00:42:00+00:00 | estado: finalizado | motivo: Dolor abdominal y pélvico | triage: 2 | dolor: 6
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (4)
+    - ID: 41 | encuentro: 28 | CIE10: A09 | descripcion: Diarrea y gastroenteritis de presunto origen infeccioso | tipo: principal | estado: resolved
+    - ID: 42 | encuentro: 29 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: inactive
+    - ID: 43 | encuentro: 29 | CIE10: A09 | descripcion: Diarrea y gastroenteritis de presunto origen infeccioso | tipo: secundario | estado: active
+    - ID: 44 | encuentro: 30 | CIE10: R10 | descripcion: Dolor abdominal y pélvico | tipo: principal | estado: resolved
+
+  OBSERVACIONES (18)
+    - ID: 163 | encuentro: 28 | nombre: Temperatura corporal | valor: 37.4000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 164 | encuentro: 28 | nombre: Frecuencia cardiaca | valor: 72.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 165 | encuentro: 28 | nombre: Frecuencia respiratoria | valor: 13.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 166 | encuentro: 28 | nombre: Presión arterial sistólica | valor: 94.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 167 | encuentro: 28 | nombre: Presión arterial diastólica | valor: 74.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 168 | encuentro: 28 | nombre: Saturación de oxígeno | valor: 95.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 169 | encuentro: 29 | nombre: Temperatura corporal | valor: 36.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 170 | encuentro: 29 | nombre: Frecuencia cardiaca | valor: 123.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 171 | encuentro: 29 | nombre: Frecuencia respiratoria | valor: 16.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 172 | encuentro: 29 | nombre: Presión arterial sistólica | valor: 139.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 173 | encuentro: 29 | nombre: Presión arterial diastólica | valor: 84.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 174 | encuentro: 29 | nombre: Saturación de oxígeno | valor: 93.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 175 | encuentro: 30 | nombre: Temperatura corporal | valor: 39.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 176 | encuentro: 30 | nombre: Frecuencia cardiaca | valor: 124.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 177 | encuentro: 30 | nombre: Frecuencia respiratoria | valor: 25.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 178 | encuentro: 30 | nombre: Presión arterial sistólica | valor: 109.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 179 | encuentro: 30 | nombre: Presión arterial diastólica | valor: 81.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 180 | encuentro: 30 | nombre: Saturación de oxígeno | valor: 98.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (4)
+    - ID: 30 | encuentro: 28 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+    - ID: 31 | encuentro: 28 | nombre: Leucocitos | categoria: laboratorio | estado: completed | resultado: 5.2 10^3/uL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 32 | encuentro: 30 | nombre: Hemoglobina | categoria: laboratorio | estado: completed | resultado: 13.1 g/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 33 | encuentro: 30 | nombre: Glucosa | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1071871145 - Moisés Estrada
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1950-12-09 | genero=female | municipio=Mosquera | zona=rural_dispersa | cuenta_usuario=1071871145 | eliminado=False
+
+  ANTECEDENTES (0)
+    - Sin registros
+
+  REPORTES PREVIOS (1)
+    - ID: 5 | sintoma: Dolor torácico intenso | alarma: False | descripcion_alarma: -
+
+  ENCUENTROS (2)
+    - ID: 21 | fecha: 2026-06-25 17:17:00+00:00 | estado: finalizado | motivo: Diarrea y gastroenteritis de presunto origen infeccioso | triage: 4 | dolor: 0
+    - ID: 22 | fecha: 2026-07-09 07:30:00+00:00 | estado: finalizado | motivo: Dorsalgia | triage: 1 | dolor: 0
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (3)
+    - ID: 32 | encuentro: 21 | CIE10: A09 | descripcion: Diarrea y gastroenteritis de presunto origen infeccioso | tipo: principal | estado: inactive
+    - ID: 33 | encuentro: 22 | CIE10: M54 | descripcion: Dorsalgia | tipo: principal | estado: resolved
+    - ID: 34 | encuentro: 22 | CIE10: I10 | descripcion: Hipertensión esencial | tipo: secundario | estado: active
+
+  OBSERVACIONES (12)
+    - ID: 121 | encuentro: 21 | nombre: Temperatura corporal | valor: 37.5000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 122 | encuentro: 21 | nombre: Frecuencia cardiaca | valor: 80.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 123 | encuentro: 21 | nombre: Frecuencia respiratoria | valor: 16.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 124 | encuentro: 21 | nombre: Presión arterial sistólica | valor: 159.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 125 | encuentro: 21 | nombre: Presión arterial diastólica | valor: 78.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 126 | encuentro: 21 | nombre: Saturación de oxígeno | valor: 96.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 127 | encuentro: 22 | nombre: Temperatura corporal | valor: 39.2000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 128 | encuentro: 22 | nombre: Frecuencia cardiaca | valor: 76.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 129 | encuentro: 22 | nombre: Frecuencia respiratoria | valor: 20.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 130 | encuentro: 22 | nombre: Presión arterial sistólica | valor: 151.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 131 | encuentro: 22 | nombre: Presión arterial diastólica | valor: 73.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 132 | encuentro: 22 | nombre: Saturación de oxígeno | valor: 99.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (4)
+    - ID: 23 | encuentro: 21 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: completed | resultado: 28 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 22 | encuentro: 21 | nombre: Glucosa | categoria: laboratorio | estado: completed | resultado: 181 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 24 | encuentro: 22 | nombre: Creatinina | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+    - ID: 25 | encuentro: 22 | nombre: Leucocitos | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1087048983 - Alfonso Prieto
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=2013-12-06 | genero=female | municipio=Tumaco | zona=urbana | cuenta_usuario=- | eliminado=False
+
+  ANTECEDENTES (0)
+    - Sin registros
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (3)
+    - ID: 18 | fecha: 2026-04-16 12:17:00+00:00 | estado: finalizado | motivo: Diabetes mellitus tipo 2 | triage: 4 | dolor: 6
+    - ID: 19 | fecha: 2026-07-16 05:24:00+00:00 | estado: finalizado | motivo: Rinofaringitis aguda (resfriado común) | triage: 5 | dolor: 9
+    - ID: 20 | fecha: 2026-09-27 00:57:00+00:00 | estado: en_atencion | motivo: Asma | triage: 2 | dolor: 4
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (4)
+    - ID: 28 | encuentro: 18 | CIE10: E11 | descripcion: Diabetes mellitus tipo 2 | tipo: principal | estado: inactive
+    - ID: 29 | encuentro: 18 | CIE10: R10 | descripcion: Dolor abdominal y pélvico | tipo: secundario | estado: active
+    - ID: 30 | encuentro: 19 | CIE10: J00 | descripcion: Rinofaringitis aguda (resfriado común) | tipo: principal | estado: resolved
+    - ID: 31 | encuentro: 20 | CIE10: J45 | descripcion: Asma | tipo: principal | estado: active
+
+  OBSERVACIONES (18)
+    - ID: 103 | encuentro: 18 | nombre: Temperatura corporal | valor: 36.8000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 104 | encuentro: 18 | nombre: Frecuencia cardiaca | valor: 100.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 105 | encuentro: 18 | nombre: Frecuencia respiratoria | valor: 19.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 106 | encuentro: 18 | nombre: Presión arterial sistólica | valor: 114.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 107 | encuentro: 18 | nombre: Presión arterial diastólica | valor: 94.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 108 | encuentro: 18 | nombre: Saturación de oxígeno | valor: 92.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 109 | encuentro: 19 | nombre: Temperatura corporal | valor: 38.6000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 110 | encuentro: 19 | nombre: Frecuencia cardiaca | valor: 72.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 111 | encuentro: 19 | nombre: Frecuencia respiratoria | valor: 15.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 112 | encuentro: 19 | nombre: Presión arterial sistólica | valor: 95.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 113 | encuentro: 19 | nombre: Presión arterial diastólica | valor: 74.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 114 | encuentro: 19 | nombre: Saturación de oxígeno | valor: 100.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 115 | encuentro: 20 | nombre: Temperatura corporal | valor: 36.1000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 116 | encuentro: 20 | nombre: Frecuencia cardiaca | valor: 101.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 117 | encuentro: 20 | nombre: Frecuencia respiratoria | valor: 16.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 118 | encuentro: 20 | nombre: Presión arterial sistólica | valor: 101.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 119 | encuentro: 20 | nombre: Presión arterial diastólica | valor: 73.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 120 | encuentro: 20 | nombre: Saturación de oxígeno | valor: 93.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (5)
+    - ID: 18 | encuentro: 18 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: completed | resultado: 12 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 19 | encuentro: 18 | nombre: Creatinina | categoria: laboratorio | estado: completed | resultado: 2.07 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 20 | encuentro: 19 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: completed | resultado: 16 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 21 | encuentro: 20 | nombre: Glucosa | categoria: laboratorio | estado: completed | resultado: 179 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 56 | encuentro: 20 | nombre: Radiografía de tórax | categoria: imagenologia | estado: active | resultado: - | conclusion: -
+
+  ESTUDIOS PACS YA ASOCIADOS (1)
+    - ID: 1 | encuentro: 20 | examen: 56 | modalidad: DX | descripcion: Radiografia de torax de prueba
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1096362792 - Norberto Ordóñez
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1975-11-10 | genero=female | municipio=El Charco | zona=rural_dispersa | cuenta_usuario=1096362792 | eliminado=False
+
+  ANTECEDENTES (2)
+    - ID: 3 | tipo: patologico | codigo: E11 | descripcion: Diabetes mellitus tipo 2
+    - ID: 4 | tipo: alergico | codigo: - | descripcion: Alergia a penicilina
+
+  REPORTES PREVIOS (1)
+    - ID: 2 | sintoma: Convulsiones | alarma: False | descripcion_alarma: -
+
+  ENCUENTROS (3)
+    - ID: 9 | fecha: 2026-03-22 07:18:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 2 | dolor: 3
+    - ID: 10 | fecha: 2026-04-17 20:50:00+00:00 | estado: finalizado | motivo: Hipertensión esencial | triage: 1 | dolor: 7
+    - ID: 11 | fecha: 2026-09-23 01:39:00+00:00 | estado: en_observacion | motivo: Dorsalgia | triage: 3 | dolor: 6
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (5)
+    - ID: 15 | encuentro: 9 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: resolved
+    - ID: 16 | encuentro: 9 | CIE10: E11 | descripcion: Diabetes mellitus tipo 2 | tipo: secundario | estado: active
+    - ID: 17 | encuentro: 10 | CIE10: I10 | descripcion: Hipertensión esencial | tipo: principal | estado: resolved
+    - ID: 18 | encuentro: 10 | CIE10: S72 | descripcion: Fractura del fémur | tipo: secundario | estado: active
+    - ID: 19 | encuentro: 11 | CIE10: M54 | descripcion: Dorsalgia | tipo: principal | estado: active
+
+  OBSERVACIONES (18)
+    - ID: 49 | encuentro: 9 | nombre: Temperatura corporal | valor: 38.5000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 50 | encuentro: 9 | nombre: Frecuencia cardiaca | valor: 67.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 51 | encuentro: 9 | nombre: Frecuencia respiratoria | valor: 26.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 52 | encuentro: 9 | nombre: Presión arterial sistólica | valor: 111.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 53 | encuentro: 9 | nombre: Presión arterial diastólica | valor: 99.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 54 | encuentro: 9 | nombre: Saturación de oxígeno | valor: 92.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 55 | encuentro: 10 | nombre: Temperatura corporal | valor: 36.2000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 56 | encuentro: 10 | nombre: Frecuencia cardiaca | valor: 62.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 57 | encuentro: 10 | nombre: Frecuencia respiratoria | valor: 21.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 58 | encuentro: 10 | nombre: Presión arterial sistólica | valor: 135.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 59 | encuentro: 10 | nombre: Presión arterial diastólica | valor: 78.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 60 | encuentro: 10 | nombre: Saturación de oxígeno | valor: 94.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 61 | encuentro: 11 | nombre: Temperatura corporal | valor: 36.9000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 62 | encuentro: 11 | nombre: Frecuencia cardiaca | valor: 107.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 63 | encuentro: 11 | nombre: Frecuencia respiratoria | valor: 17.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 64 | encuentro: 11 | nombre: Presión arterial sistólica | valor: 111.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 65 | encuentro: 11 | nombre: Presión arterial diastólica | valor: 66.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 66 | encuentro: 11 | nombre: Saturación de oxígeno | valor: 89.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (4)
+    - ID: 10 | encuentro: 9 | nombre: Creatinina | categoria: laboratorio | estado: completed | resultado: 2.16 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 11 | encuentro: 10 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+    - ID: 12 | encuentro: 11 | nombre: Glucosa | categoria: laboratorio | estado: completed | resultado: 131 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 13 | encuentro: 11 | nombre: Hemoglobina | categoria: laboratorio | estado: completed | resultado: 14.5 g/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1097436907 - Diana Mejía
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=2019-08-13 | genero=female | municipio=Roberto Payán | zona=urbana | cuenta_usuario=- | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 16 | tipo: familiar | codigo: - | descripcion: Antecedente familiar de enfermedad cardiovascular
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (3)
+    - ID: 38 | fecha: 2026-04-25 21:24:00+00:00 | estado: finalizado | motivo: Rinofaringitis aguda (resfriado común) | triage: 5 | dolor: 4
+    - ID: 39 | fecha: 2026-07-21 00:50:00+00:00 | estado: finalizado | motivo: Dorsalgia | triage: 4 | dolor: 2
+    - ID: 40 | fecha: 2026-08-15 14:55:00+00:00 | estado: en_atencion | motivo: Dolor abdominal y pélvico | triage: 3 | dolor: 9
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (3)
+    - ID: 54 | encuentro: 38 | CIE10: J00 | descripcion: Rinofaringitis aguda (resfriado común) | tipo: principal | estado: inactive
+    - ID: 55 | encuentro: 39 | CIE10: M54 | descripcion: Dorsalgia | tipo: principal | estado: inactive
+    - ID: 56 | encuentro: 40 | CIE10: R10 | descripcion: Dolor abdominal y pélvico | tipo: principal | estado: active
+
+  OBSERVACIONES (18)
+    - ID: 223 | encuentro: 38 | nombre: Temperatura corporal | valor: 38.8000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 224 | encuentro: 38 | nombre: Frecuencia cardiaca | valor: 69.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 225 | encuentro: 38 | nombre: Frecuencia respiratoria | valor: 12.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 226 | encuentro: 38 | nombre: Presión arterial sistólica | valor: 106.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 227 | encuentro: 38 | nombre: Presión arterial diastólica | valor: 55.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 228 | encuentro: 38 | nombre: Saturación de oxígeno | valor: 93.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 229 | encuentro: 39 | nombre: Temperatura corporal | valor: 38.8000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 230 | encuentro: 39 | nombre: Frecuencia cardiaca | valor: 130.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 231 | encuentro: 39 | nombre: Frecuencia respiratoria | valor: 22.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 232 | encuentro: 39 | nombre: Presión arterial sistólica | valor: 92.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 233 | encuentro: 39 | nombre: Presión arterial diastólica | valor: 66.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 234 | encuentro: 39 | nombre: Saturación de oxígeno | valor: 92.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 235 | encuentro: 40 | nombre: Temperatura corporal | valor: 36.4000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 236 | encuentro: 40 | nombre: Frecuencia cardiaca | valor: 108.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 237 | encuentro: 40 | nombre: Frecuencia respiratoria | valor: 28.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 238 | encuentro: 40 | nombre: Presión arterial sistólica | valor: 104.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 239 | encuentro: 40 | nombre: Presión arterial diastólica | valor: 59.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 240 | encuentro: 40 | nombre: Saturación de oxígeno | valor: 95.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (3)
+    - ID: 43 | encuentro: 38 | nombre: Glucosa | categoria: laboratorio | estado: completed | resultado: 198 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 42 | encuentro: 38 | nombre: Hemoglobina | categoria: laboratorio | estado: completed | resultado: 9.9 g/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 44 | encuentro: 39 | nombre: Leucocitos | categoria: laboratorio | estado: completed | resultado: 4.4 10^3/uL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1097933892 - Patricia Barreto
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1959-08-05 | genero=male | municipio=Santa Bárbara | zona=urbana | cuenta_usuario=1097933892 | eliminado=False
+
+  ANTECEDENTES (2)
+    - ID: 7 | tipo: alergico | codigo: - | descripcion: Alergia a penicilina
+    - ID: 8 | tipo: patologico | codigo: E11 | descripcion: Diabetes mellitus tipo 2
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (2)
+    - ID: 15 | fecha: 2026-04-09 15:20:00+00:00 | estado: finalizado | motivo: Dorsalgia | triage: 2 | dolor: 2
+    - ID: 16 | fecha: 2026-08-04 03:18:00+00:00 | estado: finalizado | motivo: Fractura del fémur | triage: 3 | dolor: 5
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (3)
+    - ID: 24 | encuentro: 15 | CIE10: M54 | descripcion: Dorsalgia | tipo: principal | estado: resolved
+    - ID: 25 | encuentro: 16 | CIE10: S72 | descripcion: Fractura del fémur | tipo: principal | estado: resolved
+    - ID: 26 | encuentro: 16 | CIE10: M54 | descripcion: Dorsalgia | tipo: secundario | estado: active
+
+  OBSERVACIONES (12)
+    - ID: 85 | encuentro: 15 | nombre: Temperatura corporal | valor: 36.9000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 86 | encuentro: 15 | nombre: Frecuencia cardiaca | valor: 93.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 87 | encuentro: 15 | nombre: Frecuencia respiratoria | valor: 18.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 88 | encuentro: 15 | nombre: Presión arterial sistólica | valor: 139.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 89 | encuentro: 15 | nombre: Presión arterial diastólica | valor: 85.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 90 | encuentro: 15 | nombre: Saturación de oxígeno | valor: 89.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 91 | encuentro: 16 | nombre: Temperatura corporal | valor: 37.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 92 | encuentro: 16 | nombre: Frecuencia cardiaca | valor: 100.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 93 | encuentro: 16 | nombre: Frecuencia respiratoria | valor: 21.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 94 | encuentro: 16 | nombre: Presión arterial sistólica | valor: 127.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 95 | encuentro: 16 | nombre: Presión arterial diastólica | valor: 56.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 96 | encuentro: 16 | nombre: Saturación de oxígeno | valor: 98.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (1)
+    - ID: 16 | encuentro: 15 | nombre: Hemoglobina | categoria: laboratorio | estado: completed | resultado: 12.0 g/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1109269327 - Alexander Ospina
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1962-01-31 | genero=female | municipio=Olaya Herrera | zona=urbana | cuenta_usuario=1109269327 | eliminado=False
+
+  ANTECEDENTES (0)
+    - Sin registros
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (3)
+    - ID: 51 | fecha: 2026-04-15 22:09:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 5 | dolor: 1
+    - ID: 52 | fecha: 2026-05-14 20:30:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 4 | dolor: 4
+    - ID: 53 | fecha: 2026-07-08 00:32:00+00:00 | estado: finalizado | motivo: Asma | triage: 3 | dolor: 8
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (4)
+    - ID: 68 | encuentro: 51 | CIE10: E11 | descripcion: Diabetes mellitus tipo 2 | tipo: secundario | estado: active
+    - ID: 67 | encuentro: 51 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: inactive
+    - ID: 69 | encuentro: 52 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: resolved
+    - ID: 70 | encuentro: 53 | CIE10: J45 | descripcion: Asma | tipo: principal | estado: inactive
+
+  OBSERVACIONES (18)
+    - ID: 301 | encuentro: 51 | nombre: Temperatura corporal | valor: 39.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 302 | encuentro: 51 | nombre: Frecuencia cardiaca | valor: 126.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 303 | encuentro: 51 | nombre: Frecuencia respiratoria | valor: 22.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 304 | encuentro: 51 | nombre: Presión arterial sistólica | valor: 105.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 305 | encuentro: 51 | nombre: Presión arterial diastólica | valor: 81.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 306 | encuentro: 51 | nombre: Saturación de oxígeno | valor: 93.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 307 | encuentro: 52 | nombre: Temperatura corporal | valor: 39.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 308 | encuentro: 52 | nombre: Frecuencia cardiaca | valor: 109.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 309 | encuentro: 52 | nombre: Frecuencia respiratoria | valor: 13.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 310 | encuentro: 52 | nombre: Presión arterial sistólica | valor: 126.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 311 | encuentro: 52 | nombre: Presión arterial diastólica | valor: 93.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 312 | encuentro: 52 | nombre: Saturación de oxígeno | valor: 92.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 313 | encuentro: 53 | nombre: Temperatura corporal | valor: 36.4000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 314 | encuentro: 53 | nombre: Frecuencia cardiaca | valor: 119.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 315 | encuentro: 53 | nombre: Frecuencia respiratoria | valor: 18.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 316 | encuentro: 53 | nombre: Presión arterial sistólica | valor: 109.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 317 | encuentro: 53 | nombre: Presión arterial diastólica | valor: 97.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 318 | encuentro: 53 | nombre: Saturación de oxígeno | valor: 95.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (3)
+    - ID: 54 | encuentro: 51 | nombre: Hemoglobina | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+    - ID: 53 | encuentro: 51 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: completed | resultado: 21 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 55 | encuentro: 52 | nombre: Hemoglobina | categoria: laboratorio | estado: completed | resultado: 13.0 g/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1136279761 - Luis Fernández
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1954-07-19 | genero=male | municipio=La Tola | zona=rural_dispersa | cuenta_usuario=1136279761 | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 15 | tipo: patologico | codigo: I10 | descripcion: Hipertensión arterial diagnosticada
+
+  REPORTES PREVIOS (1)
+    - ID: 7 | sintoma: Pérdida de conciencia transitoria | alarma: False | descripcion_alarma: -
+
+  ENCUENTROS (2)
+    - ID: 34 | fecha: 2026-04-10 12:23:00+00:00 | estado: finalizado | motivo: Diabetes mellitus tipo 2 | triage: 3 | dolor: 8
+    - ID: 35 | fecha: 2026-09-20 14:06:00+00:00 | estado: finalizado | motivo: Dolor abdominal y pélvico | triage: 5 | dolor: 10
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (4)
+    - ID: 48 | encuentro: 34 | CIE10: E11 | descripcion: Diabetes mellitus tipo 2 | tipo: principal | estado: resolved
+    - ID: 49 | encuentro: 34 | CIE10: A09 | descripcion: Diarrea y gastroenteritis de presunto origen infeccioso | tipo: secundario | estado: active
+    - ID: 51 | encuentro: 35 | CIE10: I10 | descripcion: Hipertensión esencial | tipo: secundario | estado: active
+    - ID: 50 | encuentro: 35 | CIE10: R10 | descripcion: Dolor abdominal y pélvico | tipo: principal | estado: resolved
+
+  OBSERVACIONES (12)
+    - ID: 199 | encuentro: 34 | nombre: Temperatura corporal | valor: 39.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 200 | encuentro: 34 | nombre: Frecuencia cardiaca | valor: 113.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 201 | encuentro: 34 | nombre: Frecuencia respiratoria | valor: 14.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 202 | encuentro: 34 | nombre: Presión arterial sistólica | valor: 117.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 203 | encuentro: 34 | nombre: Presión arterial diastólica | valor: 96.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 204 | encuentro: 34 | nombre: Saturación de oxígeno | valor: 98.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 205 | encuentro: 35 | nombre: Temperatura corporal | valor: 39.4000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 206 | encuentro: 35 | nombre: Frecuencia cardiaca | valor: 61.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 207 | encuentro: 35 | nombre: Frecuencia respiratoria | valor: 22.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 208 | encuentro: 35 | nombre: Presión arterial sistólica | valor: 121.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 209 | encuentro: 35 | nombre: Presión arterial diastólica | valor: 63.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 210 | encuentro: 35 | nombre: Saturación de oxígeno | valor: 100.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (3)
+    - ID: 36 | encuentro: 34 | nombre: Creatinina | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+    - ID: 37 | encuentro: 35 | nombre: Creatinina | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+    - ID: 38 | encuentro: 35 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: completed | resultado: 9 mg/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1144788454 - Leidy Camacho
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=2014-11-09 | genero=female | municipio=La Tola | zona=rural_dispersa | cuenta_usuario=1144788454 | eliminado=False
+
+  ANTECEDENTES (0)
+    - Sin registros
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (2)
+    - ID: 36 | fecha: 2026-03-02 13:55:00+00:00 | estado: finalizado | motivo: Asma | triage: 2 | dolor: 1
+    - ID: 37 | fecha: 2026-08-16 19:21:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 2 | dolor: 9
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (2)
+    - ID: 52 | encuentro: 36 | CIE10: J45 | descripcion: Asma | tipo: principal | estado: inactive
+    - ID: 53 | encuentro: 37 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: inactive
+
+  OBSERVACIONES (12)
+    - ID: 211 | encuentro: 36 | nombre: Temperatura corporal | valor: 36.7000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 212 | encuentro: 36 | nombre: Frecuencia cardiaca | valor: 125.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 213 | encuentro: 36 | nombre: Frecuencia respiratoria | valor: 18.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 214 | encuentro: 36 | nombre: Presión arterial sistólica | valor: 117.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 215 | encuentro: 36 | nombre: Presión arterial diastólica | valor: 69.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 216 | encuentro: 36 | nombre: Saturación de oxígeno | valor: 93.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 217 | encuentro: 37 | nombre: Temperatura corporal | valor: 36.5000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 218 | encuentro: 37 | nombre: Frecuencia cardiaca | valor: 55.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 219 | encuentro: 37 | nombre: Frecuencia respiratoria | valor: 20.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 220 | encuentro: 37 | nombre: Presión arterial sistólica | valor: 108.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 221 | encuentro: 37 | nombre: Presión arterial diastólica | valor: 63.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 222 | encuentro: 37 | nombre: Saturación de oxígeno | valor: 96.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (3)
+    - ID: 40 | encuentro: 36 | nombre: Creatinina | categoria: laboratorio | estado: completed | resultado: 1.38 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 39 | encuentro: 36 | nombre: Leucocitos | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+    - ID: 41 | encuentro: 37 | nombre: Glucosa | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1148187279 - Laura Ortiz
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1971-04-21 | genero=female | municipio=La Tola | zona=rural_dispersa | cuenta_usuario=1148187279 | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 5 | tipo: alergico | codigo: - | descripcion: Alergia a penicilina
+
+  REPORTES PREVIOS (1)
+    - ID: 3 | sintoma: Trauma por caída | alarma: False | descripcion_alarma: -
+
+  ENCUENTROS (1)
+    - ID: 12 | fecha: 2026-07-08 10:51:00+00:00 | estado: finalizado | motivo: Dorsalgia | triage: 3 | dolor: 8
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (2)
+    - ID: 20 | encuentro: 12 | CIE10: M54 | descripcion: Dorsalgia | tipo: principal | estado: inactive
+    - ID: 21 | encuentro: 12 | CIE10: I10 | descripcion: Hipertensión esencial | tipo: secundario | estado: active
+
+  OBSERVACIONES (6)
+    - ID: 67 | encuentro: 12 | nombre: Temperatura corporal | valor: 39.0000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 68 | encuentro: 12 | nombre: Frecuencia cardiaca | valor: 85.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 69 | encuentro: 12 | nombre: Frecuencia respiratoria | valor: 27.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 70 | encuentro: 12 | nombre: Presión arterial sistólica | valor: 108.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 71 | encuentro: 12 | nombre: Presión arterial diastólica | valor: 69.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 72 | encuentro: 12 | nombre: Saturación de oxígeno | valor: 95.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (1)
+    - ID: 14 | encuentro: 12 | nombre: Glucosa | categoria: laboratorio | estado: completed | resultado: 188 mg/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1156640927 - Alejandra Arias
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1980-10-31 | genero=unknown | municipio=Francisco Pizarro | zona=urbana | cuenta_usuario=1156640927 | eliminado=False
+
+  ANTECEDENTES (0)
+    - Sin registros
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (1)
+    - ID: 24 | fecha: 2026-05-04 23:01:00+00:00 | estado: finalizado | motivo: Asma | triage: 4 | dolor: 6
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (2)
+    - ID: 36 | encuentro: 24 | CIE10: J45 | descripcion: Asma | tipo: principal | estado: inactive
+    - ID: 37 | encuentro: 24 | CIE10: J00 | descripcion: Rinofaringitis aguda (resfriado común) | tipo: secundario | estado: active
+
+  OBSERVACIONES (6)
+    - ID: 139 | encuentro: 24 | nombre: Temperatura corporal | valor: 38.4000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 140 | encuentro: 24 | nombre: Frecuencia cardiaca | valor: 105.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 141 | encuentro: 24 | nombre: Frecuencia respiratoria | valor: 23.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 142 | encuentro: 24 | nombre: Presión arterial sistólica | valor: 101.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 143 | encuentro: 24 | nombre: Presión arterial diastólica | valor: 80.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 144 | encuentro: 24 | nombre: Saturación de oxígeno | valor: 88.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (1)
+    - ID: 27 | encuentro: 24 | nombre: Creatinina | categoria: laboratorio | estado: completed | resultado: 1.13 mg/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1158509126 - Jesús Vásquez
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1982-11-08 | genero=male | municipio=La Tola | zona=urbana | cuenta_usuario=1158509126 | eliminado=False
+
+  ANTECEDENTES (0)
+    - Sin registros
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (3)
+    - ID: 1 | fecha: 2026-02-13 06:54:00+00:00 | estado: finalizado | motivo: Dorsalgia | triage: 3 | dolor: 3
+    - ID: 2 | fecha: 2026-04-09 10:50:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 3 | dolor: 1
+    - ID: 3 | fecha: 2026-08-08 11:52:00+00:00 | estado: finalizado | motivo: Hipertensión esencial | triage: 3 | dolor: 0
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (5)
+    - ID: 2 | encuentro: 1 | CIE10: J45 | descripcion: Asma | tipo: secundario | estado: active
+    - ID: 1 | encuentro: 1 | CIE10: M54 | descripcion: Dorsalgia | tipo: principal | estado: resolved
+    - ID: 3 | encuentro: 2 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: inactive
+    - ID: 4 | encuentro: 2 | CIE10: R10 | descripcion: Dolor abdominal y pélvico | tipo: secundario | estado: active
+    - ID: 5 | encuentro: 3 | CIE10: I10 | descripcion: Hipertensión esencial | tipo: principal | estado: resolved
+
+  OBSERVACIONES (18)
+    - ID: 1 | encuentro: 1 | nombre: Temperatura corporal | valor: 36.8000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 2 | encuentro: 1 | nombre: Frecuencia cardiaca | valor: 104.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 3 | encuentro: 1 | nombre: Frecuencia respiratoria | valor: 19.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 4 | encuentro: 1 | nombre: Presión arterial sistólica | valor: 142.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 5 | encuentro: 1 | nombre: Presión arterial diastólica | valor: 57.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 6 | encuentro: 1 | nombre: Saturación de oxígeno | valor: 93.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 7 | encuentro: 2 | nombre: Temperatura corporal | valor: 37.7000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 8 | encuentro: 2 | nombre: Frecuencia cardiaca | valor: 103.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 9 | encuentro: 2 | nombre: Frecuencia respiratoria | valor: 24.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 10 | encuentro: 2 | nombre: Presión arterial sistólica | valor: 109.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 11 | encuentro: 2 | nombre: Presión arterial diastólica | valor: 86.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 12 | encuentro: 2 | nombre: Saturación de oxígeno | valor: 88.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 13 | encuentro: 3 | nombre: Temperatura corporal | valor: 37.8000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 14 | encuentro: 3 | nombre: Frecuencia cardiaca | valor: 130.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 15 | encuentro: 3 | nombre: Frecuencia respiratoria | valor: 22.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 16 | encuentro: 3 | nombre: Presión arterial sistólica | valor: 102.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 17 | encuentro: 3 | nombre: Presión arterial diastólica | valor: 83.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 18 | encuentro: 3 | nombre: Saturación de oxígeno | valor: 89.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (3)
+    - ID: 1 | encuentro: 1 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: completed | resultado: 35 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 2 | encuentro: 2 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: completed | resultado: 14 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 3 | encuentro: 3 | nombre: Glucosa | categoria: laboratorio | estado: completed | resultado: 155 mg/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1172056873 - Mercedes Barragán
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1975-07-09 | genero=male | municipio=Magüí Payán | zona=urbana | cuenta_usuario=- | eliminado=False
+
+  ANTECEDENTES (0)
+    - Sin registros
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (3)
+    - ID: 31 | fecha: 2026-04-11 02:37:00+00:00 | estado: finalizado | motivo: Diarrea y gastroenteritis de presunto origen infeccioso | triage: 3 | dolor: 8
+    - ID: 32 | fecha: 2026-05-08 17:44:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 3 | dolor: 7
+    - ID: 33 | fecha: 2026-08-15 05:05:00+00:00 | estado: en_triage | motivo: Diabetes mellitus tipo 2 | triage: 3 | dolor: 8
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (3)
+    - ID: 45 | encuentro: 31 | CIE10: A09 | descripcion: Diarrea y gastroenteritis de presunto origen infeccioso | tipo: principal | estado: resolved
+    - ID: 46 | encuentro: 32 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: resolved
+    - ID: 47 | encuentro: 33 | CIE10: E11 | descripcion: Diabetes mellitus tipo 2 | tipo: principal | estado: active
+
+  OBSERVACIONES (18)
+    - ID: 181 | encuentro: 31 | nombre: Temperatura corporal | valor: 38.9000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 182 | encuentro: 31 | nombre: Frecuencia cardiaca | valor: 107.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 183 | encuentro: 31 | nombre: Frecuencia respiratoria | valor: 20.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 184 | encuentro: 31 | nombre: Presión arterial sistólica | valor: 94.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 185 | encuentro: 31 | nombre: Presión arterial diastólica | valor: 99.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 186 | encuentro: 31 | nombre: Saturación de oxígeno | valor: 93.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 187 | encuentro: 32 | nombre: Temperatura corporal | valor: 37.6000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 188 | encuentro: 32 | nombre: Frecuencia cardiaca | valor: 85.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 189 | encuentro: 32 | nombre: Frecuencia respiratoria | valor: 23.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 190 | encuentro: 32 | nombre: Presión arterial sistólica | valor: 102.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 191 | encuentro: 32 | nombre: Presión arterial diastólica | valor: 98.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 192 | encuentro: 32 | nombre: Saturación de oxígeno | valor: 93.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 193 | encuentro: 33 | nombre: Temperatura corporal | valor: 39.2000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 194 | encuentro: 33 | nombre: Frecuencia cardiaca | valor: 100.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 195 | encuentro: 33 | nombre: Frecuencia respiratoria | valor: 13.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 196 | encuentro: 33 | nombre: Presión arterial sistólica | valor: 140.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 197 | encuentro: 33 | nombre: Presión arterial diastólica | valor: 72.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 198 | encuentro: 33 | nombre: Saturación de oxígeno | valor: 91.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (2)
+    - ID: 34 | encuentro: 33 | nombre: Creatinina | categoria: laboratorio | estado: completed | resultado: 0.9 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 35 | encuentro: 33 | nombre: Leucocitos | categoria: laboratorio | estado: completed | resultado: 9.7 10^3/uL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1172564235 - Valeria Posada
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1986-03-02 | genero=male | municipio=El Charco | zona=rural_dispersa | cuenta_usuario=1172564235 | eliminado=False
+
+  ANTECEDENTES (2)
+    - ID: 10 | tipo: patologico | codigo: E11 | descripcion: Diabetes mellitus tipo 2
+    - ID: 11 | tipo: toxico | codigo: - | descripcion: Tabaquismo activo
+
+  REPORTES PREVIOS (1)
+    - ID: 6 | sintoma: Dolor torácico intenso | alarma: False | descripcion_alarma: -
+
+  ENCUENTROS (1)
+    - ID: 23 | fecha: 2026-03-17 02:07:00+00:00 | estado: finalizado | motivo: Diarrea y gastroenteritis de presunto origen infeccioso | triage: 3 | dolor: 4
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (1)
+    - ID: 35 | encuentro: 23 | CIE10: A09 | descripcion: Diarrea y gastroenteritis de presunto origen infeccioso | tipo: principal | estado: inactive
+
+  OBSERVACIONES (6)
+    - ID: 133 | encuentro: 23 | nombre: Temperatura corporal | valor: 38.8000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 134 | encuentro: 23 | nombre: Frecuencia cardiaca | valor: 114.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 135 | encuentro: 23 | nombre: Frecuencia respiratoria | valor: 14.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 136 | encuentro: 23 | nombre: Presión arterial sistólica | valor: 108.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 137 | encuentro: 23 | nombre: Presión arterial diastólica | valor: 69.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 138 | encuentro: 23 | nombre: Saturación de oxígeno | valor: 98.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (1)
+    - ID: 26 | encuentro: 23 | nombre: Leucocitos | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1174452024 - Sandra Rivera
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=2007-12-03 | genero=male | municipio=Tumaco | zona=urbana | cuenta_usuario=- | eliminado=False
+
+  ANTECEDENTES (0)
+    - Sin registros
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (2)
+    - ID: 4 | fecha: 2026-01-05 00:27:00+00:00 | estado: finalizado | motivo: Asma | triage: 5 | dolor: 1
+    - ID: 5 | fecha: 2026-06-24 15:27:00+00:00 | estado: finalizado | motivo: Dorsalgia | triage: 3 | dolor: 8
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (4)
+    - ID: 6 | encuentro: 4 | CIE10: J45 | descripcion: Asma | tipo: principal | estado: inactive
+    - ID: 7 | encuentro: 4 | CIE10: R51 | descripcion: Cefalea | tipo: secundario | estado: active
+    - ID: 8 | encuentro: 5 | CIE10: M54 | descripcion: Dorsalgia | tipo: principal | estado: inactive
+    - ID: 9 | encuentro: 5 | CIE10: E11 | descripcion: Diabetes mellitus tipo 2 | tipo: secundario | estado: active
+
+  OBSERVACIONES (12)
+    - ID: 19 | encuentro: 4 | nombre: Temperatura corporal | valor: 39.2000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 20 | encuentro: 4 | nombre: Frecuencia cardiaca | valor: 56.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 21 | encuentro: 4 | nombre: Frecuencia respiratoria | valor: 16.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 22 | encuentro: 4 | nombre: Presión arterial sistólica | valor: 142.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 23 | encuentro: 4 | nombre: Presión arterial diastólica | valor: 96.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 24 | encuentro: 4 | nombre: Saturación de oxígeno | valor: 90.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 25 | encuentro: 5 | nombre: Temperatura corporal | valor: 37.6000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 26 | encuentro: 5 | nombre: Frecuencia cardiaca | valor: 88.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 27 | encuentro: 5 | nombre: Frecuencia respiratoria | valor: 22.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 28 | encuentro: 5 | nombre: Presión arterial sistólica | valor: 140.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 29 | encuentro: 5 | nombre: Presión arterial diastólica | valor: 96.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 30 | encuentro: 5 | nombre: Saturación de oxígeno | valor: 89.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (2)
+    - ID: 5 | encuentro: 5 | nombre: Leucocitos | categoria: laboratorio | estado: completed | resultado: 4.2 10^3/uL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 4 | encuentro: 5 | nombre: Nitrógeno ureico | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1177100512 - Jesús Ríos
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1987-08-23 | genero=male | municipio=La Tola | zona=urbana | cuenta_usuario=1177100512 | eliminado=False
+
+  ANTECEDENTES (2)
+    - ID: 18 | tipo: quirurgico | codigo: - | descripcion: Apendicectomía
+    - ID: 19 | tipo: patologico | codigo: E11 | descripcion: Diabetes mellitus tipo 2
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (2)
+    - ID: 43 | fecha: 2026-05-23 17:17:00+00:00 | estado: finalizado | motivo: Hipertensión esencial | triage: 3 | dolor: 7
+    - ID: 44 | fecha: 2026-08-04 19:44:00+00:00 | estado: finalizado | motivo: Rinofaringitis aguda (resfriado común) | triage: 2 | dolor: 10
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (2)
+    - ID: 59 | encuentro: 43 | CIE10: I10 | descripcion: Hipertensión esencial | tipo: principal | estado: inactive
+    - ID: 60 | encuentro: 44 | CIE10: J00 | descripcion: Rinofaringitis aguda (resfriado común) | tipo: principal | estado: resolved
+
+  OBSERVACIONES (12)
+    - ID: 253 | encuentro: 43 | nombre: Temperatura corporal | valor: 39.5000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 254 | encuentro: 43 | nombre: Frecuencia cardiaca | valor: 106.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 255 | encuentro: 43 | nombre: Frecuencia respiratoria | valor: 25.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 256 | encuentro: 43 | nombre: Presión arterial sistólica | valor: 103.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 257 | encuentro: 43 | nombre: Presión arterial diastólica | valor: 86.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 258 | encuentro: 43 | nombre: Saturación de oxígeno | valor: 99.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 259 | encuentro: 44 | nombre: Temperatura corporal | valor: 36.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 260 | encuentro: 44 | nombre: Frecuencia cardiaca | valor: 65.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 261 | encuentro: 44 | nombre: Frecuencia respiratoria | valor: 22.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 262 | encuentro: 44 | nombre: Presión arterial sistólica | valor: 108.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 263 | encuentro: 44 | nombre: Presión arterial diastólica | valor: 59.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 264 | encuentro: 44 | nombre: Saturación de oxígeno | valor: 90.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (1)
+    - ID: 47 | encuentro: 44 | nombre: Hemoglobina | categoria: laboratorio | estado: completed | resultado: 12.5 g/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1177506521 - Alba Velandia
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1965-06-12 | genero=unknown | municipio=Barbacoas | zona=rural_dispersa | cuenta_usuario=1177506521 | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 6 | tipo: patologico | codigo: I10 | descripcion: Hipertensión arterial diagnosticada
+
+  REPORTES PREVIOS (1)
+    - ID: 4 | sintoma: Pérdida de conciencia transitoria | alarma: True | descripcion_alarma: Dificultad respiratoria, palidez o deterioro general
+
+  ENCUENTROS (2)
+    - ID: 13 | fecha: 2026-08-21 04:57:00+00:00 | estado: finalizado | motivo: Dolor abdominal y pélvico | triage: 3 | dolor: 8
+    - ID: 14 | fecha: 2026-09-19 00:20:00+00:00 | estado: finalizado | motivo: Fractura del fémur | triage: 4 | dolor: 4
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (2)
+    - ID: 22 | encuentro: 13 | CIE10: R10 | descripcion: Dolor abdominal y pélvico | tipo: principal | estado: inactive
+    - ID: 23 | encuentro: 14 | CIE10: S72 | descripcion: Fractura del fémur | tipo: principal | estado: inactive
+
+  OBSERVACIONES (12)
+    - ID: 73 | encuentro: 13 | nombre: Temperatura corporal | valor: 36.9000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 74 | encuentro: 13 | nombre: Frecuencia cardiaca | valor: 87.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 75 | encuentro: 13 | nombre: Frecuencia respiratoria | valor: 12.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 76 | encuentro: 13 | nombre: Presión arterial sistólica | valor: 149.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 77 | encuentro: 13 | nombre: Presión arterial diastólica | valor: 73.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 78 | encuentro: 13 | nombre: Saturación de oxígeno | valor: 98.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 79 | encuentro: 14 | nombre: Temperatura corporal | valor: 36.6000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 80 | encuentro: 14 | nombre: Frecuencia cardiaca | valor: 111.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 81 | encuentro: 14 | nombre: Frecuencia respiratoria | valor: 23.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 82 | encuentro: 14 | nombre: Presión arterial sistólica | valor: 128.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 83 | encuentro: 14 | nombre: Presión arterial diastólica | valor: 95.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 84 | encuentro: 14 | nombre: Saturación de oxígeno | valor: 94.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (1)
+    - ID: 15 | encuentro: 14 | nombre: Leucocitos | categoria: laboratorio | estado: completed | resultado: 6.9 10^3/uL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1179577354 - Patricia García
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1988-07-20 | genero=male | municipio=La Tola | zona=rural_dispersa | cuenta_usuario=1179577354 | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 23 | tipo: quirurgico | codigo: - | descripcion: Apendicectomía
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (1)
+    - ID: 50 | fecha: 2026-09-14 07:14:00+00:00 | estado: finalizado | motivo: Diabetes mellitus tipo 2 | triage: 3 | dolor: 1
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (1)
+    - ID: 66 | encuentro: 50 | CIE10: E11 | descripcion: Diabetes mellitus tipo 2 | tipo: principal | estado: resolved
+
+  OBSERVACIONES (6)
+    - ID: 295 | encuentro: 50 | nombre: Temperatura corporal | valor: 36.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 296 | encuentro: 50 | nombre: Frecuencia cardiaca | valor: 67.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 297 | encuentro: 50 | nombre: Frecuencia respiratoria | valor: 23.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 298 | encuentro: 50 | nombre: Presión arterial sistólica | valor: 106.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 299 | encuentro: 50 | nombre: Presión arterial diastólica | valor: 90.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 300 | encuentro: 50 | nombre: Saturación de oxígeno | valor: 88.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (2)
+    - ID: 52 | encuentro: 50 | nombre: Creatinina | categoria: laboratorio | estado: completed | resultado: 2.19 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 51 | encuentro: 50 | nombre: Leucocitos | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1187405367 - Margarita Méndez
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=1982-12-01 | genero=male | municipio=Mosquera | zona=rural_dispersa | cuenta_usuario=1187405367 | eliminado=False
+
+  ANTECEDENTES (2)
+    - ID: 1 | tipo: toxico | codigo: - | descripcion: Tabaquismo activo
+    - ID: 2 | tipo: quirurgico | codigo: - | descripcion: Apendicectomía
+
+  REPORTES PREVIOS (1)
+    - ID: 1 | sintoma: Pérdida de conciencia transitoria | alarma: True | descripcion_alarma: Dificultad respiratoria, palidez o deterioro general
+
+  ENCUENTROS (3)
+    - ID: 6 | fecha: 2026-02-24 14:32:00+00:00 | estado: finalizado | motivo: Diabetes mellitus tipo 2 | triage: 4 | dolor: 8
+    - ID: 7 | fecha: 2026-05-22 18:20:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 4 | dolor: 2
+    - ID: 8 | fecha: 2026-06-20 15:42:00+00:00 | estado: en_triage | motivo: Diarrea y gastroenteritis de presunto origen infeccioso | triage: 3 | dolor: 9
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (5)
+    - ID: 10 | encuentro: 6 | CIE10: E11 | descripcion: Diabetes mellitus tipo 2 | tipo: principal | estado: inactive
+    - ID: 11 | encuentro: 6 | CIE10: J00 | descripcion: Rinofaringitis aguda (resfriado común) | tipo: secundario | estado: active
+    - ID: 12 | encuentro: 7 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: resolved
+    - ID: 13 | encuentro: 8 | CIE10: A09 | descripcion: Diarrea y gastroenteritis de presunto origen infeccioso | tipo: principal | estado: active
+    - ID: 14 | encuentro: 8 | CIE10: R51 | descripcion: Cefalea | tipo: secundario | estado: active
+
+  OBSERVACIONES (18)
+    - ID: 31 | encuentro: 6 | nombre: Temperatura corporal | valor: 39.0000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 32 | encuentro: 6 | nombre: Frecuencia cardiaca | valor: 123.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 33 | encuentro: 6 | nombre: Frecuencia respiratoria | valor: 24.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 34 | encuentro: 6 | nombre: Presión arterial sistólica | valor: 130.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 35 | encuentro: 6 | nombre: Presión arterial diastólica | valor: 95.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 36 | encuentro: 6 | nombre: Saturación de oxígeno | valor: 99.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 37 | encuentro: 7 | nombre: Temperatura corporal | valor: 37.7000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 38 | encuentro: 7 | nombre: Frecuencia cardiaca | valor: 124.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 39 | encuentro: 7 | nombre: Frecuencia respiratoria | valor: 13.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 40 | encuentro: 7 | nombre: Presión arterial sistólica | valor: 98.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 41 | encuentro: 7 | nombre: Presión arterial diastólica | valor: 70.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 42 | encuentro: 7 | nombre: Saturación de oxígeno | valor: 98.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 43 | encuentro: 8 | nombre: Temperatura corporal | valor: 39.2000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 44 | encuentro: 8 | nombre: Frecuencia cardiaca | valor: 84.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 45 | encuentro: 8 | nombre: Frecuencia respiratoria | valor: 14.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 46 | encuentro: 8 | nombre: Presión arterial sistólica | valor: 145.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 47 | encuentro: 8 | nombre: Presión arterial diastólica | valor: 61.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 48 | encuentro: 8 | nombre: Saturación de oxígeno | valor: 100.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (4)
+    - ID: 6 | encuentro: 6 | nombre: Creatinina | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+    - ID: 8 | encuentro: 7 | nombre: Glucosa | categoria: laboratorio | estado: completed | resultado: 197 mg/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 7 | encuentro: 7 | nombre: Leucocitos | categoria: laboratorio | estado: completed | resultado: 10.4 10^3/uL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 9 | encuentro: 8 | nombre: Creatinina | categoria: laboratorio | estado: completed | resultado: 1.23 mg/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1190009606 - Eugenia Martínez
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=2001-08-14 | genero=male | municipio=Mosquera | zona=urbana | cuenta_usuario=1190009606 | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 22 | tipo: patologico | codigo: I10 | descripcion: Hipertensión arterial diagnosticada
+
+  REPORTES PREVIOS (0)
+    - Sin registros
+
+  ENCUENTROS (2)
+    - ID: 48 | fecha: 2026-06-20 20:40:00+00:00 | estado: finalizado | motivo: Cefalea | triage: 4 | dolor: 3
+    - ID: 49 | fecha: 2026-07-02 11:33:00+00:00 | estado: finalizado | motivo: Dorsalgia | triage: 2 | dolor: 10
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (2)
+    - ID: 64 | encuentro: 48 | CIE10: R51 | descripcion: Cefalea | tipo: principal | estado: resolved
+    - ID: 65 | encuentro: 49 | CIE10: M54 | descripcion: Dorsalgia | tipo: principal | estado: resolved
+
+  OBSERVACIONES (12)
+    - ID: 283 | encuentro: 48 | nombre: Temperatura corporal | valor: 38.9000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 284 | encuentro: 48 | nombre: Frecuencia cardiaca | valor: 106.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 285 | encuentro: 48 | nombre: Frecuencia respiratoria | valor: 25.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 286 | encuentro: 48 | nombre: Presión arterial sistólica | valor: 102.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 287 | encuentro: 48 | nombre: Presión arterial diastólica | valor: 75.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 288 | encuentro: 48 | nombre: Saturación de oxígeno | valor: 94.0000 | texto: - | unidad: % | LOINC: 59408-5
+    - ID: 289 | encuentro: 49 | nombre: Temperatura corporal | valor: 38.3000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 290 | encuentro: 49 | nombre: Frecuencia cardiaca | valor: 102.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 291 | encuentro: 49 | nombre: Frecuencia respiratoria | valor: 16.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 292 | encuentro: 49 | nombre: Presión arterial sistólica | valor: 150.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 293 | encuentro: 49 | nombre: Presión arterial diastólica | valor: 59.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 294 | encuentro: 49 | nombre: Saturación de oxígeno | valor: 89.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (2)
+    - ID: 50 | encuentro: 49 | nombre: Hemoglobina | categoria: laboratorio | estado: completed | resultado: 11.2 g/dL | conclusion: Resultado disponible para valoración clínica.
+    - ID: 49 | encuentro: 49 | nombre: Creatinina | categoria: laboratorio | estado: completed | resultado: 0.95 mg/dL | conclusion: Resultado disponible para valoración clínica.
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros
+
+------------------------------------------------------------------------------------------
+PACIENTE 1195939378 - Wilson Pabón
+------------------------------------------------------------------------------------------
+Datos: fecha_nacimiento=2006-11-22 | genero=male | municipio=Santa Bárbara | zona=rural_dispersa | cuenta_usuario=1195939378 | eliminado=False
+
+  ANTECEDENTES (1)
+    - ID: 20 | tipo: toxico | codigo: - | descripcion: Tabaquismo activo
+
+  REPORTES PREVIOS (1)
+    - ID: 8 | sintoma: Dificultad para respirar | alarma: False | descripcion_alarma: -
+
+  ENCUENTROS (1)
+    - ID: 45 | fecha: 2026-08-18 01:28:00+00:00 | estado: finalizado | motivo: Dolor abdominal y pélvico | triage: 5 | dolor: 6
+
+  DIAGNÓSTICOS / ENFERMEDADES REGISTRADAS (1)
+    - ID: 61 | encuentro: 45 | CIE10: R10 | descripcion: Dolor abdominal y pélvico | tipo: principal | estado: resolved
+
+  OBSERVACIONES (6)
+    - ID: 265 | encuentro: 45 | nombre: Temperatura corporal | valor: 38.2000 | texto: - | unidad: Cel | LOINC: 8310-5
+    - ID: 266 | encuentro: 45 | nombre: Frecuencia cardiaca | valor: 129.0000 | texto: - | unidad: lpm | LOINC: 8867-4
+    - ID: 267 | encuentro: 45 | nombre: Frecuencia respiratoria | valor: 22.0000 | texto: - | unidad: resp/min | LOINC: 9279-1
+    - ID: 268 | encuentro: 45 | nombre: Presión arterial sistólica | valor: 138.0000 | texto: - | unidad: mmHg | LOINC: 8480-6
+    - ID: 269 | encuentro: 45 | nombre: Presión arterial diastólica | valor: 93.0000 | texto: - | unidad: mmHg | LOINC: 8462-4
+    - ID: 270 | encuentro: 45 | nombre: Saturación de oxígeno | valor: 96.0000 | texto: - | unidad: % | LOINC: 59408-5
+
+  EXÁMENES (1)
+    - ID: 48 | encuentro: 45 | nombre: Glucosa | categoria: laboratorio | estado: active | resultado: - | conclusion: -
+
+  ESTUDIOS PACS YA ASOCIADOS (0)
+    - Sin registros
+
+  POSIBLES EXÁMENES DE IMAGEN SIN PACS (revisión técnica, no decisión clínica) (0)
+    - Sin registros

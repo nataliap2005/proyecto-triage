@@ -1,0 +1,92 @@
+PACIENTES SINTÉTICOS PREPARADOS PARA CARGA DICOM
+================================================================================
+
+IMPORTANTE:
+- Los pacientes NO tienen cuenta de usuario.
+- Los estudios DICOM todavía NO están cargados.
+- Entre al frontend como Médico, busque el documento y use Imágenes PACS.
+- Seleccione el encuentro y examen indicados abajo.
+
+Paciente: Mateo Riascos Mina
+Documento: 1200001001
+Encuentro: 54
+Examen: 57 - Radiografía de muñeca derecha
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Muñeca
+Médico responsable: 1006713773
+--------------------------------------------------------------------------------
+Paciente: Valentina Caicedo Angulo
+Documento: 1200001002
+Encuentro: 55
+Examen: 58 - Radiografía de tobillo izquierdo
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Tobillo
+Médico responsable: 1073827621
+--------------------------------------------------------------------------------
+Paciente: Samuel Quiñones Castillo
+Documento: 1200001003
+Encuentro: 56
+Examen: 59 - Radiografía de tórax
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Tórax
+Médico responsable: 1059917677
+--------------------------------------------------------------------------------
+Paciente: Isabella Preciado Mosquera
+Documento: 1200001004
+Encuentro: 57
+Examen: 60 - Radiografía de hombro derecho
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Hombro
+Médico responsable: 1197694986
+--------------------------------------------------------------------------------
+Paciente: Daniel Valencia Cortés
+Documento: 1200001005
+Encuentro: 58
+Examen: 61 - Radiografía de rodilla izquierda
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Rodilla
+Médico responsable: 1006713773
+--------------------------------------------------------------------------------
+Paciente: Mariana Grueso Estupiñán
+Documento: 1200001006
+Encuentro: 59
+Examen: 62 - Radiografía de pelvis y cadera
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Pelvis/Cadera
+Médico responsable: 1073827621
+--------------------------------------------------------------------------------
+Paciente: Nicolás Cabezas Hurtado
+Documento: 1200001007
+Encuentro: 60
+Examen: 63 - Radiografía de mano derecha
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Mano
+Médico responsable: 1059917677
+--------------------------------------------------------------------------------
+Paciente: Laura Sinisterra Perlaza
+Documento: 1200001008
+Encuentro: 61
+Examen: 64 - Radiografía de tórax
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Tórax
+Médico responsable: 1197694986
+--------------------------------------------------------------------------------
+Paciente: Andrés Ortiz Banguera
+Documento: 1200001009
+Encuentro: 62
+Examen: 65 - Radiografía de tórax
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Tórax
+Médico responsable: 1006713773
+--------------------------------------------------------------------------------
+Paciente: Sofía Montaño Quiñones
+Documento: 1200001010
+Encuentro: 63
+Examen: 66 - Radiografía de columna lumbar
+Modalidad DICOM recomendada: DX/CR
+Región anatómica: Columna lumbar
+Médico responsable: 1073827621
+--------------------------------------------------------------------------------
+
+Pacientes creados en esta ejecución: 10
+Pacientes omitidos porque ya existían: 0

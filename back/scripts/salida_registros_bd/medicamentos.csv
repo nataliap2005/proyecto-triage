@@ -1,0 +1,13 @@
+﻿codigo_cum,nombre,principio_activo,concentracion,forma_farmaceutica,registro_sanitario,estado_cum,precio_unitario,created_at,updated_at,is_deleted
+19000001-1,Acetaminofén 500mg,Acetaminofén,500 mg,Tableta,INVIMA 2015M-000101,Vigente,250.00,2026-09-26 16:16:22.640094+00:00,,False
+19000002-1,Ibuprofeno 400mg,Ibuprofeno,400 mg,Tableta,INVIMA 2016M-000102,Vigente,300.00,2026-09-26 16:16:22.640094+00:00,,False
+19000003-1,Amoxicilina 500mg,Amoxicilina,500 mg,Cápsula,INVIMA 2014M-000103,Vigente,450.00,2026-09-26 16:16:22.640094+00:00,,False
+19000004-1,Losartán 50mg,Losartán potásico,50 mg,Tableta,INVIMA 2013M-000104,Vigente,320.00,2026-09-26 16:16:22.640094+00:00,,False
+19000005-1,Metformina 850mg,Metformina clorhidrato,850 mg,Tableta,INVIMA 2013M-000105,Vigente,280.00,2026-09-26 16:16:22.640094+00:00,,False
+19000006-1,Omeprazol 20mg,Omeprazol,20 mg,Cápsula,INVIMA 2012M-000106,Vigente,200.00,2026-09-26 16:16:22.640094+00:00,,False
+19000007-1,Loratadina 10mg,Loratadina,10 mg,Tableta,INVIMA 2011M-000107,Vigente,150.00,2026-09-26 16:16:22.640094+00:00,,False
+19000008-1,Ácido acetilsalicílico 100mg,Ácido acetilsalicílico,100 mg,Tableta,INVIMA 2010M-000108,Vigente,100.00,2026-09-26 16:16:22.640094+00:00,,False
+19000009-1,Salbutamol inhalador 100mcg,Salbutamol,100 mcg/dosis,Inhalador,INVIMA 2017M-000109,Vigente,18000.00,2026-09-26 16:16:22.640094+00:00,,False
+19000010-1,Dexametasona 4mg/ml,Dexametasona,4 mg/ml,Ampolla,INVIMA 2015M-000110,Vigente,900.00,2026-09-26 16:16:22.640094+00:00,,False
+19000011-1,Solución salina 0.9% 1000ml,Cloruro de sodio,0.9%,Bolsa IV,INVIMA 2009M-000111,Vigente,5200.00,2026-09-26 16:16:22.640094+00:00,,False
+19000012-1,Insulina glargina 100U/ml,Insulina glargina,100 U/ml,Vial,INVIMA 2018M-000112,Vigente,45000.00,2026-09-26 16:16:22.640094+00:00,,False

@@ -3,62 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Triage Hospitalario</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="color-scheme" content="light">
+  <title>Sistema de Triaje Hospitalario</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/login.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/paciente.css">
+  <link rel="stylesheet" href="/css/historia.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/viewer.css">
+  <link rel="stylesheet" href="/css/status.css">
 </head>
 <body>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
-  <main>
-    <section id="vista-login">
-      <h1>Sistema de Triage Hospitalario</h1>
-      <h2>Iniciar sesión</h2>
-
-      <form id="login-form">
-        <label for="username">Usuario</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          autocomplete="username"
-          required
-        >
-
-        <label for="password">Contraseña</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          autocomplete="current-password"
-          required
-        >
-
-        <button type="submit">Ingresar</button>
-      </form>
-
-      <p id="login-mensaje"></p>
+  <main id="vista-login" class="login-shell">
+    <section class="login-brand-panel">
+      <div class="brand-mark">SD</div>
+      <div>
+        <p class="eyebrow">Salud Digital</p>
+        <h1>Sistema de apoyo al triaje hospitalario</h1>
+        <p class="brand-copy">Acceso seguro a información clínica, historia longitudinal, interoperabilidad FHIR R4 e imágenes médicas DICOM/PACS.</p>
+      </div>
+      <div class="privacy-note">
+        <strong>Información sensible</strong>
+        <span>El acceso está controlado por rol, autenticación JWT y trazabilidad de eventos.</span>
+      </div>
     </section>
 
-    <section id="vista-panel" hidden>
-      <h1>Sistema de Triage Hospitalario</h1>
-
-      <p>
-        Bienvenido,
-        <strong id="usuario-actual"></strong>
-      </p>
-
-      <p>
-        Rol:
-        <strong id="rol-actual"></strong>
-      </p>
-
-      <div id="contenido-rol"></div>
-
-      <button id="cerrar-sesion" type="button">
-        Cerrar sesión
-      </button>
+    <section class="login-form-panel">
+      <div class="login-card">
+        <p class="eyebrow">Acceso institucional</p>
+        <h2>Iniciar sesión</h2>
+        <p class="muted">Use las credenciales asignadas por el administrador.</p>
+        <form id="login-form" class="stack-form">
+          <label>Usuario
+            <input id="username" name="username" type="text" autocomplete="username" minlength="3" maxlength="50" pattern="[A-Za-z0-9._-]+" required>
+          </label>
+          <label>Contraseña
+            <div class="password-row">
+              <input id="password" name="password" type="password" autocomplete="current-password" required>
+              <button id="toggle-password" class="btn btn-ghost btn-icon" type="button" aria-label="Mostrar u ocultar contraseña">👁</button>
+            </div>
+          </label>
+          <button id="login-button" class="btn btn-primary btn-block" type="submit">Ingresar</button>
+        </form>
+        <p id="login-mensaje" class="form-message" role="alert"></p>
+      </div>
     </section>
   </main>
 
-  <script src="app.js"></script>
+  <div id="vista-app" class="app-shell" hidden>
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark small">SD</div>
+        <div><strong>Triaje Hospitalario</strong><span>Salud Digital</span></div>
+      </div>
+      <nav id="nav-principal" class="nav-list" aria-label="Navegación principal"></nav>
+      <div class="sidebar-status">
+        <span class="muted small-text">Sesión protegida con JWT</span>
+      </div>
+    </aside>
+
+    <section class="app-main">
+      <header class="topbar">
+        <button id="menu-toggle" class="btn btn-ghost btn-icon mobile-only" type="button">☰</button>
+        <div>
+          <p class="eyebrow" id="page-eyebrow">Panel</p>
+          <h1 id="page-title">Inicio</h1>
+        </div>
+        <div class="user-box">
+          <div id="user-avatar" class="avatar">U</div>
+          <div class="user-meta"><strong id="usuario-actual">Usuario</strong><span id="rol-actual" class="role-badge">Rol</span></div>
+          <button id="cerrar-sesion" class="btn btn-secondary" type="button">Cerrar sesión</button>
+        </div>
+      </header>
+
+      <section id="status-strip" class="status-strip" aria-label="Estado de servicios"></section>
+      <section id="contenido-principal" class="content-area"></section>
+    </section>
+  </div>
+
+  <template id="tpl-paciente-shell">
+    <section class="patient-workspace">
+      <div class="patient-search-card">
+        <form id="patient-search-form" class="inline-form">
+          <label class="grow">Documento del paciente
+            <input id="patient-document" type="number" min="1" placeholder="Ej. 1087048983" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Buscar paciente</button>
+        </form>
+      </div>
+      <div id="patient-result"></div>
+    </section>
+  </template>
+
+  <script type="module" src="/js/app.js"></script>
 </body>
 </html>

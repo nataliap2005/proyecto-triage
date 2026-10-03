@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS reportes_previos CASCADE;
 DROP TABLE IF EXISTS antecedentes CASCADE;
 DROP TABLE IF EXISTS pacientes CASCADE;
 DROP TABLE IF EXISTS auditoria_cambios CASCADE;
+DROP TABLE IF EXISTS auth_log CASCADE;
 DROP TABLE IF EXISTS usuarios CASCADE;
 DROP TABLE IF EXISTS roles CASCADE;
 
@@ -85,6 +86,18 @@ CREATE TABLE usuarios (
 
     estado BOOLEAN NOT NULL DEFAULT true,
 
+    -- Control de intentos fallidos de autenticación.
+    intentos_fallidos SMALLINT NOT NULL DEFAULT 0
+        CHECK (
+            intentos_fallidos >= 0
+        ),
+
+    -- Se activa automáticamente al alcanzar 3 intentos fallidos.
+    -- Solo un administrador podrá desbloquear la cuenta desde la API.
+    bloqueado BOOLEAN NOT NULL DEFAULT false,
+
+    bloqueado_at TIMESTAMPTZ,
+
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
     updated_at TIMESTAMPTZ,
@@ -129,6 +142,38 @@ CREATE TABLE auditoria_cambios (
 
     realizado_por BIGINT NOT NULL
         REFERENCES usuarios(numero_documento_usuario),
+
+    fecha_hora TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+
+-- =====================================================================
+-- 3B. AUDITORÍA DE AUTENTICACIÓN
+-- Registra accesos correctos, intentos fallidos, bloqueos y desbloqueos.
+-- El usuario puede ser NULL cuando el username ingresado no existe.
+-- =====================================================================
+
+CREATE TABLE auth_log (
+    id_auth_log BIGSERIAL PRIMARY KEY,
+
+    numero_documento_usuario BIGINT
+        REFERENCES usuarios(numero_documento_usuario),
+
+    username_intentado VARCHAR(50) NOT NULL,
+
+    evento VARCHAR(30) NOT NULL
+        CHECK (
+            evento IN (
+                'LOGIN_OK',
+                'LOGIN_FALLIDO',
+                'USUARIO_BLOQUEADO',
+                'USUARIO_DESBLOQUEADO'
+            )
+        ),
+
+    exitoso BOOLEAN NOT NULL,
+
+    detalle TEXT,
 
     fecha_hora TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -982,3 +1027,14 @@ CREATE INDEX idx_auditoria_usuario
 
 CREATE INDEX idx_auditoria_fecha
     ON auditoria_cambios(fecha_hora);
+
+-- AUTH LOG
+CREATE INDEX idx_auth_log_usuario
+    ON auth_log(numero_documento_usuario);
+
+CREATE INDEX idx_auth_log_fecha
+    ON auth_log(fecha_hora);
+
+CREATE INDEX idx_auth_log_evento
+    ON auth_log(evento);
+
