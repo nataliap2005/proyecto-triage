@@ -3,35 +3,38 @@ SISTEMA DE APOYO AL TRIAGE - REPORTE COMPLETO DE BASE DE DATOS
 MODO: SOLO LECTURA. ESTE SCRIPT NO MODIFICA LA BASE DE DATOS.
 Base de datos: neondb
 Usuario BD: neondb_owner
-Fecha del reporte: 2026-09-29 01:56:03.700432+00:00
+Fecha del reporte: 2026-10-03 03:31:59.767567+00:00
 
 ==============================================================================================================
 RESUMEN DE TABLAS
 ==============================================================================================================
-antecedentes: 23
-auditoria_cambios: 17
-auth_log: 40
-diagnosticos: 70
-encuentros: 53
-estudios_imagenes: 1
-examenes: 56
+antecedentes: 29
+auditoria_cambios: 42
+auth_log: 61
+diagnosticos: 80
+encuentros: 63
+especialidades: 12
+estudios_imagenes: 2
+examenes: 66
 factura_detalle: 134
 facturas: 42
 medicamentos: 12
-notas_clinicas: 99
-observaciones: 318
-pacientes: 25
+notas_clinicas: 109
+observaciones: 368
+pacientes: 35
 prescripciones: 65
-reportes_previos: 8
-roles: 4
-usuarios: 27
+remisiones: 1
+reportes_previos: 12
+roles: 5
+usuario_especialidades: 2
+usuarios: 29
 
 ==============================================================================================================
 TODOS LOS REGISTROS ACTUALES DE LA BASE DE DATOS
 ==============================================================================================================
 
 --------------------------------------------------------------------------------------------------------------
-TABLA: antecedentes | TOTAL: 23
+TABLA: antecedentes | TOTAL: 29
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -356,8 +359,92 @@ TABLA: antecedentes | TOTAL: 23
   deleted_at: -
   deleted_by: -
 
+[24]
+  id_antecedente: 24
+  id_paciente: 1200001003
+  tipo: toxico
+  codigo: -
+  descripcion: Tabaquismo activo
+  fecha_registro: 2026-09-29 02:08:00.935899+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[25]
+  id_antecedente: 25
+  id_paciente: 1200001005
+  tipo: patologico
+  codigo: I10
+  descripcion: Hipertensión arterial diagnosticada
+  fecha_registro: 2026-09-29 02:08:00.935899+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[26]
+  id_antecedente: 26
+  id_paciente: 1200001006
+  tipo: patologico
+  codigo: I10
+  descripcion: Hipertensión arterial diagnosticada
+  fecha_registro: 2026-09-29 02:08:00.935899+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[27]
+  id_antecedente: 27
+  id_paciente: 1200001006
+  tipo: patologico
+  codigo: E11
+  descripcion: Diabetes mellitus tipo 2
+  fecha_registro: 2026-09-29 02:08:00.935899+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[28]
+  id_antecedente: 28
+  id_paciente: 1200001008
+  tipo: patologico
+  codigo: J45
+  descripcion: Asma
+  fecha_registro: 2026-09-29 02:08:00.935899+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[29]
+  id_antecedente: 29
+  id_paciente: 1200001009
+  tipo: toxico
+  codigo: -
+  descripcion: Tabaquismo activo
+  fecha_registro: 2026-09-29 02:08:00.935899+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: auditoria_cambios | TOTAL: 17
+TABLA: auditoria_cambios | TOTAL: 42
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -530,8 +617,258 @@ TABLA: auditoria_cambios | TOTAL: 17
   realizado_por: 1171644825
   fecha_hora: 2026-09-27 20:01:23.763607+00:00
 
+[18]
+  id_auditoria: 18
+  tabla_afectada: encuentros
+  registro_id: 54
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001001, 'motivo_consulta': 'Caída con dolor intenso y deformidad en muñeca derecha'}
+  realizado_por: 1006713773
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[19]
+  id_auditoria: 19
+  tabla_afectada: examenes
+  registro_id: 57
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de muñeca derecha', 'categoria': 'imagenologia', 'id_encuentro': 54}
+  realizado_por: 1006713773
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[20]
+  id_auditoria: 20
+  tabla_afectada: encuentros
+  registro_id: 55
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001002, 'motivo_consulta': 'Trauma de tobillo izquierdo con edema e incapacidad para apoyar'}
+  realizado_por: 1073827621
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[21]
+  id_auditoria: 21
+  tabla_afectada: examenes
+  registro_id: 58
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de tobillo izquierdo', 'categoria': 'imagenologia', 'id_encuentro': 55}
+  realizado_por: 1073827621
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[22]
+  id_auditoria: 22
+  tabla_afectada: encuentros
+  registro_id: 56
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001003, 'motivo_consulta': 'Golpe directo en tórax con dolor al respirar'}
+  realizado_por: 1059917677
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[23]
+  id_auditoria: 23
+  tabla_afectada: examenes
+  registro_id: 59
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de tórax', 'categoria': 'imagenologia', 'id_encuentro': 56}
+  realizado_por: 1059917677
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[24]
+  id_auditoria: 24
+  tabla_afectada: encuentros
+  registro_id: 57
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001004, 'motivo_consulta': 'Dolor y limitación funcional de hombro después de caída'}
+  realizado_por: 1197694986
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[25]
+  id_auditoria: 25
+  tabla_afectada: examenes
+  registro_id: 60
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de hombro derecho', 'categoria': 'imagenologia', 'id_encuentro': 57}
+  realizado_por: 1197694986
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[26]
+  id_auditoria: 26
+  tabla_afectada: encuentros
+  registro_id: 58
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001005, 'motivo_consulta': 'Caída sobre rodilla con edema, dolor e imposibilidad para caminar'}
+  realizado_por: 1006713773
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[27]
+  id_auditoria: 27
+  tabla_afectada: examenes
+  registro_id: 61
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de rodilla izquierda', 'categoria': 'imagenologia', 'id_encuentro': 58}
+  realizado_por: 1006713773
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[28]
+  id_auditoria: 28
+  tabla_afectada: encuentros
+  registro_id: 59
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001006, 'motivo_consulta': 'Dolor intenso en cadera después de caída, no puede ponerse de pie'}
+  realizado_por: 1073827621
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[29]
+  id_auditoria: 29
+  tabla_afectada: examenes
+  registro_id: 62
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de pelvis y cadera', 'categoria': 'imagenologia', 'id_encuentro': 59}
+  realizado_por: 1073827621
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[30]
+  id_auditoria: 30
+  tabla_afectada: encuentros
+  registro_id: 60
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001007, 'motivo_consulta': 'Golpe en mano derecha durante actividad deportiva con dolor en quinto dedo'}
+  realizado_por: 1059917677
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[31]
+  id_auditoria: 31
+  tabla_afectada: examenes
+  registro_id: 63
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de mano derecha', 'categoria': 'imagenologia', 'id_encuentro': 60}
+  realizado_por: 1059917677
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[32]
+  id_auditoria: 32
+  tabla_afectada: encuentros
+  registro_id: 61
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001008, 'motivo_consulta': 'Fiebre, tos productiva y dificultad respiratoria'}
+  realizado_por: 1197694986
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[33]
+  id_auditoria: 33
+  tabla_afectada: examenes
+  registro_id: 64
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de tórax', 'categoria': 'imagenologia', 'id_encuentro': 61}
+  realizado_por: 1197694986
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[34]
+  id_auditoria: 34
+  tabla_afectada: encuentros
+  registro_id: 62
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001009, 'motivo_consulta': 'Tos persistente, dolor torácico y disnea de esfuerzo'}
+  realizado_por: 1006713773
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[35]
+  id_auditoria: 35
+  tabla_afectada: examenes
+  registro_id: 65
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de tórax', 'categoria': 'imagenologia', 'id_encuentro': 62}
+  realizado_por: 1006713773
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[36]
+  id_auditoria: 36
+  tabla_afectada: encuentros
+  registro_id: 63
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'en_atencion', 'id_paciente': 1200001010, 'motivo_consulta': 'Caída desde altura baja con dolor lumbar intenso localizado'}
+  realizado_por: 1073827621
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[37]
+  id_auditoria: 37
+  tabla_afectada: examenes
+  registro_id: 66
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'active', 'nombre': 'Radiografía de columna lumbar', 'categoria': 'imagenologia', 'id_encuentro': 63}
+  realizado_por: 1073827621
+  fecha_hora: 2026-09-29 02:08:00.935899+00:00
+
+[38]
+  id_auditoria: 38
+  tabla_afectada: encuentros
+  registro_id: 58
+  accion: EDITAR
+  datos_anteriores: {'estado': 'en_atencion', 'servicio': 'URGENCIAS', 'creado_por': 1006713773, 'created_at': '2026-09-29T02:08:00.935899+00:00', 'deleted_at': None, 'deleted_by': None, 'is_deleted': False, 'updated_at': None, 'id_paciente': 1200001005, 'dolor_escala': 9, 'id_encuentro': 58, 'nivel_triage': 3, 'fecha_hora_fin': None, 'tipo_encuentro': 'urgencias', 'clasificado_por': 1006713773, 'motivo_consulta': 'Caída sobre rodilla con edema, dolor e imposibilidad para caminar', 'fecha_hora_triage': '2026-09-28T21:16:00+00:00', 'fecha_hora_ingreso': '2026-09-28T21:08:00+00:00', 'medico_responsable': 1006713773, 'observaciones_triage': 'Clasificación clínica inicial realizada por el profesional.', 'observaciones_generales': 'Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.', 'clasificacion_automatica': False}
+  datos_nuevos: {'estado': 'en_atencion', 'servicio': 'URGENCIAS', 'creado_por': 1006713773, 'created_at': '2026-09-29T02:08:00.935899+00:00', 'deleted_at': None, 'deleted_by': None, 'is_deleted': False, 'updated_at': '2026-09-29T02:48:09.108417+00:00', 'id_paciente': 1200001005, 'dolor_escala': 7, 'id_encuentro': 58, 'nivel_triage': 3, 'fecha_hora_fin': None, 'tipo_encuentro': 'urgencias', 'clasificado_por': 1006713773, 'motivo_consulta': 'Caída sobre rodilla con edema, dolor e imposibilidad para caminar', 'fecha_hora_triage': '2026-09-29T02:48:09.108417+00:00', 'fecha_hora_ingreso': '2026-09-28T21:08:00+00:00', 'medico_responsable': 1006713773, 'observaciones_triage': None, 'observaciones_generales': 'Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.', 'clasificacion_automatica': False}
+  realizado_por: 1006713773
+  fecha_hora: 2026-09-29 02:48:09.108417+00:00
+
+[39]
+  id_auditoria: 39
+  tabla_afectada: usuarios
+  registro_id: 66749669
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'email': 'yenparedes@hotmail.com', 'estado': True, 'id_rol': 9, 'nombres': 'Yenny', 'telefono': '3155387649', 'username': 'm.interna1.66749669', 'apellidos': 'Paredes', 'bloqueado': False, 'created_at': '2026-10-03T01:10:55.228558+00:00', 'deleted_at': None, 'deleted_by': None, 'is_deleted': False, 'updated_at': None, 'bloqueado_at': None, 'password_hash': '$argon2id$v=19$m=65536,t=3,p=4$7kvv9CZQA3A8QCwPW/6U1A$ZDVLzpBkq42tDGum5fFNYlXGgVVBtR4lwO2lqZmIhmw', 'intentos_fallidos': 0, 'numero_documento_usuario': 66749669}
+  realizado_por: 1171644825
+  fecha_hora: 2026-10-03 01:10:55.228558+00:00
+
+[40]
+  id_auditoria: 40
+  tabla_afectada: usuarios
+  registro_id: 129345873
+  accion: CREAR
+  datos_anteriores: -
+  datos_nuevos: {'email': 'oscarrosso@gmail.com', 'estado': True, 'id_rol': 9, 'nombres': 'Oscar', 'telefono': '3128935673', 'username': 'm.ortopedia.129345873', 'apellidos': 'Rosso', 'bloqueado': False, 'created_at': '2026-10-03T01:19:16.759490+00:00', 'deleted_at': None, 'deleted_by': None, 'is_deleted': False, 'updated_at': None, 'bloqueado_at': None, 'password_hash': '$argon2id$v=19$m=65536,t=3,p=4$jGfqG71MSSv0YofySwpZ8g$Y8NkHa/+zMb3Cp4tHEMmhZp7kZfTsHCcThU2cwejTJU', 'intentos_fallidos': 0, 'numero_documento_usuario': 129345873}
+  realizado_por: 1171644825
+  fecha_hora: 2026-10-03 01:19:16.759490+00:00
+
+[41]
+  id_auditoria: 41
+  tabla_afectada: remisiones
+  registro_id: 1
+  accion: REMITIR
+  datos_anteriores: -
+  datos_nuevos: {'estado': 'pendiente', 'motivo': 'Rodilla fracturada', 'created_at': '2026-10-03T01:21:42.081843+00:00', 'deleted_at': None, 'deleted_by': None, 'is_deleted': False, 'updated_at': None, 'id_paciente': 1200001005, 'id_remision': 1, 'id_encuentro': 58, 'fecha_remision': '2026-10-03T01:21:42.081843+00:00', 'fecha_respuesta': None, 'id_especialidad': 7, 'medico_remitente': 1006713773, 'especialista_destino': 129345873, 'observacion_respuesta': None}
+  realizado_por: 1006713773
+  fecha_hora: 2026-10-03 01:21:42.081843+00:00
+
+[42]
+  id_auditoria: 42
+  tabla_afectada: remisiones
+  registro_id: 1
+  accion: ACEPTAR_REMISION
+  datos_anteriores: {'estado': 'pendiente', 'motivo': 'Rodilla fracturada', 'created_at': '2026-10-03T01:21:42.081843+00:00', 'deleted_at': None, 'deleted_by': None, 'is_deleted': False, 'updated_at': None, 'id_paciente': 1200001005, 'id_remision': 1, 'especialidad': 'Traumatología y Ortopedia', 'id_encuentro': 58, 'fecha_remision': '2026-10-03T01:21:42.081843+00:00', 'medico_nombres': 'Esperanza', 'fecha_respuesta': None, 'id_especialidad': 7, 'medico_apellidos': 'Torres', 'medico_remitente': 1006713773, 'paciente_nombres': 'Daniel', 'paciente_apellidos': 'Valencia Cortés', 'especialista_destino': 129345873, 'especialista_nombres': 'Oscar', 'observacion_respuesta': None, 'especialista_apellidos': 'Rosso'}
+  datos_nuevos: {'estado': 'aceptada', 'motivo': 'Rodilla fracturada', 'created_at': '2026-10-03T01:21:42.081843+00:00', 'deleted_at': None, 'deleted_by': None, 'is_deleted': False, 'updated_at': '2026-10-03T01:24:13.089220+00:00', 'id_paciente': 1200001005, 'id_remision': 1, 'id_encuentro': 58, 'fecha_remision': '2026-10-03T01:21:42.081843+00:00', 'fecha_respuesta': '2026-10-03T01:24:13.089220+00:00', 'id_especialidad': 7, 'medico_remitente': 1006713773, 'especialista_destino': 129345873, 'observacion_respuesta': 'Remisión aceptada para valoración especializada'}
+  realizado_por: 129345873
+  fecha_hora: 2026-10-03 01:24:13.089220+00:00
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: auth_log | TOTAL: 40
+TABLA: auth_log | TOTAL: 61
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -894,8 +1231,197 @@ TABLA: auth_log | TOTAL: 40
   detalle: Inicio de sesión exitoso
   fecha_hora: 2026-09-28 01:45:56.795687+00:00
 
+[41]
+  id_auth_log: 41
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-09-29 02:21:06.384407+00:00
+
+[42]
+  id_auth_log: 42
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-09-29 13:35:28.052378+00:00
+
+[43]
+  id_auth_log: 43
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_FALLIDO
+  exitoso: False
+  detalle: Intento fallido 1 de 3
+  fecha_hora: 2026-09-29 14:35:20.637217+00:00
+
+[44]
+  id_auth_log: 44
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-09-29 14:35:48.132143+00:00
+
+[45]
+  id_auth_log: 45
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_FALLIDO
+  exitoso: False
+  detalle: Intento fallido 1 de 3
+  fecha_hora: 2026-09-29 14:44:31.426884+00:00
+
+[46]
+  id_auth_log: 46
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_FALLIDO
+  exitoso: False
+  detalle: Intento fallido 2 de 3
+  fecha_hora: 2026-09-29 14:44:34.574183+00:00
+
+[47]
+  id_auth_log: 47
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_FALLIDO
+  exitoso: False
+  detalle: Intento fallido 3 de 3
+  fecha_hora: 2026-09-29 14:44:37.130361+00:00
+
+[48]
+  id_auth_log: 48
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: USUARIO_BLOQUEADO
+  exitoso: False
+  detalle: Cuenta bloqueada tras 3 intentos fallidos
+  fecha_hora: 2026-09-29 14:44:37.130361+00:00
+
+[49]
+  id_auth_log: 49
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_FALLIDO
+  exitoso: False
+  detalle: Intento de acceso a una cuenta bloqueada
+  fecha_hora: 2026-09-29 14:44:44.557628+00:00
+
+[50]
+  id_auth_log: 50
+  numero_documento_usuario: 1171644825
+  username_intentado: admin.1171644825
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-09-29 14:44:48.986202+00:00
+
+[51]
+  id_auth_log: 51
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: USUARIO_DESBLOQUEADO
+  exitoso: True
+  detalle: Desbloqueado por Admin 1171644825
+  fecha_hora: 2026-09-29 14:45:13.197978+00:00
+
+[52]
+  id_auth_log: 52
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-09-29 14:45:24.960637+00:00
+
+[53]
+  id_auth_log: 53
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-09-29 19:24:39.702660+00:00
+
+[54]
+  id_auth_log: 54
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-10-02 22:12:05.038218+00:00
+
+[55]
+  id_auth_log: 55
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-10-03 00:51:35.523633+00:00
+
+[56]
+  id_auth_log: 56
+  numero_documento_usuario: 1171644825
+  username_intentado: admin.1171644825
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-10-03 00:58:32.990441+00:00
+
+[57]
+  id_auth_log: 57
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-10-03 01:21:13.807860+00:00
+
+[58]
+  id_auth_log: 58
+  numero_documento_usuario: 129345873
+  username_intentado: m.ortopedia.129345873
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-10-03 01:24:02.598459+00:00
+
+[59]
+  id_auth_log: 59
+  numero_documento_usuario: 1006713773
+  username_intentado: medico1.1006713773
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-10-03 01:24:57.917872+00:00
+
+[60]
+  id_auth_log: 60
+  numero_documento_usuario: 1181650134
+  username_intentado: administrativo1.1181650134
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-10-03 01:46:54.099502+00:00
+
+[61]
+  id_auth_log: 61
+  numero_documento_usuario: 1181650134
+  username_intentado: administrativo1.1181650134
+  evento: LOGIN_OK
+  exitoso: True
+  detalle: Inicio de sesión exitoso
+  fecha_hora: 2026-10-03 01:56:36.456672+00:00
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: diagnosticos | TOTAL: 70
+TABLA: diagnosticos | TOTAL: 80
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -1948,8 +2474,158 @@ TABLA: diagnosticos | TOTAL: 70
   deleted_at: -
   deleted_by: -
 
+[71]
+  id_diagnostico: 71
+  id_encuentro: 54
+  codigo_cie10: S69.9
+  descripcion: Traumatismo de muñeca y mano, con sospecha de fractura
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-29 01:36:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[72]
+  id_diagnostico: 72
+  id_encuentro: 55
+  codigo_cie10: S99.9
+  descripcion: Traumatismo de tobillo y pie, con sospecha de lesión ósea
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-29 00:36:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[73]
+  id_diagnostico: 73
+  id_encuentro: 56
+  codigo_cie10: S29.9
+  descripcion: Traumatismo de tórax, con sospecha de lesión costal
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-28 23:36:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[74]
+  id_diagnostico: 74
+  id_encuentro: 57
+  codigo_cie10: S49.9
+  descripcion: Traumatismo de hombro y brazo, con sospecha de luxación o fractura
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-28 22:36:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[75]
+  id_diagnostico: 75
+  id_encuentro: 58
+  codigo_cie10: S89.9
+  descripcion: Traumatismo de pierna y rodilla, con sospecha de fractura
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-28 21:36:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[76]
+  id_diagnostico: 76
+  id_encuentro: 59
+  codigo_cie10: S79.9
+  descripcion: Traumatismo de cadera y muslo, con sospecha de fractura proximal de fémur
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-28 20:36:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[77]
+  id_diagnostico: 77
+  id_encuentro: 60
+  codigo_cie10: S69.9
+  descripcion: Traumatismo de mano y dedo, con sospecha de fractura
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-28 19:36:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[78]
+  id_diagnostico: 78
+  id_encuentro: 61
+  codigo_cie10: J18.9
+  descripcion: Neumonía, organismo no especificado
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-28 18:36:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[79]
+  id_diagnostico: 79
+  id_encuentro: 62
+  codigo_cie10: R05.9
+  descripcion: Tos no especificada con síntomas respiratorios asociados
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-28 17:36:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[80]
+  id_diagnostico: 80
+  id_encuentro: 63
+  codigo_cie10: S39.9
+  descripcion: Traumatismo de región lumbar, con sospecha de lesión ósea
+  tipo: principal
+  estado_clinico: active
+  fecha_diagnostico: 2026-09-28 16:36:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: encuentros | TOTAL: 53
+TABLA: encuentros | TOTAL: 63
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -3224,8 +3900,336 @@ TABLA: encuentros | TOTAL: 53
   deleted_at: -
   deleted_by: -
 
+[54]
+  id_encuentro: 54
+  id_paciente: 1200001001
+  fecha_hora_ingreso: 2026-09-29 01:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Caída con dolor intenso y deformidad en muñeca derecha
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 3
+  fecha_hora_triage: 2026-09-29 01:16:00+00:00
+  dolor_escala: 8
+  observaciones_triage: Clasificación clínica inicial realizada por el profesional.
+  clasificado_por: 1006713773
+  clasificacion_automatica: False
+  medico_responsable: 1006713773
+  creado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[55]
+  id_encuentro: 55
+  id_paciente: 1200001002
+  fecha_hora_ingreso: 2026-09-29 00:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Trauma de tobillo izquierdo con edema e incapacidad para apoyar
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 3
+  fecha_hora_triage: 2026-09-29 00:16:00+00:00
+  dolor_escala: 9
+  observaciones_triage: Clasificación clínica inicial realizada por el profesional.
+  clasificado_por: 1073827621
+  clasificacion_automatica: False
+  medico_responsable: 1073827621
+  creado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[56]
+  id_encuentro: 56
+  id_paciente: 1200001003
+  fecha_hora_ingreso: 2026-09-28 23:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Golpe directo en tórax con dolor al respirar
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 2
+  fecha_hora_triage: 2026-09-28 23:16:00+00:00
+  dolor_escala: 8
+  observaciones_triage: Clasificación clínica inicial realizada por el profesional.
+  clasificado_por: 1059917677
+  clasificacion_automatica: False
+  medico_responsable: 1059917677
+  creado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[57]
+  id_encuentro: 57
+  id_paciente: 1200001004
+  fecha_hora_ingreso: 2026-09-28 22:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Dolor y limitación funcional de hombro después de caída
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 3
+  fecha_hora_triage: 2026-09-28 22:16:00+00:00
+  dolor_escala: 7
+  observaciones_triage: Clasificación clínica inicial realizada por el profesional.
+  clasificado_por: 1197694986
+  clasificacion_automatica: False
+  medico_responsable: 1197694986
+  creado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[58]
+  id_encuentro: 58
+  id_paciente: 1200001005
+  fecha_hora_ingreso: 2026-09-28 21:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Caída sobre rodilla con edema, dolor e imposibilidad para caminar
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 3
+  fecha_hora_triage: 2026-09-29 02:48:09.108417+00:00
+  dolor_escala: 7
+  observaciones_triage: -
+  clasificado_por: 1006713773
+  clasificacion_automatica: False
+  medico_responsable: 1006713773
+  creado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: 2026-09-29 02:48:09.108417+00:00
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[59]
+  id_encuentro: 59
+  id_paciente: 1200001006
+  fecha_hora_ingreso: 2026-09-28 20:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Dolor intenso en cadera después de caída, no puede ponerse de pie
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 2
+  fecha_hora_triage: 2026-09-28 20:16:00+00:00
+  dolor_escala: 10
+  observaciones_triage: Clasificación clínica inicial realizada por el profesional.
+  clasificado_por: 1073827621
+  clasificacion_automatica: False
+  medico_responsable: 1073827621
+  creado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[60]
+  id_encuentro: 60
+  id_paciente: 1200001007
+  fecha_hora_ingreso: 2026-09-28 19:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Golpe en mano derecha durante actividad deportiva con dolor en quinto dedo
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 4
+  fecha_hora_triage: 2026-09-28 19:16:00+00:00
+  dolor_escala: 6
+  observaciones_triage: Clasificación clínica inicial realizada por el profesional.
+  clasificado_por: 1059917677
+  clasificacion_automatica: False
+  medico_responsable: 1059917677
+  creado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[61]
+  id_encuentro: 61
+  id_paciente: 1200001008
+  fecha_hora_ingreso: 2026-09-28 18:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Fiebre, tos productiva y dificultad respiratoria
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 2
+  fecha_hora_triage: 2026-09-28 18:16:00+00:00
+  dolor_escala: 3
+  observaciones_triage: Clasificación clínica inicial realizada por el profesional.
+  clasificado_por: 1197694986
+  clasificacion_automatica: False
+  medico_responsable: 1197694986
+  creado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[62]
+  id_encuentro: 62
+  id_paciente: 1200001009
+  fecha_hora_ingreso: 2026-09-28 17:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Tos persistente, dolor torácico y disnea de esfuerzo
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 3
+  fecha_hora_triage: 2026-09-28 17:16:00+00:00
+  dolor_escala: 5
+  observaciones_triage: Clasificación clínica inicial realizada por el profesional.
+  clasificado_por: 1006713773
+  clasificacion_automatica: False
+  medico_responsable: 1006713773
+  creado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[63]
+  id_encuentro: 63
+  id_paciente: 1200001010
+  fecha_hora_ingreso: 2026-09-28 16:08:00+00:00
+  fecha_hora_fin: -
+  tipo_encuentro: urgencias
+  servicio: URGENCIAS
+  estado: en_atencion
+  motivo_consulta: Caída desde altura baja con dolor lumbar intenso localizado
+  observaciones_generales: Paciente valorado en urgencias. Se solicita estudio radiográfico según hallazgos clínicos.
+  nivel_triage: 3
+  fecha_hora_triage: 2026-09-28 16:16:00+00:00
+  dolor_escala: 8
+  observaciones_triage: Clasificación clínica inicial realizada por el profesional.
+  clasificado_por: 1073827621
+  clasificacion_automatica: False
+  medico_responsable: 1073827621
+  creado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: estudios_imagenes | TOTAL: 1
+TABLA: especialidades | TOTAL: 12
+--------------------------------------------------------------------------------------------------------------
+
+[1]
+  id_especialidad: 1
+  nombre: Medicina de Urgencias y Emergencias
+  descripcion: Atención inicial, reanimación y clasificación de riesgo vital inmediato
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[2]
+  id_especialidad: 2
+  nombre: Medicina General
+  descripcion: Valoración inicial y atención de patologías agudas de baja y mediana complejidad
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[3]
+  id_especialidad: 3
+  nombre: Medicina Interna
+  descripcion: Evaluación de patologías médicas complejas no quirúrgicas y descompensaciones crónicas
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[4]
+  id_especialidad: 4
+  nombre: Pediatría
+  descripcion: Atención de urgencias en lactantes, niños y adolescentes
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[5]
+  id_especialidad: 5
+  nombre: Ginecología y Obstetricia
+  descripcion: Atención de emergencias gestacionales, parto y urgencias ginecológicas
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[6]
+  id_especialidad: 6
+  nombre: Cirugía General
+  descripcion: Valoración de abdomen agudo y patologías de resolución quirúrgica urgente
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[7]
+  id_especialidad: 7
+  nombre: Traumatología y Ortopedia
+  descripcion: Atención de fracturas, luxaciones, heridas complejas y politraumatismos
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[8]
+  id_especialidad: 8
+  nombre: Cardiología
+  descripcion: Manejo de dolor torácico, síndrome coronario agudo y arritmias severas
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[9]
+  id_especialidad: 9
+  nombre: Neurología
+  descripcion: Evaluación de eventos cerebrovasculares agudos (Código ACV) y déficits neurológicos
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[10]
+  id_especialidad: 10
+  nombre: Psiquiatría
+  descripcion: Atención de crisis de salud mental, agitación psicomotora y riesgo de autolesión
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[11]
+  id_especialidad: 11
+  nombre: Medicina Intensiva
+  descripcion: Manejo e ingreso de pacientes en estado crítico que requieren soporte vital en UCI
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+[12]
+  id_especialidad: 12
+  nombre: Toxicología Clínica
+  descripcion: Atención de intoxicaciones agudas, sobredosis de sustancias o envenenamientos
+  activo: True
+  created_at: 2026-10-03 00:43:46.723779+00:00
+
+--------------------------------------------------------------------------------------------------------------
+TABLA: estudios_imagenes | TOTAL: 2
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -3245,8 +4249,25 @@ TABLA: estudios_imagenes | TOTAL: 1
   deleted_at: -
   deleted_by: -
 
+[2]
+  id_estudio: 2
+  id_paciente: 1200001005
+  id_encuentro: 58
+  id_examen: 61
+  orthanc_study_id: e48db37f-7251ae80-5e617ccf-c324eb76-6ea91411
+  study_instance_uid: 1.3.12.2.1107.5.1.4.90848.30000019112305322722000000028
+  modalidad: CT
+  descripcion: Estudio de imagen
+  fecha_estudio: 1641-11-23 13:27:47+00:00
+  creado_por: 1006713773
+  created_at: 2026-09-29 02:41:40.798016+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: examenes | TOTAL: 56
+TABLA: examenes | TOTAL: 66
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -4308,6 +5329,196 @@ TABLA: examenes | TOTAL: 56
   solicitado_por: 1171644825
   registrado_resultado_por: -
   created_at: 2026-09-27 20:01:23.763607+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[57]
+  id_examen: 57
+  id_encuentro: 54
+  codigo_loinc: -
+  nombre: Radiografía de muñeca derecha
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-29 01:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1006713773
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[58]
+  id_examen: 58
+  id_encuentro: 55
+  codigo_loinc: -
+  nombre: Radiografía de tobillo izquierdo
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-29 00:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1073827621
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[59]
+  id_examen: 59
+  id_encuentro: 56
+  codigo_loinc: -
+  nombre: Radiografía de tórax
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-28 23:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1059917677
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[60]
+  id_examen: 60
+  id_encuentro: 57
+  codigo_loinc: -
+  nombre: Radiografía de hombro derecho
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-28 22:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1197694986
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[61]
+  id_examen: 61
+  id_encuentro: 58
+  codigo_loinc: -
+  nombre: Radiografía de rodilla izquierda
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-28 21:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1006713773
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[62]
+  id_examen: 62
+  id_encuentro: 59
+  codigo_loinc: -
+  nombre: Radiografía de pelvis y cadera
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-28 20:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1073827621
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[63]
+  id_examen: 63
+  id_encuentro: 60
+  codigo_loinc: -
+  nombre: Radiografía de mano derecha
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-28 19:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1059917677
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[64]
+  id_examen: 64
+  id_encuentro: 61
+  codigo_loinc: -
+  nombre: Radiografía de tórax
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-28 18:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1197694986
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[65]
+  id_examen: 65
+  id_encuentro: 62
+  codigo_loinc: -
+  nombre: Radiografía de tórax
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-28 17:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1006713773
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[66]
+  id_examen: 66
+  id_encuentro: 63
+  codigo_loinc: -
+  nombre: Radiografía de columna lumbar
+  categoria: imagenologia
+  estado: active
+  resultado: -
+  conclusion: -
+  fecha_solicitud: 2026-09-28 16:46:00+00:00
+  fecha_resultado: -
+  solicitado_por: 1073827621
+  registrado_resultado_por: -
+  created_at: 2026-09-29 02:08:00.935899+00:00
   updated_at: -
   is_deleted: False
   deleted_at: -
@@ -7432,7 +8643,7 @@ TABLA: medicamentos | TOTAL: 12
   is_deleted: False
 
 --------------------------------------------------------------------------------------------------------------
-TABLA: notas_clinicas | TOTAL: 99
+TABLA: notas_clinicas | TOTAL: 109
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -8722,8 +9933,138 @@ TABLA: notas_clinicas | TOTAL: 99
   deleted_at: -
   deleted_by: -
 
+[100]
+  id_nota: 100
+  id_encuentro: 54
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Caída con dolor intenso y deformidad en muñeca derecha. Se solicita Radiografía de muñeca derecha para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-29 01:36:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[101]
+  id_nota: 101
+  id_encuentro: 55
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Trauma de tobillo izquierdo con edema e incapacidad para apoyar. Se solicita Radiografía de tobillo izquierdo para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-29 00:36:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[102]
+  id_nota: 102
+  id_encuentro: 56
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Golpe directo en tórax con dolor al respirar. Se solicita Radiografía de tórax para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-28 23:36:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[103]
+  id_nota: 103
+  id_encuentro: 57
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Dolor y limitación funcional de hombro después de caída. Se solicita Radiografía de hombro derecho para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-28 22:36:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[104]
+  id_nota: 104
+  id_encuentro: 58
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Caída sobre rodilla con edema, dolor e imposibilidad para caminar. Se solicita Radiografía de rodilla izquierda para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-28 21:36:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[105]
+  id_nota: 105
+  id_encuentro: 59
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Dolor intenso en cadera después de caída, no puede ponerse de pie. Se solicita Radiografía de pelvis y cadera para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-28 20:36:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[106]
+  id_nota: 106
+  id_encuentro: 60
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Golpe en mano derecha durante actividad deportiva con dolor en quinto dedo. Se solicita Radiografía de mano derecha para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-28 19:36:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[107]
+  id_nota: 107
+  id_encuentro: 61
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Fiebre, tos productiva y dificultad respiratoria. Se solicita Radiografía de tórax para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-28 18:36:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[108]
+  id_nota: 108
+  id_encuentro: 62
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Tos persistente, dolor torácico y disnea de esfuerzo. Se solicita Radiografía de tórax para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-28 17:36:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[109]
+  id_nota: 109
+  id_encuentro: 63
+  tipo_nota: valoracion
+  contenido: Valoración en urgencias por: Caída desde altura baja con dolor lumbar intenso localizado. Se solicita Radiografía de columna lumbar para complementar la evaluación. Pendiente carga y revisión del estudio de imagen.
+  fecha_hora: 2026-09-28 16:36:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: observaciones | TOTAL: 318
+TABLA: observaciones | TOTAL: 368
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -14132,8 +15473,858 @@ TABLA: observaciones | TOTAL: 318
   deleted_at: -
   deleted_by: -
 
+[319]
+  id_observacion: 319
+  id_encuentro: 54
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 36.7000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-29 01:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[320]
+  id_observacion: 320
+  id_encuentro: 54
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 96.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-29 01:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[321]
+  id_observacion: 321
+  id_encuentro: 54
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 98.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-29 01:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[322]
+  id_observacion: 322
+  id_encuentro: 54
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 126.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-29 01:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[323]
+  id_observacion: 323
+  id_encuentro: 54
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 78.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-29 01:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[324]
+  id_observacion: 324
+  id_encuentro: 55
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 36.6000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-29 00:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[325]
+  id_observacion: 325
+  id_encuentro: 55
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 102.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-29 00:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[326]
+  id_observacion: 326
+  id_encuentro: 55
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 99.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-29 00:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[327]
+  id_observacion: 327
+  id_encuentro: 55
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 119.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-29 00:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[328]
+  id_observacion: 328
+  id_encuentro: 55
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 74.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-29 00:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[329]
+  id_observacion: 329
+  id_encuentro: 56
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 36.8000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-28 23:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[330]
+  id_observacion: 330
+  id_encuentro: 56
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 108.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-28 23:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[331]
+  id_observacion: 331
+  id_encuentro: 56
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 94.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-28 23:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[332]
+  id_observacion: 332
+  id_encuentro: 56
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 132.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 23:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[333]
+  id_observacion: 333
+  id_encuentro: 56
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 84.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 23:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[334]
+  id_observacion: 334
+  id_encuentro: 57
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 36.5000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-28 22:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[335]
+  id_observacion: 335
+  id_encuentro: 57
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 92.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-28 22:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[336]
+  id_observacion: 336
+  id_encuentro: 57
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 99.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-28 22:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[337]
+  id_observacion: 337
+  id_encuentro: 57
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 116.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 22:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[338]
+  id_observacion: 338
+  id_encuentro: 57
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 72.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 22:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[339]
+  id_observacion: 339
+  id_encuentro: 58
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 36.9000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-28 21:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[340]
+  id_observacion: 340
+  id_encuentro: 58
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 98.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-28 21:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[341]
+  id_observacion: 341
+  id_encuentro: 58
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 97.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-28 21:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[342]
+  id_observacion: 342
+  id_encuentro: 58
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 148.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 21:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[343]
+  id_observacion: 343
+  id_encuentro: 58
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 91.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 21:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[344]
+  id_observacion: 344
+  id_encuentro: 59
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 36.4000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-28 20:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[345]
+  id_observacion: 345
+  id_encuentro: 59
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 110.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-28 20:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[346]
+  id_observacion: 346
+  id_encuentro: 59
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 96.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-28 20:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[347]
+  id_observacion: 347
+  id_encuentro: 59
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 154.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 20:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[348]
+  id_observacion: 348
+  id_encuentro: 59
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 88.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 20:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[349]
+  id_observacion: 349
+  id_encuentro: 60
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 36.6000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-28 19:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[350]
+  id_observacion: 350
+  id_encuentro: 60
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 84.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-28 19:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[351]
+  id_observacion: 351
+  id_encuentro: 60
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 99.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-28 19:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[352]
+  id_observacion: 352
+  id_encuentro: 60
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 113.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 19:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[353]
+  id_observacion: 353
+  id_encuentro: 60
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 69.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 19:16:00+00:00
+  registrado_por: 1059917677
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[354]
+  id_observacion: 354
+  id_encuentro: 61
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 38.7000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-28 18:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[355]
+  id_observacion: 355
+  id_encuentro: 61
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 112.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-28 18:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[356]
+  id_observacion: 356
+  id_encuentro: 61
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 91.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-28 18:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[357]
+  id_observacion: 357
+  id_encuentro: 61
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 108.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 18:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[358]
+  id_observacion: 358
+  id_encuentro: 61
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 67.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 18:16:00+00:00
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[359]
+  id_observacion: 359
+  id_encuentro: 62
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 37.5000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-28 17:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[360]
+  id_observacion: 360
+  id_encuentro: 62
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 96.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-28 17:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[361]
+  id_observacion: 361
+  id_encuentro: 62
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 93.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-28 17:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[362]
+  id_observacion: 362
+  id_encuentro: 62
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 138.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 17:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[363]
+  id_observacion: 363
+  id_encuentro: 62
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 82.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 17:16:00+00:00
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[364]
+  id_observacion: 364
+  id_encuentro: 63
+  tipo_observacion: signo_vital
+  codigo_loinc: 8310-5
+  nombre: Temperatura corporal
+  valor_numerico: 36.7000
+  valor_texto: -
+  unidad: Cel
+  fecha_hora_observacion: 2026-09-28 16:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[365]
+  id_observacion: 365
+  id_encuentro: 63
+  tipo_observacion: signo_vital
+  codigo_loinc: 8867-4
+  nombre: Frecuencia cardiaca
+  valor_numerico: 94.0000
+  valor_texto: -
+  unidad: /min
+  fecha_hora_observacion: 2026-09-28 16:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[366]
+  id_observacion: 366
+  id_encuentro: 63
+  tipo_observacion: signo_vital
+  codigo_loinc: 59408-5
+  nombre: Saturación de oxígeno
+  valor_numerico: 98.0000
+  valor_texto: -
+  unidad: %
+  fecha_hora_observacion: 2026-09-28 16:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[367]
+  id_observacion: 367
+  id_encuentro: 63
+  tipo_observacion: signo_vital
+  codigo_loinc: 8480-6
+  nombre: Presión arterial sistólica
+  valor_numerico: 124.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 16:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[368]
+  id_observacion: 368
+  id_encuentro: 63
+  tipo_observacion: signo_vital
+  codigo_loinc: 8462-4
+  nombre: Presión arterial diastólica
+  valor_numerico: 76.0000
+  valor_texto: -
+  unidad: mm[Hg]
+  fecha_hora_observacion: 2026-09-28 16:16:00+00:00
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: pacientes | TOTAL: 25
+TABLA: pacientes | TOTAL: 35
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -14581,6 +16772,186 @@ TABLA: pacientes | TOTAL: 25
   municipio_residencia: Santa Bárbara
   zona_residencia: rural_dispersa
   created_at: 2026-09-26 16:15:08.804344+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[26]
+  numero_documento_paciente: 1200001001
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Mateo
+  apellidos: Riascos Mina
+  fecha_nacimiento: 1998-05-14
+  genero_fhir: male
+  telefono: +57 310 555 1101
+  direccion: Barrio Ciudadela
+  municipio_residencia: Tumaco
+  zona_residencia: urbana
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[27]
+  numero_documento_paciente: 1200001002
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Valentina
+  apellidos: Caicedo Angulo
+  fecha_nacimiento: 2002-11-02
+  genero_fhir: female
+  telefono: +57 310 555 1102
+  direccion: Vereda Chilví
+  municipio_residencia: Tumaco
+  zona_residencia: rural_dispersa
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[28]
+  numero_documento_paciente: 1200001003
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Samuel
+  apellidos: Quiñones Castillo
+  fecha_nacimiento: 1987-03-21
+  genero_fhir: male
+  telefono: +57 310 555 1103
+  direccion: Barrio Obrero
+  municipio_residencia: Tumaco
+  zona_residencia: urbana
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[29]
+  numero_documento_paciente: 1200001004
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Isabella
+  apellidos: Preciado Mosquera
+  fecha_nacimiento: 1994-08-09
+  genero_fhir: female
+  telefono: +57 310 555 1104
+  direccion: Barrio Miramar
+  municipio_residencia: Tumaco
+  zona_residencia: urbana
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[30]
+  numero_documento_paciente: 1200001005
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Daniel
+  apellidos: Valencia Cortés
+  fecha_nacimiento: 1971-12-17
+  genero_fhir: male
+  telefono: +57 310 555 1105
+  direccion: Corregimiento La Guayacana
+  municipio_residencia: Tumaco
+  zona_residencia: rural_dispersa
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[31]
+  numero_documento_paciente: 1200001006
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Mariana
+  apellidos: Grueso Estupiñán
+  fecha_nacimiento: 1949-04-26
+  genero_fhir: female
+  telefono: +57 310 555 1106
+  direccion: Barrio Nuevo Milenio
+  municipio_residencia: Tumaco
+  zona_residencia: urbana
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[32]
+  numero_documento_paciente: 1200001007
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Nicolás
+  apellidos: Cabezas Hurtado
+  fecha_nacimiento: 2005-01-30
+  genero_fhir: male
+  telefono: +57 310 555 1107
+  direccion: Barrio Panamá
+  municipio_residencia: Tumaco
+  zona_residencia: urbana
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[33]
+  numero_documento_paciente: 1200001008
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Laura
+  apellidos: Sinisterra Perlaza
+  fecha_nacimiento: 1983-07-11
+  genero_fhir: female
+  telefono: +57 310 555 1108
+  direccion: Vereda Inguapí del Carmen
+  municipio_residencia: Tumaco
+  zona_residencia: rural_dispersa
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[34]
+  numero_documento_paciente: 1200001009
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Andrés
+  apellidos: Ortiz Banguera
+  fecha_nacimiento: 1966-10-05
+  genero_fhir: male
+  telefono: +57 310 555 1109
+  direccion: Barrio El Morro
+  municipio_residencia: Tumaco
+  zona_residencia: urbana
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[35]
+  numero_documento_paciente: 1200001010
+  id_usuario: -
+  tipo_documento: CC
+  nombres: Sofía
+  apellidos: Montaño Quiñones
+  fecha_nacimiento: 1991-02-18
+  genero_fhir: female
+  telefono: +57 310 555 1110
+  direccion: Vereda Bucheli
+  municipio_residencia: Tumaco
+  zona_residencia: rural_dispersa
+  created_at: 2026-09-29 02:08:00.935899+00:00
   updated_at: -
   is_deleted: False
   deleted_at: -
@@ -15696,7 +18067,29 @@ TABLA: prescripciones | TOTAL: 65
   deleted_by: -
 
 --------------------------------------------------------------------------------------------------------------
-TABLA: reportes_previos | TOTAL: 8
+TABLA: remisiones | TOTAL: 1
+--------------------------------------------------------------------------------------------------------------
+
+[1]
+  id_remision: 1
+  id_paciente: 1200001005
+  id_encuentro: 58
+  medico_remitente: 1006713773
+  especialista_destino: 129345873
+  id_especialidad: 7
+  motivo: Rodilla fracturada
+  estado: aceptada
+  fecha_remision: 2026-10-03 01:21:42.081843+00:00
+  fecha_respuesta: 2026-10-03 01:24:13.089220+00:00
+  observacion_respuesta: Remisión aceptada para valoración especializada
+  created_at: 2026-10-03 01:21:42.081843+00:00
+  updated_at: 2026-10-03 01:24:13.089220+00:00
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+--------------------------------------------------------------------------------------------------------------
+TABLA: reportes_previos | TOTAL: 12
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -15867,8 +18260,92 @@ TABLA: reportes_previos | TOTAL: 8
   deleted_at: -
   deleted_by: -
 
+[9]
+  id_reporte: 9
+  id_paciente: 1200001002
+  fecha_hora_reporte: 2026-09-28 22:08:00+00:00
+  sintoma_principal: Dolor y edema en tobillo tras caída
+  inicio_sintomas: 2026-09-28 18:08:00+00:00
+  evolucion: Dolor progresivo e imposibilidad para apoyar el pie
+  signos_alarma_presentes: False
+  descripcion_signos_alarma: -
+  ubicacion_aproximada: Vereda Chilví
+  municipio_origen: Tumaco
+  distancia_aproximada_km: 18.50
+  tiempo_desplazamiento_min: 45
+  orientacion_inicial: Evitar apoyo del miembro y acudir a urgencias para valoración.
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[10]
+  id_reporte: 10
+  id_paciente: 1200001005
+  fecha_hora_reporte: 2026-09-28 19:08:00+00:00
+  sintoma_principal: Dolor intenso de rodilla después de caída
+  inicio_sintomas: 2026-09-28 15:08:00+00:00
+  evolucion: Aumento del edema y dificultad para movilizar la pierna
+  signos_alarma_presentes: False
+  descripcion_signos_alarma: -
+  ubicacion_aproximada: Corregimiento La Guayacana
+  municipio_origen: Tumaco
+  distancia_aproximada_km: 82.00
+  tiempo_desplazamiento_min: 110
+  orientacion_inicial: Inmovilizar el miembro y acudir a urgencias.
+  registrado_por: 1006713773
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[11]
+  id_reporte: 11
+  id_paciente: 1200001008
+  fecha_hora_reporte: 2026-09-28 16:08:00+00:00
+  sintoma_principal: Tos, fiebre y sensación de falta de aire
+  inicio_sintomas: 2026-09-28 12:08:00+00:00
+  evolucion: Síntomas respiratorios progresivos durante tres días
+  signos_alarma_presentes: True
+  descripcion_signos_alarma: Dificultad respiratoria y fiebre persistente
+  ubicacion_aproximada: Vereda Inguapí del Carmen
+  municipio_origen: Tumaco
+  distancia_aproximada_km: 32.00
+  tiempo_desplazamiento_min: 75
+  orientacion_inicial: Acudir a urgencias por dificultad respiratoria.
+  registrado_por: 1197694986
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[12]
+  id_reporte: 12
+  id_paciente: 1200001010
+  fecha_hora_reporte: 2026-09-28 14:08:00+00:00
+  sintoma_principal: Dolor lumbar posterior a caída
+  inicio_sintomas: 2026-09-28 10:08:00+00:00
+  evolucion: Dolor persistente que aumenta con el movimiento
+  signos_alarma_presentes: False
+  descripcion_signos_alarma: -
+  ubicacion_aproximada: Vereda Bucheli
+  municipio_origen: Tumaco
+  distancia_aproximada_km: 15.00
+  tiempo_desplazamiento_min: 40
+  orientacion_inicial: Evitar esfuerzos y acudir a valoración en urgencias.
+  registrado_por: 1073827621
+  created_at: 2026-09-29 02:08:00.935899+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: roles | TOTAL: 4
+TABLA: roles | TOTAL: 5
 --------------------------------------------------------------------------------------------------------------
 
 [1]
@@ -15887,8 +18364,8 @@ TABLA: roles | TOTAL: 4
 
 [3]
   id_rol: 3
-  nombre: Administrativo
-  descripcion: Gestión exclusiva de facturación y datos administrativos
+  nombre: Contable
+  descripcion: Gestión de procesos contables y facturación, sin acceso a datos clínicos
   created_at: 2026-09-26 16:11:38.195411+00:00
   is_active: True
 
@@ -15899,11 +18376,70 @@ TABLA: roles | TOTAL: 4
   created_at: 2026-09-26 16:11:38.195411+00:00
   is_active: True
 
+[5]
+  id_rol: 9
+  nombre: Especialista
+  descripcion: Recibe remisiones y atiende únicamente a los pacientes que le fueron remitidos
+  created_at: 2026-10-03 00:43:46.723779+00:00
+  is_active: True
+
 --------------------------------------------------------------------------------------------------------------
-TABLA: usuarios | TOTAL: 27
+TABLA: usuario_especialidades | TOTAL: 2
 --------------------------------------------------------------------------------------------------------------
 
 [1]
+  numero_documento_usuario: 66749669
+  id_especialidad: 3
+  created_at: 2026-10-03 01:10:55.228558+00:00
+
+[2]
+  numero_documento_usuario: 129345873
+  id_especialidad: 7
+  created_at: 2026-10-03 01:19:16.759490+00:00
+
+--------------------------------------------------------------------------------------------------------------
+TABLA: usuarios | TOTAL: 29
+--------------------------------------------------------------------------------------------------------------
+
+[1]
+  numero_documento_usuario: 66749669
+  id_rol: 9
+  username: m.interna1.66749669
+  password_hash: [OCULTO]
+  nombres: Yenny
+  apellidos: Paredes
+  email: yenparedes@hotmail.com
+  telefono: 3155387649
+  estado: True
+  intentos_fallidos: 0
+  bloqueado: False
+  bloqueado_at: -
+  created_at: 2026-10-03 01:10:55.228558+00:00
+  updated_at: -
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[2]
+  numero_documento_usuario: 129345873
+  id_rol: 9
+  username: m.ortopedia.129345873
+  password_hash: [OCULTO]
+  nombres: Oscar
+  apellidos: Rosso
+  email: oscarrosso@gmail.com
+  telefono: 3128935673
+  estado: True
+  intentos_fallidos: 0
+  bloqueado: False
+  bloqueado_at: -
+  created_at: 2026-10-03 01:19:16.759490+00:00
+  updated_at: 2026-10-03 01:24:02.598459+00:00
+  is_deleted: False
+  deleted_at: -
+  deleted_by: -
+
+[3]
   numero_documento_usuario: 1006713773
   id_rol: 2
   username: medico1.1006713773
@@ -15917,12 +18453,12 @@ TABLA: usuarios | TOTAL: 27
   bloqueado: False
   bloqueado_at: -
   created_at: 2026-09-26 16:15:06.616723+00:00
-  updated_at: 2026-09-27 15:34:30.465409+00:00
+  updated_at: 2026-10-03 01:24:57.917872+00:00
   is_deleted: False
   deleted_at: -
   deleted_by: -
 
-[2]
+[4]
   numero_documento_usuario: 1028860156
   id_rol: 1
   username: admin.1028860156
@@ -15941,7 +18477,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[3]
+[5]
   numero_documento_usuario: 1032481817
   id_rol: 4
   username: paciente.1032481817
@@ -15960,7 +18496,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[4]
+[6]
   numero_documento_usuario: 1041028029
   id_rol: 4
   username: paciente.1041028029
@@ -15979,7 +18515,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[5]
+[7]
   numero_documento_usuario: 1045939680
   id_rol: 4
   username: paciente.1045939680
@@ -15998,7 +18534,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[6]
+[8]
   numero_documento_usuario: 1059917677
   id_rol: 2
   username: medico3.1059917677
@@ -16017,7 +18553,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[7]
+[9]
   numero_documento_usuario: 1071871145
   id_rol: 4
   username: paciente.1071871145
@@ -16036,7 +18572,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[8]
+[10]
   numero_documento_usuario: 1073827621
   id_rol: 2
   username: medico2.1073827621
@@ -16055,7 +18591,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[9]
+[11]
   numero_documento_usuario: 1096362792
   id_rol: 4
   username: paciente.1096362792
@@ -16074,7 +18610,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[10]
+[12]
   numero_documento_usuario: 1097933892
   id_rol: 4
   username: paciente.1097933892
@@ -16093,7 +18629,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[11]
+[13]
   numero_documento_usuario: 1109269327
   id_rol: 4
   username: paciente.1109269327
@@ -16112,7 +18648,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[12]
+[14]
   numero_documento_usuario: 1136279761
   id_rol: 4
   username: paciente.1136279761
@@ -16131,7 +18667,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[13]
+[15]
   numero_documento_usuario: 1144788454
   id_rol: 4
   username: paciente.1144788454
@@ -16150,7 +18686,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[14]
+[16]
   numero_documento_usuario: 1146395715
   id_rol: 3
   username: administrativo2.1146395715
@@ -16169,7 +18705,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[15]
+[17]
   numero_documento_usuario: 1148187279
   id_rol: 4
   username: paciente.1148187279
@@ -16188,7 +18724,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[16]
+[18]
   numero_documento_usuario: 1156640927
   id_rol: 4
   username: paciente.1156640927
@@ -16207,7 +18743,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[17]
+[19]
   numero_documento_usuario: 1158509126
   id_rol: 4
   username: paciente.1158509126
@@ -16226,7 +18762,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[18]
+[20]
   numero_documento_usuario: 1171644825
   id_rol: 1
   username: admin.1171644825
@@ -16240,12 +18776,12 @@ TABLA: usuarios | TOTAL: 27
   bloqueado: False
   bloqueado_at: -
   created_at: 2026-09-26 16:15:06.616723+00:00
-  updated_at: 2026-09-28 01:10:20.952188+00:00
+  updated_at: 2026-10-03 00:58:32.990441+00:00
   is_deleted: False
   deleted_at: -
   deleted_by: -
 
-[19]
+[21]
   numero_documento_usuario: 1172564235
   id_rol: 4
   username: paciente.1172564235
@@ -16264,7 +18800,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[20]
+[22]
   numero_documento_usuario: 1177100512
   id_rol: 4
   username: paciente.1177100512
@@ -16283,7 +18819,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[21]
+[23]
   numero_documento_usuario: 1177506521
   id_rol: 4
   username: paciente.1177506521
@@ -16302,7 +18838,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[22]
+[24]
   numero_documento_usuario: 1179577354
   id_rol: 4
   username: paciente.1179577354
@@ -16321,7 +18857,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[23]
+[25]
   numero_documento_usuario: 1181650134
   id_rol: 3
   username: administrativo1.1181650134
@@ -16335,12 +18871,12 @@ TABLA: usuarios | TOTAL: 27
   bloqueado: False
   bloqueado_at: -
   created_at: 2026-09-26 16:15:06.616723+00:00
-  updated_at: 2026-09-28 01:08:44.803644+00:00
+  updated_at: 2026-10-03 01:56:36.456672+00:00
   is_deleted: False
   deleted_at: -
   deleted_by: -
 
-[24]
+[26]
   numero_documento_usuario: 1187405367
   id_rol: 4
   username: paciente.1187405367
@@ -16359,7 +18895,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[25]
+[27]
   numero_documento_usuario: 1190009606
   id_rol: 4
   username: paciente.1190009606
@@ -16378,7 +18914,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[26]
+[28]
   numero_documento_usuario: 1195939378
   id_rol: 4
   username: paciente.1195939378
@@ -16397,7 +18933,7 @@ TABLA: usuarios | TOTAL: 27
   deleted_at: -
   deleted_by: -
 
-[27]
+[29]
   numero_documento_usuario: 1197694986
   id_rol: 2
   username: medico4.1197694986
@@ -16980,3 +19516,183 @@ REPORTES PREVIOS (1)
 
 EXÁMENES Y PACS (1)
   - examen=48 | encuentro=45 | nombre=Glucosa | categoria=laboratorio | estado=active | PACS=NO | modalidad=- | estudio_pacs=-
+
+##############################################################################################################
+PACIENTE: 1200001001 - Mateo Riascos Mina
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=54 | motivo=Caída con dolor intenso y deformidad en muñeca derecha | triage=3 | estado=en_atencion | ingreso=2026-09-29 01:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=71 | encuentro=54 | CIE10=S69.9 | descripcion=Traumatismo de muñeca y mano, con sospecha de fractura | tipo=principal | estado=active
+
+ANTECEDENTES (0)
+
+REPORTES PREVIOS (0)
+
+EXÁMENES Y PACS (1)
+  - examen=57 | encuentro=54 | nombre=Radiografía de muñeca derecha | categoria=imagenologia | estado=active | PACS=NO | modalidad=- | estudio_pacs=-
+
+##############################################################################################################
+PACIENTE: 1200001002 - Valentina Caicedo Angulo
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=55 | motivo=Trauma de tobillo izquierdo con edema e incapacidad para apoyar | triage=3 | estado=en_atencion | ingreso=2026-09-29 00:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=72 | encuentro=55 | CIE10=S99.9 | descripcion=Traumatismo de tobillo y pie, con sospecha de lesión ósea | tipo=principal | estado=active
+
+ANTECEDENTES (0)
+
+REPORTES PREVIOS (1)
+  - ID=9 | síntoma=Dolor y edema en tobillo tras caída | signos_alarma=False | orientacion=Evitar apoyo del miembro y acudir a urgencias para valoración.
+
+EXÁMENES Y PACS (1)
+  - examen=58 | encuentro=55 | nombre=Radiografía de tobillo izquierdo | categoria=imagenologia | estado=active | PACS=NO | modalidad=- | estudio_pacs=-
+
+##############################################################################################################
+PACIENTE: 1200001003 - Samuel Quiñones Castillo
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=56 | motivo=Golpe directo en tórax con dolor al respirar | triage=2 | estado=en_atencion | ingreso=2026-09-28 23:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=73 | encuentro=56 | CIE10=S29.9 | descripcion=Traumatismo de tórax, con sospecha de lesión costal | tipo=principal | estado=active
+
+ANTECEDENTES (1)
+  - tipo=toxico | codigo=- | descripcion=Tabaquismo activo
+
+REPORTES PREVIOS (0)
+
+EXÁMENES Y PACS (1)
+  - examen=59 | encuentro=56 | nombre=Radiografía de tórax | categoria=imagenologia | estado=active | PACS=NO | modalidad=- | estudio_pacs=-
+
+##############################################################################################################
+PACIENTE: 1200001004 - Isabella Preciado Mosquera
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=57 | motivo=Dolor y limitación funcional de hombro después de caída | triage=3 | estado=en_atencion | ingreso=2026-09-28 22:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=74 | encuentro=57 | CIE10=S49.9 | descripcion=Traumatismo de hombro y brazo, con sospecha de luxación o fractura | tipo=principal | estado=active
+
+ANTECEDENTES (0)
+
+REPORTES PREVIOS (0)
+
+EXÁMENES Y PACS (1)
+  - examen=60 | encuentro=57 | nombre=Radiografía de hombro derecho | categoria=imagenologia | estado=active | PACS=NO | modalidad=- | estudio_pacs=-
+
+##############################################################################################################
+PACIENTE: 1200001005 - Daniel Valencia Cortés
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=58 | motivo=Caída sobre rodilla con edema, dolor e imposibilidad para caminar | triage=3 | estado=en_atencion | ingreso=2026-09-28 21:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=75 | encuentro=58 | CIE10=S89.9 | descripcion=Traumatismo de pierna y rodilla, con sospecha de fractura | tipo=principal | estado=active
+
+ANTECEDENTES (1)
+  - tipo=patologico | codigo=I10 | descripcion=Hipertensión arterial diagnosticada
+
+REPORTES PREVIOS (1)
+  - ID=10 | síntoma=Dolor intenso de rodilla después de caída | signos_alarma=False | orientacion=Inmovilizar el miembro y acudir a urgencias.
+
+EXÁMENES Y PACS (1)
+  - examen=61 | encuentro=58 | nombre=Radiografía de rodilla izquierda | categoria=imagenologia | estado=active | PACS=SI | modalidad=CT | estudio_pacs=2
+
+##############################################################################################################
+PACIENTE: 1200001006 - Mariana Grueso Estupiñán
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=59 | motivo=Dolor intenso en cadera después de caída, no puede ponerse de pie | triage=2 | estado=en_atencion | ingreso=2026-09-28 20:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=76 | encuentro=59 | CIE10=S79.9 | descripcion=Traumatismo de cadera y muslo, con sospecha de fractura proximal de fémur | tipo=principal | estado=active
+
+ANTECEDENTES (2)
+  - tipo=patologico | codigo=I10 | descripcion=Hipertensión arterial diagnosticada
+  - tipo=patologico | codigo=E11 | descripcion=Diabetes mellitus tipo 2
+
+REPORTES PREVIOS (0)
+
+EXÁMENES Y PACS (1)
+  - examen=62 | encuentro=59 | nombre=Radiografía de pelvis y cadera | categoria=imagenologia | estado=active | PACS=NO | modalidad=- | estudio_pacs=-
+
+##############################################################################################################
+PACIENTE: 1200001007 - Nicolás Cabezas Hurtado
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=60 | motivo=Golpe en mano derecha durante actividad deportiva con dolor en quinto dedo | triage=4 | estado=en_atencion | ingreso=2026-09-28 19:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=77 | encuentro=60 | CIE10=S69.9 | descripcion=Traumatismo de mano y dedo, con sospecha de fractura | tipo=principal | estado=active
+
+ANTECEDENTES (0)
+
+REPORTES PREVIOS (0)
+
+EXÁMENES Y PACS (1)
+  - examen=63 | encuentro=60 | nombre=Radiografía de mano derecha | categoria=imagenologia | estado=active | PACS=NO | modalidad=- | estudio_pacs=-
+
+##############################################################################################################
+PACIENTE: 1200001008 - Laura Sinisterra Perlaza
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=61 | motivo=Fiebre, tos productiva y dificultad respiratoria | triage=2 | estado=en_atencion | ingreso=2026-09-28 18:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=78 | encuentro=61 | CIE10=J18.9 | descripcion=Neumonía, organismo no especificado | tipo=principal | estado=active
+
+ANTECEDENTES (1)
+  - tipo=patologico | codigo=J45 | descripcion=Asma
+
+REPORTES PREVIOS (1)
+  - ID=11 | síntoma=Tos, fiebre y sensación de falta de aire | signos_alarma=True | orientacion=Acudir a urgencias por dificultad respiratoria.
+
+EXÁMENES Y PACS (1)
+  - examen=64 | encuentro=61 | nombre=Radiografía de tórax | categoria=imagenologia | estado=active | PACS=NO | modalidad=- | estudio_pacs=-
+
+##############################################################################################################
+PACIENTE: 1200001009 - Andrés Ortiz Banguera
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=62 | motivo=Tos persistente, dolor torácico y disnea de esfuerzo | triage=3 | estado=en_atencion | ingreso=2026-09-28 17:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=79 | encuentro=62 | CIE10=R05.9 | descripcion=Tos no especificada con síntomas respiratorios asociados | tipo=principal | estado=active
+
+ANTECEDENTES (1)
+  - tipo=toxico | codigo=- | descripcion=Tabaquismo activo
+
+REPORTES PREVIOS (0)
+
+EXÁMENES Y PACS (1)
+  - examen=65 | encuentro=62 | nombre=Radiografía de tórax | categoria=imagenologia | estado=active | PACS=NO | modalidad=- | estudio_pacs=-
+
+##############################################################################################################
+PACIENTE: 1200001010 - Sofía Montaño Quiñones
+##############################################################################################################
+
+ENCUENTROS (1)
+  - ID=63 | motivo=Caída desde altura baja con dolor lumbar intenso localizado | triage=3 | estado=en_atencion | ingreso=2026-09-28 16:08:00+00:00
+
+DIAGNÓSTICOS / ENFERMEDADES (1)
+  - ID=80 | encuentro=63 | CIE10=S39.9 | descripcion=Traumatismo de región lumbar, con sospecha de lesión ósea | tipo=principal | estado=active
+
+ANTECEDENTES (0)
+
+REPORTES PREVIOS (1)
+  - ID=12 | síntoma=Dolor lumbar posterior a caída | signos_alarma=False | orientacion=Evitar esfuerzos y acudir a valoración en urgencias.
+
+EXÁMENES Y PACS (1)
+  - examen=66 | encuentro=63 | nombre=Radiografía de columna lumbar | categoria=imagenologia | estado=active | PACS=NO | modalidad=- | estudio_pacs=-

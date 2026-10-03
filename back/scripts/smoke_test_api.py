@@ -13,8 +13,12 @@ Qué comprueba:
 - Consulta del Patient sincronizado desde HAPI FHIR.
 - PACS/Orthanc responde mediante /pacs/estado.
 - Consulta de imágenes PACS asociadas a un paciente real.
+- Soft delete de una observación creada por un médico.
+- Verificación de que el médico no puede restaurarla.
+- Restauración por Admin y comprobación de la auditoría.
 
-No crea, edita ni elimina información clínica en la BD principal.
+La prueba de soft delete reutiliza una observación existente y la restaura al final.
+No altera sus valores clínicos. La auditoría sí conserva la evidencia de la prueba.
 La prueba FHIR puede crear o actualizar un recurso Patient dentro de HAPI FHIR.
 """
 
@@ -52,13 +56,14 @@ def mostrar(nombre: str, estado: str, detalle: str = ""):
     )
 
 
-def request(method: str, path: str, *, expected=(200,), **kwargs):
+def request(method: str, path: str, *, expected=(200,), client=None, **kwargs):
     global ok, fail
 
     url = f"{API_URL}{path}"
+    client = client or session
 
     try:
-        r = session.request(
+        r = client.request(
             method,
             url,
             timeout=25,
@@ -107,10 +112,7 @@ request(
     "/"
 )
 
-request(
-    "GET",
-    "/estado-bd"
-)
+# /estado-bd está protegido y se prueba después del login.
 
 
 # ============================================================
@@ -150,6 +152,11 @@ session.headers.update({
 request(
     "GET",
     "/auth/me"
+)
+
+request(
+    "GET",
+    "/estado-bd"
 )
 
 request(
@@ -399,10 +406,259 @@ else:
 
 
 # ============================================================
-# 6. FHIR
+# 6. SOFT DELETE / RESTAURACIÓN
 # ============================================================
 
-print("\n=== 6. FHIR ===")
+print("\n=== 6. SOFT DELETE / RESTAURACIÓN ===")
+
+# Busca automáticamente una observación activa creada por un usuario Medico.
+medicos = {
+    int(u["numero_documento_usuario"]): u
+    for u in usuarios
+    if u.get("rol") == "Medico" and not u.get("is_deleted", False)
+}
+
+prueba_soft = None
+
+for encuentro in encuentros:
+    if prueba_soft:
+        break
+
+    ide = encuentro.get("id_encuentro")
+    if not ide:
+        continue
+
+    try:
+        r_obs = session.get(
+            f"{API_URL}/encuentros/{ide}/observaciones",
+            timeout=25
+        )
+    except requests.RequestException:
+        continue
+
+    if r_obs.status_code != 200:
+        continue
+
+    try:
+        observaciones = r_obs.json()
+    except ValueError:
+        continue
+
+    for obs in observaciones:
+        autor = obs.get("registrado_por")
+        if autor is None:
+            continue
+
+        try:
+            autor = int(autor)
+        except (TypeError, ValueError):
+            continue
+
+        if autor in medicos:
+            prueba_soft = {
+                "id_encuentro": ide,
+                "id_observacion": obs.get("id_observacion"),
+                "medico": medicos[autor],
+            }
+            break
+
+if not prueba_soft:
+    warn += 1
+    mostrar(
+        "Soft delete/restauración",
+        "WARN",
+        "No se encontró una observación activa creada por un Medico"
+    )
+else:
+    id_obs = prueba_soft["id_observacion"]
+    id_enc = prueba_soft["id_encuentro"]
+    medico = prueba_soft["medico"]
+    medico_username = medico["username"]
+
+    print(
+        f"Registro seleccionado automáticamente: observación {id_obs} "
+        f"del médico {medico_username}"
+    )
+
+    medico_password = getpass.getpass(
+        f"Contraseña del Medico {medico_username} "
+        "(Enter para omitir esta prueba): "
+    )
+
+    if not medico_password:
+        warn += 1
+        mostrar(
+            "Soft delete/restauración",
+            "WARN",
+            "Prueba omitida porque no se ingresó la contraseña del Medico"
+        )
+    else:
+        medico_session = requests.Session()
+        medico_session.headers.update({"Accept": "application/json"})
+
+        r_login_medico = request(
+            "POST",
+            "/auth/login",
+            client=medico_session,
+            json={
+                "username": medico_username,
+                "password": medico_password
+            }
+        )
+
+        if r_login_medico is not None and r_login_medico.status_code == 200:
+            token_medico = r_login_medico.json().get("access_token")
+
+            if not token_medico:
+                fail += 1
+                mostrar(
+                    "Token del Medico",
+                    "FAIL",
+                    "El login no devolvió access_token"
+                )
+            else:
+                medico_session.headers.update({
+                    "Authorization": f"Bearer {token_medico}"
+                })
+
+                eliminado = False
+
+                try:
+                    r_delete = request(
+                        "DELETE",
+                        f"/observaciones/{id_obs}",
+                        client=medico_session
+                    )
+                    eliminado = (
+                        r_delete is not None
+                        and r_delete.status_code == 200
+                    )
+
+                    if eliminado:
+                        r_lista = request(
+                            "GET",
+                            f"/encuentros/{id_enc}/observaciones"
+                        )
+
+                        if r_lista is not None and r_lista.status_code == 200:
+                            ids_visibles = {
+                                x.get("id_observacion")
+                                for x in r_lista.json()
+                            }
+
+                            if id_obs not in ids_visibles:
+                                ok += 1
+                                mostrar(
+                                    "Registro oculto tras soft delete",
+                                    "OK"
+                                )
+                            else:
+                                fail += 1
+                                mostrar(
+                                    "Registro oculto tras soft delete",
+                                    "FAIL",
+                                    "La observación sigue apareciendo como activa"
+                                )
+
+                        request(
+                            "PATCH",
+                            f"/observaciones/{id_obs}/restaurar",
+                            client=medico_session,
+                            expected=(403,)
+                        )
+
+                        r_restore = request(
+                            "PATCH",
+                            f"/observaciones/{id_obs}/restaurar"
+                        )
+
+                        if r_restore is not None and r_restore.status_code == 200:
+                            eliminado = False
+
+                            r_lista = request(
+                                "GET",
+                                f"/encuentros/{id_enc}/observaciones"
+                            )
+
+                            if r_lista is not None and r_lista.status_code == 200:
+                                ids_visibles = {
+                                    x.get("id_observacion")
+                                    for x in r_lista.json()
+                                }
+
+                                if id_obs in ids_visibles:
+                                    ok += 1
+                                    mostrar(
+                                        "Registro visible tras restauración Admin",
+                                        "OK"
+                                    )
+                                else:
+                                    fail += 1
+                                    mostrar(
+                                        "Registro visible tras restauración Admin",
+                                        "FAIL"
+                                    )
+
+                        r_audit = request(
+                            "GET",
+                            f"/auditoria/observaciones/{id_obs}"
+                        )
+
+                        if r_audit is not None and r_audit.status_code == 200:
+                            acciones = {
+                                x.get("accion")
+                                for x in r_audit.json()
+                            }
+
+                            faltan = {"ELIMINAR", "RESTAURAR"} - acciones
+
+                            if not faltan:
+                                ok += 1
+                                mostrar(
+                                    "Auditoría soft delete/restauración",
+                                    "OK"
+                                )
+                            else:
+                                fail += 1
+                                mostrar(
+                                    "Auditoría soft delete/restauración",
+                                    "FAIL",
+                                    "Faltan acciones: " + ", ".join(sorted(faltan))
+                                )
+
+                finally:
+                    # Salvaguarda: si algo falla después del DELETE, el Admin intenta restaurar.
+                    if eliminado:
+                        try:
+                            r_seguro = session.patch(
+                                f"{API_URL}/observaciones/{id_obs}/restaurar",
+                                timeout=25
+                            )
+                            if r_seguro.status_code == 200:
+                                mostrar(
+                                    "Restauración de seguridad",
+                                    "OK",
+                                    f"Observación {id_obs} restaurada"
+                                )
+                            else:
+                                mostrar(
+                                    "Restauración de seguridad",
+                                    "WARN",
+                                    f"HTTP {r_seguro.status_code}: {r_seguro.text[:150]}"
+                                )
+                        except requests.RequestException as e:
+                            mostrar(
+                                "Restauración de seguridad",
+                                "WARN",
+                                str(e)
+                            )
+
+
+# ============================================================
+# 7. FHIR
+# ============================================================
+
+print("\n=== 7. FHIR ===")
 
 
 # ------------------------------------------------------------
@@ -461,10 +717,10 @@ else:
 
 
 # ============================================================
-# 7. PACS
+# 8. PACS
 # ============================================================
 
-print("\n=== 7. PACS ===")
+print("\n=== 8. PACS ===")
 
 
 # ------------------------------------------------------------
@@ -504,7 +760,7 @@ else:
 
 
 # ============================================================
-# 8. RESUMEN
+# 9. RESUMEN
 # ============================================================
 
 print("\n" + "=" * 55)

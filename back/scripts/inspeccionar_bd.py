@@ -123,7 +123,7 @@ try:
     else:
         print("La tabla roles existe, pero no contiene registros.")
 
-    roles_esperados = {"Admin", "Medico", "Administrativo", "Paciente"}
+    roles_esperados = {"Admin", "Medico", "Especialista", "Paciente", "Contable"}
     roles_activos = {rol[1] for rol in roles if rol[3] is True}
 
     if roles_activos == roles_esperados:

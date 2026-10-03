@@ -1,5 +1,6 @@
 ﻿id_rol,nombre,descripcion,created_at,is_active
 1,Admin,"Administración general, gestión de usuarios y restauración de registros",2026-09-26 16:11:38.195411+00:00,True
 2,Medico,Consulta y gestión de la información clínica autorizada,2026-09-26 16:11:38.195411+00:00,True
-3,Administrativo,Gestión exclusiva de facturación y datos administrativos,2026-09-26 16:11:38.195411+00:00,True
+3,Contable,"Gestión de procesos contables y facturación, sin acceso a datos clínicos",2026-09-26 16:11:38.195411+00:00,True
 4,Paciente,Consulta de información propia y creación de reportes previos,2026-09-26 16:11:38.195411+00:00,True
+9,Especialista,Recibe remisiones y atiende únicamente a los pacientes que le fueron remitidos,2026-10-03 00:43:46.723779+00:00,True

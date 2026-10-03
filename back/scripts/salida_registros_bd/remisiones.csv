@@ -1,0 +1,2 @@
+﻿id_remision,id_paciente,id_encuentro,medico_remitente,especialista_destino,id_especialidad,motivo,estado,fecha_remision,fecha_respuesta,observacion_respuesta,created_at,updated_at,is_deleted,deleted_at,deleted_by
+1,1200001005,58,1006713773,129345873,7,Rodilla fracturada,aceptada,2026-10-03 01:21:42.081843+00:00,2026-10-03 01:24:13.089220+00:00,Remisión aceptada para valoración especializada,2026-10-03 01:21:42.081843+00:00,2026-10-03 01:24:13.089220+00:00,False,,
