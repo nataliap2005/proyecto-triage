@@ -23,7 +23,7 @@ class PrescripcionUpdate(BaseModel):
     cantidad:int|None=Field(default=None,gt=0)
 
 @router.post("/prescripciones",tags=["Prescripciones"],status_code=201)
-def crear_prescripcion(data:PrescripcionCreate,db=Depends(get_db),u=Depends(requerir_roles("Medico"))):
+def crear_prescripcion(data:PrescripcionCreate,db=Depends(get_db),u=Depends(requerir_roles("Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -46,7 +46,7 @@ def crear_prescripcion(data:PrescripcionCreate,db=Depends(get_db),u=Depends(requ
     )
 
 @router.get("/prescripciones",tags=["Prescripciones"])
-def listar_prescripciones(db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def listar_prescripciones(db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -65,7 +65,7 @@ def listar_prescripciones(db=Depends(get_db),u=Depends(requerir_roles("Admin","M
         cur.close()
 
 @router.get("/encuentros/{id_encuentro}/prescripciones",tags=["Prescripciones"])
-def prescripciones_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def prescripciones_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -88,7 +88,7 @@ def prescripciones_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(reque
         cur.close()
 
 @router.put("/prescripciones/{id_prescripcion}",tags=["Prescripciones"])
-def editar_prescripcion(id_prescripcion:int,data:PrescripcionUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def editar_prescripcion(id_prescripcion:int,data:PrescripcionUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_update(
         db,u,"prescripciones","id_prescripcion",
         id_prescripcion,"prescrito_por",
@@ -131,19 +131,19 @@ def cambiar_estado_prescripcion(id_prescripcion,nuevo_estado,accion,db,u):
         cur.close()
 
 @router.patch("/prescripciones/{id_prescripcion}/dispensar",tags=["Prescripciones"])
-def dispensar_prescripcion(id_prescripcion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def dispensar_prescripcion(id_prescripcion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return cambiar_estado_prescripcion(
         id_prescripcion,"dispensada","DISPENSAR",db,u
     )
 
 @router.patch("/prescripciones/{id_prescripcion}/anular",tags=["Prescripciones"])
-def anular_prescripcion(id_prescripcion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def anular_prescripcion(id_prescripcion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return cambiar_estado_prescripcion(
         id_prescripcion,"anulada","ANULAR",db,u
     )
 
 @router.delete("/prescripciones/{id_prescripcion}",tags=["Prescripciones"])
-def eliminar_prescripcion(id_prescripcion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def eliminar_prescripcion(id_prescripcion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_delete(
         db,u,"prescripciones","id_prescripcion",
         id_prescripcion,"prescrito_por"

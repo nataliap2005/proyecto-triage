@@ -59,7 +59,7 @@ def crear_medicamento(data:MedicamentoCreate,db=Depends(get_db),u=Depends(requer
         cur.close()
 
 @router.get("/medicamentos",tags=["Medicamentos"])
-def listar_medicamentos(db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def listar_medicamentos(db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:

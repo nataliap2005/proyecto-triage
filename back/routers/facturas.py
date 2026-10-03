@@ -25,7 +25,7 @@ class FacturaCreate(BaseModel):
     detalles_adicionales:list[DetalleAdicional]=Field(default_factory=list)
 
 @router.post("/facturas",tags=["Facturación"],status_code=201)
-def crear_factura(data:FacturaCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Administrativo"))):
+def crear_factura(data:FacturaCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Contable"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -143,7 +143,7 @@ def crear_factura(data:FacturaCreate,db=Depends(get_db),u=Depends(requerir_roles
         cur.close()
 
 @router.get("/facturas",tags=["Facturación"])
-def listar_facturas(db=Depends(get_db),u=Depends(requerir_roles("Admin","Administrativo"))):
+def listar_facturas(db=Depends(get_db),u=Depends(requerir_roles("Admin","Contable"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -158,7 +158,7 @@ def listar_facturas(db=Depends(get_db),u=Depends(requerir_roles("Admin","Adminis
         cur.close()
 
 @router.get("/facturas/{id_factura}",tags=["Facturación"])
-def ver_factura(id_factura:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Administrativo"))):
+def ver_factura(id_factura:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Contable"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:

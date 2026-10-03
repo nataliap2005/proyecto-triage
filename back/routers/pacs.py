@@ -10,7 +10,7 @@ from psycopg2.extras import RealDictCursor
 
 from auth.service import requerir_roles
 from core.database import get_db
-from routers.common import exigir_paciente_propio
+from routers.common import exigir_especialista_remitido,exigir_paciente_propio
 from services.pacs_service import (
     eliminar_instancia,
     estado_pacs,
@@ -53,7 +53,7 @@ def _obtener_estudio_db(cur, id_estudio: int):
 
 @router.get("/pacs/estado")
 def consultar_estado_pacs(
-    u=Depends(requerir_roles("Admin", "Medico"))
+    u=Depends(requerir_roles("Admin", "Medico", "Especialista"))
 ):
     return estado_pacs()
 
@@ -66,7 +66,7 @@ def crear_estudio_pacs(
     descripcion: str | None = Query(default=None, max_length=250),
     dicom: bytes = Body(..., media_type="application/dicom"),
     db=Depends(get_db),
-    u=Depends(requerir_roles("Admin", "Medico"))
+    u=Depends(requerir_roles("Admin", "Medico", "Especialista"))
 ):
     cur = db.cursor(cursor_factory=RealDictCursor)
     instance_id_subido = None
@@ -183,12 +183,13 @@ def crear_estudio_pacs(
 def listar_imagenes_paciente(
     documento: int,
     db=Depends(get_db),
-    u=Depends(requerir_roles("Admin", "Medico", "Paciente"))
+    u=Depends(requerir_roles("Admin", "Medico", "Especialista", "Paciente"))
 ):
     cur = db.cursor(cursor_factory=RealDictCursor)
 
     try:
         exigir_paciente_propio(cur, documento, u)
+        exigir_especialista_remitido(cur,documento,u,solo_aceptada=True)
 
         cur.execute("""
             SELECT
@@ -217,7 +218,7 @@ def listar_imagenes_paciente(
 def consultar_estudio_pacs(
     id_estudio: int,
     db=Depends(get_db),
-    u=Depends(requerir_roles("Admin", "Medico", "Paciente"))
+    u=Depends(requerir_roles("Admin", "Medico", "Especialista", "Paciente"))
 ):
     cur = db.cursor(cursor_factory=RealDictCursor)
 
@@ -228,6 +229,7 @@ def consultar_estudio_pacs(
             raise HTTPException(status_code=404, detail="Estudio no encontrado")
 
         exigir_paciente_propio(cur, estudio["id_paciente"], u)
+        exigir_especialista_remitido(cur,estudio["id_paciente"],u,estudio["id_encuentro"],True)
 
         orthanc = obtener_estudio_orthanc(estudio["orthanc_study_id"])
         instancias = obtener_instancias_estudio(estudio["orthanc_study_id"])
@@ -246,7 +248,7 @@ def consultar_estudio_pacs(
 def listar_instancias_estudio(
     id_estudio: int,
     db=Depends(get_db),
-    u=Depends(requerir_roles("Admin", "Medico", "Paciente"))
+    u=Depends(requerir_roles("Admin", "Medico", "Especialista", "Paciente"))
 ):
     cur = db.cursor(cursor_factory=RealDictCursor)
 
@@ -257,6 +259,7 @@ def listar_instancias_estudio(
             raise HTTPException(status_code=404, detail="Estudio no encontrado")
 
         exigir_paciente_propio(cur, estudio["id_paciente"], u)
+        exigir_especialista_remitido(cur,estudio["id_paciente"],u,estudio["id_encuentro"],True)
 
         return obtener_instancias_estudio(estudio["orthanc_study_id"])
 
@@ -267,7 +270,7 @@ def listar_instancias_estudio(
 @router.get("/pacs/instancias/{instance_id}/preview")
 def preview_instancia(
     instance_id: str,
-    u=Depends(requerir_roles("Admin", "Medico"))
+    u=Depends(requerir_roles("Admin", "Medico", "Especialista"))
 ):
     contenido, content_type = obtener_preview_instancia(instance_id)
 

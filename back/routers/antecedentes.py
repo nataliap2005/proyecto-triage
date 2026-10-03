@@ -4,7 +4,7 @@ from pydantic import BaseModel,Field
 
 from auth.service import requerir_roles
 from core.database import get_db
-from routers.common import clinical_delete,clinical_restore,clinical_update,exigir_paciente_propio,registrar_auditoria
+from routers.common import clinical_delete,clinical_restore,clinical_update,exigir_especialista_remitido,exigir_paciente_propio,registrar_auditoria
 
 router=APIRouter()
 
@@ -20,7 +20,7 @@ class AntecedenteUpdate(BaseModel):
     descripcion:str|None=None
 
 @router.post("/antecedentes",tags=["Antecedentes"],status_code=201)
-def crear_antecedente(data:AntecedenteCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def crear_antecedente(data:AntecedenteCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -33,6 +33,8 @@ def crear_antecedente(data:AntecedenteCreate,db=Depends(get_db),u=Depends(requer
 
         if not cur.fetchone():
             raise HTTPException(status_code=404,detail="Paciente no encontrado")
+
+        exigir_especialista_remitido(cur,data.id_paciente,u,solo_aceptada=True)
 
         cur.execute("""
             INSERT INTO antecedentes(
@@ -62,11 +64,12 @@ def crear_antecedente(data:AntecedenteCreate,db=Depends(get_db),u=Depends(requer
         cur.close()
 
 @router.get("/pacientes/{documento}/antecedentes",tags=["Antecedentes"])
-def listar_antecedentes(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def listar_antecedentes(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
         exigir_paciente_propio(cur,documento,u)
+        exigir_especialista_remitido(cur,documento,u,solo_aceptada=True)
 
         cur.execute("""
             SELECT *
@@ -82,7 +85,7 @@ def listar_antecedentes(documento:int,db=Depends(get_db),u=Depends(requerir_role
         cur.close()
 
 @router.put("/antecedentes/{id_antecedente}",tags=["Antecedentes"])
-def editar_antecedente(id_antecedente:int,data:AntecedenteUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def editar_antecedente(id_antecedente:int,data:AntecedenteUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_update(
         db,u,"antecedentes","id_antecedente",
         id_antecedente,"registrado_por",
@@ -90,7 +93,7 @@ def editar_antecedente(id_antecedente:int,data:AntecedenteUpdate,db=Depends(get_
     )
 
 @router.delete("/antecedentes/{id_antecedente}",tags=["Antecedentes"])
-def eliminar_antecedente(id_antecedente:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def eliminar_antecedente(id_antecedente:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_delete(
         db,u,"antecedentes","id_antecedente",
         id_antecedente,"registrado_por"

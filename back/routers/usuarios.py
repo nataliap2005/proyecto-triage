@@ -22,6 +22,7 @@ class UsuarioCreate(BaseModel):
     apellidos:str=Field(min_length=1,max_length=100)
     email:str|None=None
     telefono:str|None=Field(default=None,max_length=30)
+    id_especialidad:int|None=None
 
 class UsuarioUpdate(BaseModel):
     username:str|None=Field(default=None,min_length=3,max_length=50,pattern=r"^[A-Za-z0-9._-]+$")
@@ -31,6 +32,28 @@ class UsuarioUpdate(BaseModel):
     telefono:str|None=Field(default=None,max_length=30)
     estado:bool|None=None
     id_rol:int|None=None
+    id_especialidad:int|None=None
+
+def _nombre_rol(cur,rol_id:int):
+    cur.execute("SELECT nombre FROM roles WHERE id_rol=%s AND is_active=TRUE;",(rol_id,))
+    r=cur.fetchone()
+    return r["nombre"] if r else None
+
+def _asignar_especialidad(cur,documento:int,rol_id:int,id_especialidad:int|None):
+    rol=_nombre_rol(cur,rol_id)
+    if rol!="Especialista":
+        cur.execute("DELETE FROM usuario_especialidades WHERE numero_documento_usuario=%s;",(documento,))
+        return
+    if id_especialidad is None:
+        cur.execute("SELECT 1 FROM usuario_especialidades WHERE numero_documento_usuario=%s LIMIT 1;",(documento,))
+        if cur.fetchone():
+            return
+        raise HTTPException(status_code=400,detail="Un usuario Especialista debe tener una especialidad")
+    cur.execute("SELECT 1 FROM especialidades WHERE id_especialidad=%s AND activo=TRUE;",(id_especialidad,))
+    if not cur.fetchone():
+        raise HTTPException(status_code=400,detail="Especialidad inválida")
+    cur.execute("DELETE FROM usuario_especialidades WHERE numero_documento_usuario=%s;",(documento,))
+    cur.execute("INSERT INTO usuario_especialidades(numero_documento_usuario,id_especialidad) VALUES(%s,%s);",(documento,id_especialidad))
 
 def vincular_paciente(cur,documento,rol_id,admin_doc):
     """Si el usuario es Paciente y ya existe un registro clínico con su mismo
@@ -87,6 +110,7 @@ def crear_usuario(data:UsuarioCreate,db=Depends(get_db),u=Depends(requerir_roles
             u["numero_documento_usuario"],nuevos=nuevo
         )
 
+        _asignar_especialidad(cur,data.numero_documento_usuario,data.id_rol,data.id_especialidad)
         vinculado=vincular_paciente(
             cur,data.numero_documento_usuario,data.id_rol,
             u["numero_documento_usuario"]
@@ -114,9 +138,13 @@ def listar_usuarios(db=Depends(get_db),u=Depends(requerir_roles("Admin"))):
         cur.execute("""
             SELECT
                 u.numero_documento_usuario,u.username,u.nombres,u.apellidos,
-                u.email,u.telefono,u.estado,u.is_deleted,r.nombre AS rol
+                u.email,u.telefono,u.estado,u.is_deleted,r.nombre AS rol,
+                COALESCE(string_agg(e.nombre, ', ' ORDER BY e.nombre),'') AS especialidades
             FROM usuarios u
             JOIN roles r ON r.id_rol=u.id_rol
+            LEFT JOIN usuario_especialidades ue ON ue.numero_documento_usuario=u.numero_documento_usuario
+            LEFT JOIN especialidades e ON e.id_especialidad=ue.id_especialidad
+            GROUP BY u.numero_documento_usuario,r.nombre
             ORDER BY u.apellidos,u.nombres;
         """)
         return cur.fetchall()
@@ -130,10 +158,14 @@ def ver_usuario(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin
         cur.execute("""
             SELECT
                 u.numero_documento_usuario,u.username,u.nombres,u.apellidos,
-                u.email,u.telefono,u.estado,u.is_deleted,r.nombre AS rol
+                u.email,u.telefono,u.estado,u.is_deleted,r.nombre AS rol,
+                COALESCE(string_agg(e.nombre, ', ' ORDER BY e.nombre),'') AS especialidades
             FROM usuarios u
             JOIN roles r ON r.id_rol=u.id_rol
-            WHERE numero_documento_usuario=%s;
+            LEFT JOIN usuario_especialidades ue ON ue.numero_documento_usuario=u.numero_documento_usuario
+            LEFT JOIN especialidades e ON e.id_especialidad=ue.id_especialidad
+            WHERE u.numero_documento_usuario=%s
+            GROUP BY u.numero_documento_usuario,r.nombre;
         """,(documento,))
         r=cur.fetchone()
         if not r:
@@ -145,8 +177,9 @@ def ver_usuario(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin
 @router.put("/usuarios/{documento}",tags=["Usuarios"])
 def editar_usuario(documento:int,data:UsuarioUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin"))):
     cambios=data.model_dump(exclude_unset=True)
+    id_especialidad=cambios.pop("id_especialidad",None)
 
-    if not cambios:
+    if not cambios and id_especialidad is None:
         raise HTTPException(status_code=400,detail="No se enviaron cambios")
 
     cur=db.cursor(cursor_factory=RealDictCursor)
@@ -171,17 +204,22 @@ def editar_usuario(documento:int,data:UsuarioUpdate,db=Depends(get_db),u=Depends
             campos.append(f"{k}=%s")
             valores.append(v)
 
-        valores.append(documento)
-
-        cur.execute(
-            f"""
-            UPDATE usuarios
-            SET {','.join(campos)},updated_at=now()
-            WHERE numero_documento_usuario=%s
-            RETURNING *;
-            """,
-            valores
-        )
+        if campos:
+            valores.append(documento)
+            cur.execute(
+                f"""
+                UPDATE usuarios
+                SET {','.join(campos)},updated_at=now()
+                WHERE numero_documento_usuario=%s
+                RETURNING *;
+                """,
+                valores
+            )
+        else:
+            cur.execute(
+                "UPDATE usuarios SET updated_at=now() WHERE numero_documento_usuario=%s RETURNING *;",
+                (documento,)
+            )
 
         nuevo=cur.fetchone()
 
@@ -190,6 +228,9 @@ def editar_usuario(documento:int,data:UsuarioUpdate,db=Depends(get_db),u=Depends
             u["numero_documento_usuario"],anterior,nuevo
         )
 
+        rol_final=cambios.get("id_rol",anterior["id_rol"])
+        if "id_rol" in cambios or id_especialidad is not None:
+            _asignar_especialidad(cur,documento,rol_final,id_especialidad)
         if "id_rol" in cambios:
             vincular_paciente(cur,documento,cambios["id_rol"],u["numero_documento_usuario"])
 

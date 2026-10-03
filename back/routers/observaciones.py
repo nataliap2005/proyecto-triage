@@ -35,13 +35,13 @@ def validar_observacion(d):
         )
 
 @router.post("/observaciones",tags=["Observaciones"],status_code=201)
-def crear_observacion(data:ObservacionCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def crear_observacion(data:ObservacionCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     d=data.model_dump()
     validar_observacion(d)
     return clinical_create(db,u,"observaciones","id_observacion",d)
 
 @router.get("/encuentros/{id_encuentro}/observaciones",tags=["Observaciones"])
-def observaciones_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def observaciones_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -62,7 +62,7 @@ def observaciones_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requer
         cur.close()
 
 @router.put("/observaciones/{id_observacion}",tags=["Observaciones"])
-def editar_observacion(id_observacion:int,data:ObservacionUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def editar_observacion(id_observacion:int,data:ObservacionUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cambios=data.model_dump(exclude_unset=True)
 
     cur=db.cursor(cursor_factory=RealDictCursor)
@@ -86,7 +86,7 @@ def editar_observacion(id_observacion:int,data:ObservacionUpdate,db=Depends(get_
     )
 
 @router.delete("/observaciones/{id_observacion}",tags=["Observaciones"])
-def eliminar_observacion(id_observacion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def eliminar_observacion(id_observacion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_delete(
         db,u,"observaciones","id_observacion",
         id_observacion,"registrado_por"

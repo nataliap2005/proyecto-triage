@@ -51,22 +51,23 @@ function encounterView(e,reporte){
     ["Atención clínica",atencion>0,tieneTriage&&tieneVit&&!atencion],
     ["Finalizar",false,tieneTriage&&tieneVit&&atencion>0],
   ];
-  const id=e.id_encuentro, med=isRole("Medico");
-  const btn=(attr,label,cls="btn-secondary")=>med?`<button class="btn ${cls}" data-${attr}="${id}" type="button">${label}</button>`:"";
+  const id=e.id_encuentro, med=isRole("Medico"), clinical=isRole("Medico","Especialista");
+  const btnClinical=(attr,label,cls="btn-secondary")=>clinical?`<button class="btn ${cls}" data-${attr}="${id}" type="button">${label}</button>`:"";
+  const btnMed=(attr,label,cls="btn-secondary")=>med?`<button class="btn ${cls}" data-${attr}="${id}" type="button">${label}</button>`:"";
   return `
   <div class="card flow-card"><div class="section-head"><div><h2>Encuentro actual #${id}</h2><div class="muted small-text">Ingreso ${formatDate(e.fecha_hora_ingreso)} · ${val(e.servicio)}</div></div><span class="badge info">${ESTADOS[e.estado]||val(e.estado)}</span></div>
     <div class="flow-steps">${steps.map(([t,done,cur],i)=>`<div class="flow-step ${done?"done":""} ${cur?"current":""}"><span>${done?"✓":i+1}</span> ${t}</div>`).join("")}</div>
     <div class="clinical-block" style="margin-top:1rem"><h4>Motivo de consulta</h4><div>${val(e.motivo_consulta)}</div></div></div>
 
-  <div class="card flow-card"><div class="section-head"><h3>2 · Triage</h3>${btn("triage",tieneTriage?"Actualizar triage":"Realizar triage","btn-primary")}</div>
+  <div class="card flow-card"><div class="section-head"><h3>2 · Triage</h3>${btnMed("triage",tieneTriage?"Actualizar triage":"Realizar triage","btn-primary")}</div>
     ${tieneTriage?`<div class="triage-panel">${triageBadge(e.nivel_triage)}<div><strong>Nivel ${e.nivel_triage} · ${NIVELES[e.nivel_triage]}</strong><div class="muted small-text">${e.dolor_escala!=null?`Dolor ${e.dolor_escala}/10 · `:""}Clasificado ${formatDate(e.fecha_hora_triage)}</div>${e.observaciones_triage?`<div class="small-text">${val(e.observaciones_triage)}</div>`:""}</div></div>`:'<div class="history-empty">Triage pendiente: revise el reporte previo, valore al paciente y asigne el nivel 1 a 5.</div>'}</div>
 
-  <div class="card flow-card"><div class="section-head"><h3>3 · Signos vitales</h3>${btn("add-vitales","+ Registrar signos vitales")}</div>
+  <div class="card flow-card"><div class="section-head"><h3>3 · Signos vitales</h3>${btnClinical("add-vitales","+ Registrar signos vitales")}</div>
     ${tieneVit?`<div class="vitals-grid">${VITALES.filter(v=>vit[v.loinc]).map(v=>`<div class="metric"><strong>${val(vit[v.loinc].valor_numerico)} <small>${v.show}</small></strong><span>${v.label}</span></div>`).join("")}</div>`:'<div class="history-empty">Aún no hay signos vitales registrados.</div>'}
     ${otras.length?`<div class="compact-list" style="margin-top:.8rem">${otras.map(o=>`<div class="compact-row"><span><strong>${val(o.nombre)}</strong>: ${val(o.valor_numerico??o.valor_texto)} ${val(o.unidad||"")}</span>${deleteButtonHtml("observacion",o.id_observacion)}</div>`).join("")}</div>`:""}
-    <div style="margin-top:.6rem">${btn("add-obs","+ Otra observación","btn-ghost")}</div></div>
+    <div style="margin-top:.6rem">${btnClinical("add-obs","+ Otra observación","btn-ghost")}</div></div>
 
-  <div class="card flow-card"><div class="section-head"><h3>4 · Atención clínica</h3><div class="actions">${btn("add-dx","+ Diagnóstico")}${btn("add-nota","+ Nota")}${btn("add-examen","+ Examen")}${btn("add-rx","+ Prescripción")}</div></div>
+  <div class="card flow-card"><div class="section-head"><h3>4 · Atención clínica</h3><div class="actions">${btnClinical("add-dx","+ Diagnóstico")}${btnClinical("add-nota","+ Nota")}${btnClinical("add-examen","+ Examen")}${btnClinical("add-rx","+ Prescripción")}</div></div>
     <div class="grid grid-2">
       ${block("Diagnósticos",dx,d=>`<strong>${val(d.codigo_cie10||"")}</strong> ${val(d.descripcion)} <span class="muted small-text">${val(d.tipo)}</span>`,"diagnostico","id_diagnostico")}
       ${block("Notas clínicas",notas,n=>val(n.contenido),"nota","id_nota")}

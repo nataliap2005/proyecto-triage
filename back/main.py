@@ -2,6 +2,7 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from auth.router import router as auth_router
+from auth.service import requerir_roles
 from core.database import get_db
 
 from routers.usuarios import router as usuarios_router
@@ -19,6 +20,8 @@ from routers.facturas import router as facturas_router
 from routers.auditoria import router as auditoria_router
 from routers.fhir import router as fhir_router
 from routers.pacs import router as pacs_router
+from routers.catalogos import router as catalogos_router
+from routers.remisiones import router as remisiones_router
 
 
 app = FastAPI(
@@ -31,11 +34,20 @@ app = FastAPI(
 )
 
 
+# Solo se permiten orígenes conocidos. El frontend actual usa /api mediante
+# Nginx (mismo origen), pero se conservan los orígenes locales autorizados
+# para pruebas directas desde el navegador.
+ORIGENES_PERMITIDOS = [
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=ORIGENES_PERMITIDOS,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "Accept"],
 )
 
 
@@ -59,6 +71,8 @@ app.include_router(facturas_router)
 app.include_router(auditoria_router)
 app.include_router(fhir_router)
 app.include_router(pacs_router)
+app.include_router(catalogos_router)
+app.include_router(remisiones_router)
 
 
 # SISTEMA
@@ -72,17 +86,20 @@ def raiz():
 
 
 @app.get("/estado-bd", tags=["Sistema"])
-def estado_bd(db=Depends(get_db)):
+def estado_bd(
+    db=Depends(get_db),
+    usuario=Depends(requerir_roles("Admin")),
+):
     cur = db.cursor()
 
     try:
         cur.execute("SELECT current_database(), current_user;")
-        bd, usuario = cur.fetchone()
+        bd, usuario_bd = cur.fetchone()
 
         return {
             "estado": "ok",
             "base_datos": bd,
-            "usuario": usuario,
+            "usuario": usuario_bd,
         }
 
     finally:
