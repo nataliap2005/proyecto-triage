@@ -20,13 +20,13 @@ class NotaUpdate(BaseModel):
     contenido:str|None=None
 
 @router.post("/notas-clinicas",tags=["Notas clínicas"],status_code=201)
-def crear_nota(data:NotaCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def crear_nota(data:NotaCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_create(
         db,u,"notas_clinicas","id_nota",data.model_dump()
     )
 
 @router.get("/encuentros/{id_encuentro}/notas-clinicas",tags=["Notas clínicas"])
-def notas_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def notas_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -47,7 +47,7 @@ def notas_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles
         cur.close()
 
 @router.put("/notas-clinicas/{id_nota}",tags=["Notas clínicas"])
-def editar_nota(id_nota:int,data:NotaUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def editar_nota(id_nota:int,data:NotaUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_update(
         db,u,"notas_clinicas","id_nota",
         id_nota,"registrado_por",
@@ -55,7 +55,7 @@ def editar_nota(id_nota:int,data:NotaUpdate,db=Depends(get_db),u=Depends(requeri
     )
 
 @router.delete("/notas-clinicas/{id_nota}",tags=["Notas clínicas"])
-def eliminar_nota(id_nota:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def eliminar_nota(id_nota:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_delete(
         db,u,"notas_clinicas","id_nota",
         id_nota,"registrado_por"

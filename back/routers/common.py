@@ -56,18 +56,44 @@ def obtener_encuentro(cursor,id_encuentro,incluir_eliminado=True):
     r=cursor.fetchone()
     return dict(r) if r else None
 
+def exigir_especialista_remitido(cursor,id_paciente,u,id_encuentro=None,solo_aceptada=True):
+    if u["rol"]!="Especialista":
+        return
+    estados=("aceptada",) if solo_aceptada else ("pendiente","aceptada")
+    placeholders=",".join(["%s"]*len(estados))
+    params=[id_paciente,u["numero_documento_usuario"],*estados]
+    filtro_encuentro=""
+    if id_encuentro is not None:
+        filtro_encuentro=" AND id_encuentro=%s"
+        params.append(id_encuentro)
+    cursor.execute(
+        f"""
+        SELECT 1 FROM remisiones
+        WHERE id_paciente=%s
+          AND especialista_destino=%s
+          AND estado IN ({placeholders})
+          AND is_deleted=FALSE
+          {filtro_encuentro}
+        LIMIT 1;
+        """,
+        params
+    )
+    if not cursor.fetchone():
+        raise HTTPException(status_code=403,detail="El especialista solo puede acceder a pacientes con remisión aceptada")
+
 def exigir_acceso_encuentro(cursor,encuentro,u):
     if not encuentro:
         raise HTTPException(status_code=404,detail="Encuentro no encontrado")
     exigir_paciente_propio(cursor,encuentro["id_paciente"],u)
+    exigir_especialista_remitido(cursor,encuentro["id_paciente"],u,encuentro["id_encuentro"],True)
 
 def exigir_autor_o_admin(registro,campo_autor,u):
     if u["rol"]=="Admin":
         return
-    if u["rol"]!="Medico" or registro[campo_autor]!=u["numero_documento_usuario"]:
+    if u["rol"] not in ("Medico","Especialista") or registro[campo_autor]!=u["numero_documento_usuario"]:
         raise HTTPException(
             status_code=403,
-            detail="El médico solo puede modificar o eliminar registros creados por él mismo"
+            detail="El profesional solo puede modificar o eliminar registros creados por él mismo"
         )
 
 def obtener_registro(cursor,tabla,pk,id_registro):
@@ -91,6 +117,9 @@ def clinical_create(db,u,tabla,pk,data:dict,campo_autor="registrado_por"):
             and enc["medico_responsable"] not in (None,u["numero_documento_usuario"])
         ):
             raise HTTPException(status_code=403,detail="El encuentro está asignado a otro médico")
+
+        if u["rol"]=="Especialista":
+            exigir_especialista_remitido(cur,enc["id_paciente"],u,enc["id_encuentro"],True)
 
         data[campo_autor]=u["numero_documento_usuario"]
 

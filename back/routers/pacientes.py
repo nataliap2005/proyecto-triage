@@ -10,7 +10,7 @@ from pydantic import BaseModel,Field
 
 from auth.service import requerir_roles
 from core.database import get_db
-from routers.common import exigir_paciente_propio,obtener_registro,registrar_auditoria
+from routers.common import exigir_especialista_remitido,exigir_paciente_propio,obtener_registro,registrar_auditoria
 
 router=APIRouter()
 
@@ -106,7 +106,7 @@ def listar_pacientes(db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico
         cur.close()
 
 @router.get("/pacientes/{documento}",tags=["Pacientes"])
-def ver_paciente(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def ver_paciente(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -123,6 +123,7 @@ def ver_paciente(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admi
             raise HTTPException(status_code=404,detail="Paciente no encontrado")
 
         exigir_paciente_propio(cur,documento,u)
+        exigir_especialista_remitido(cur,documento,u,solo_aceptada=True)
         return p
 
     finally:
@@ -251,7 +252,7 @@ def restaurar_paciente(documento:int,db=Depends(get_db),u=Depends(requerir_roles
         cur.close()
 
 @router.get("/pacientes/{documento}/historia-clinica",tags=["Historia clínica"])
-def historia_clinica(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def historia_clinica(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -268,6 +269,7 @@ def historia_clinica(documento:int,db=Depends(get_db),u=Depends(requerir_roles("
             raise HTTPException(status_code=404,detail="Paciente no encontrado")
 
         exigir_paciente_propio(cur,documento,u)
+        exigir_especialista_remitido(cur,documento,u,solo_aceptada=True)
 
         cur.execute("""
             SELECT *

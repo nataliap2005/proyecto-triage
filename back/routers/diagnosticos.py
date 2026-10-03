@@ -30,13 +30,13 @@ class DiagnosticoUpdate(BaseModel):
     ]|None=None
 
 @router.post("/diagnosticos",tags=["Diagnósticos"],status_code=201)
-def crear_diagnostico(data:DiagnosticoCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def crear_diagnostico(data:DiagnosticoCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_create(
         db,u,"diagnosticos","id_diagnostico",data.model_dump()
     )
 
 @router.get("/encuentros/{id_encuentro}/diagnosticos",tags=["Diagnósticos"])
-def diagnosticos_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def diagnosticos_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -57,7 +57,7 @@ def diagnosticos_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requeri
         cur.close()
 
 @router.put("/diagnosticos/{id_diagnostico}",tags=["Diagnósticos"])
-def editar_diagnostico(id_diagnostico:int,data:DiagnosticoUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def editar_diagnostico(id_diagnostico:int,data:DiagnosticoUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_update(
         db,u,"diagnosticos","id_diagnostico",
         id_diagnostico,"registrado_por",
@@ -65,7 +65,7 @@ def editar_diagnostico(id_diagnostico:int,data:DiagnosticoUpdate,db=Depends(get_
     )
 
 @router.delete("/diagnosticos/{id_diagnostico}",tags=["Diagnósticos"])
-def eliminar_diagnostico(id_diagnostico:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def eliminar_diagnostico(id_diagnostico:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_delete(
         db,u,"diagnosticos","id_diagnostico",
         id_diagnostico,"registrado_por"

@@ -271,7 +271,7 @@ export function bindHistoriaToolbar(container,documento,refresh){
 
 /* ---------- Acciones dentro de cada encuentro ---------- */
 export function encounterActionsHtml(e){
-  if(!isRole("Medico")) return "";
+  if(!isRole("Medico","Especialista")) return "";
   const activo=e.estado!=="finalizado";
   if(!activo) return "";
   const botones=[];
@@ -281,11 +281,11 @@ export function encounterActionsHtml(e){
   botones.push(`<button class="btn btn-secondary" data-add-nota="${e.id_encuentro}" type="button">+ Nota</button>`);
   botones.push(`<button class="btn btn-secondary" data-add-examen="${e.id_encuentro}" type="button">+ Examen</button>`);
   if(isRole("Medico")) botones.push(`<button class="btn btn-secondary" data-add-rx="${e.id_encuentro}" type="button">+ Prescripción</button>`);
-  botones.push(`<button class="btn btn-danger" data-finalizar="${e.id_encuentro}" type="button">Finalizar encuentro</button>`);
+  if(isRole("Medico")) botones.push(`<button class="btn btn-danger" data-finalizar="${e.id_encuentro}" type="button">Finalizar encuentro</button>`);
   return `<div class="actions encounter-actions">${botones.join("")}</div>`;
 }
 export function deleteButtonHtml(tipo,id){
-  if(!isRole("Medico")) return "";
+  if(!isRole("Medico","Especialista")) return "";
   return `<button class="btn btn-ghost icon-btn-sm" data-del-tipo="${tipo}" data-del-id="${id}" type="button" title="Eliminar" aria-label="Eliminar">✕</button>`;
 }
 export function bindEncounterActions(container,refresh){

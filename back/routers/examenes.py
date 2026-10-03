@@ -32,7 +32,7 @@ class ExamenUpdate(BaseModel):
     fecha_resultado:datetime|None=None
 
 @router.post("/examenes",tags=["Exámenes"],status_code=201)
-def crear_examen(data:ExamenCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def crear_examen(data:ExamenCreate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     d=data.model_dump()
     d["estado"]="active"
     return clinical_create(
@@ -40,7 +40,7 @@ def crear_examen(data:ExamenCreate,db=Depends(get_db),u=Depends(requerir_roles("
     )
 
 @router.get("/encuentros/{id_encuentro}/examenes",tags=["Exámenes"])
-def examenes_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def examenes_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -61,7 +61,7 @@ def examenes_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_ro
         cur.close()
 
 @router.put("/examenes/{id_examen}",tags=["Exámenes"])
-def editar_examen(id_examen:int,data:ExamenUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def editar_examen(id_examen:int,data:ExamenUpdate,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cambios=data.model_dump(exclude_unset=True)
 
     if cambios.get("estado")=="completed":
@@ -76,7 +76,7 @@ def editar_examen(id_examen:int,data:ExamenUpdate,db=Depends(get_db),u=Depends(r
     )
 
 @router.delete("/examenes/{id_examen}",tags=["Exámenes"])
-def eliminar_examen(id_examen:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def eliminar_examen(id_examen:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return clinical_delete(
         db,u,"examenes","id_examen",
         id_examen,"solicitado_por"

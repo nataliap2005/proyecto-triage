@@ -120,7 +120,7 @@ def mis_encuentros(db=Depends(get_db),u=Depends(requerir_roles("Paciente"))):
         cur.close()
 
 @router.get("/encuentros/{id_encuentro}",tags=["Encuentros"])
-def ver_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def ver_encuentro(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:

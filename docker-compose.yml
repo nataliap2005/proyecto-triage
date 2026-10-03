@@ -3,29 +3,24 @@ services:
     image: postgres:16-alpine
     container_name: triaje-hapi-postgres
     restart: unless-stopped
-
     environment:
       POSTGRES_DB: ${HAPI_DB_NAME}
       POSTGRES_USER: ${HAPI_DB_USER}
       POSTGRES_PASSWORD: ${HAPI_DB_PASSWORD}
-
     healthcheck:
       test:
-        - CMD-SHELL
-        - pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      - CMD-SHELL
+      - pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
       interval: 10s
       timeout: 5s
       start_period: 10s
       retries: 10
-
     volumes:
-      - hapi_postgres_data:/var/lib/postgresql/data
-
+    - hapi_postgres_data:/var/lib/postgresql/data
   hapi-fhir:
     image: hapiproject/hapi:latest
     container_name: triaje-hapi-fhir
     restart: unless-stopped
-
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://hapi-postgres:5432/${HAPI_DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${HAPI_DB_USER}
@@ -33,79 +28,90 @@ services:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
       HIBERNATE_DIALECT: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
       HAPI_FHIR_FHIR_VERSION: R4
-      HAPI_FHIR_OPENAPI_ENABLED: "true"
-
+      HAPI_FHIR_OPENAPI_ENABLED: 'true'
     ports:
-      - "8080:8080"
-
+    - 8080:8080
     depends_on:
       hapi-postgres:
         condition: service_healthy
-
   orthanc:
     image: orthancteam/orthanc:latest
     container_name: triaje-orthanc
     restart: unless-stopped
-
     environment:
-      ORTHANC_JSON: |
-        {
-          "Name": "Triaje Hospitalario PACS",
-          "DicomAet": "TRIAJEPACS",
-          "RemoteAccessAllowed": true,
-          "AuthenticationEnabled": true,
-          "RegisteredUsers": {
-            "${ORTHANC_USERNAME:-orthanc}": "${ORTHANC_PASSWORD:-orthanc}"
-          }
-        }
-
+      ORTHANC_JSON: "{\n  \"Name\": \"Triaje Hospitalario PACS\",\n  \"DicomAet\"\
+        : \"TRIAJEPACS\",\n  \"RemoteAccessAllowed\": true,\n  \"AuthenticationEnabled\"\
+        : true,\n  \"RegisteredUsers\": {\n    \"${ORTHANC_USERNAME:-orthanc}\": \"\
+        ${ORTHANC_PASSWORD:-orthanc}\"\n  }\n}\n"
     ports:
-      - "8042:8042"
-      - "4242:4242"
-
+    - 8042:8042
+    - 4242:4242
     volumes:
-      - orthanc_data:/var/lib/orthanc/db
-
+    - orthanc_data:/var/lib/orthanc/db
+  mongodb:
+    image: mongo:7
+    container_name: triaje-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME:-triaje}
+    healthcheck:
+      test:
+      - CMD
+      - mongosh
+      - --quiet
+      - --eval
+      - db.adminCommand('ping').ok
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 10
+    volumes:
+    - mongodb_data:/data/db
   api:
     build:
       context: ./back
       dockerfile: Dockerfile
-
     container_name: triaje-api
     restart: unless-stopped
-
     env_file:
-      - ./back/pass.env
-
+    - ./back/pass.env
     environment:
       HAPI_FHIR_URL: http://hapi-fhir:8080/fhir
       ORTHANC_URL: http://orthanc:8042
       ORTHANC_USERNAME: ${ORTHANC_USERNAME:-orthanc}
       ORTHANC_PASSWORD: ${ORTHANC_PASSWORD:-orthanc}
-
+      MONGO_CONNECTION_STRING: mongodb://mongodb:27017/${MONGO_DB_NAME:-triaje}
     ports:
-      - "8000:8000"
-
+    - 8000:8000
     depends_on:
       hapi-fhir:
         condition: service_started
       orthanc:
         condition: service_started
-
+      mongodb:
+        condition: service_healthy
   frontend:
     build:
       context: ./front
       dockerfile: Dockerfile
-
     container_name: triaje-frontend
     restart: unless-stopped
-
     ports:
-      - "5500:80"
-
+    - 5500:80
     depends_on:
-      - api
-
+    - api
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: triaje-cloudflared
+    restart: unless-stopped
+    command:
+    - tunnel
+    - --no-autoupdate
+    - --url
+    - http://frontend:80
+    depends_on:
+    - frontend
 volumes:
-  hapi_postgres_data:
-  orthanc_data:
+  hapi_postgres_data: null
+  orthanc_data: null
+  mongodb_data: null

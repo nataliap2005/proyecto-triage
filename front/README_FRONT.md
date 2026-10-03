@@ -49,3 +49,8 @@ La carga DICOM desde interfaz no fue incluida en este paquete: el backend ya la 
 ## Carga DICOM desde el frontend
 
 En la pestaña **Imágenes PACS** del rol Médico se muestra un formulario para cargar archivos `.dcm` de hasta 20 MB. El paciente se toma de la ficha abierta; el médico selecciona un encuentro y un examen ya existentes, agrega una descripción opcional y el frontend envía el archivo como `application/dicom` a `POST /pacs/estudios`. Al finalizar, la lista de estudios se refresca automáticamente y el nuevo estudio queda disponible en el visor PACS.
+
+
+## Roles Corte 2
+
+El frontend reconoce `Admin`, `Medico`, `Especialista`, `Paciente` y `Contable`. El especialista trabaja desde **Mis remisiones** y solo puede abrir pacientes cuya remisión haya aceptado.

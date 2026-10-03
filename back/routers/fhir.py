@@ -255,7 +255,7 @@ def build_invoice(f):
     return r
 
 @router.get("/fhir/estado",tags=["FHIR"])
-def estado_fhir(u=Depends(requerir_roles("Admin","Medico"))):
+def estado_fhir(u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     try:
         r=requests.get(f"{HAPI_FHIR_URL}/metadata",headers={"Accept":"application/fhir+json"},timeout=20)
     except requests.RequestException as e:
@@ -275,7 +275,7 @@ def sincronizar_practitioner(documento:int,db=Depends(get_db),u=Depends(requerir
             FROM usuarios u
             JOIN roles r ON r.id_rol=u.id_rol
             WHERE u.numero_documento_usuario=%s
-              AND r.nombre='Medico'
+              AND r.nombre IN ('Medico','Especialista')
               AND u.estado=TRUE
               AND u.is_deleted=FALSE;
         """,(documento,))
@@ -291,11 +291,11 @@ def sincronizar_practitioner(documento:int,db=Depends(get_db),u=Depends(requerir
         cur.close()
 
 @router.get("/fhir/practitioners/{documento}",tags=["FHIR"])
-def consultar_practitioner(documento:int,u=Depends(requerir_roles("Admin","Medico"))):
+def consultar_practitioner(documento:int,u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     return fhir_get("Practitioner",fhir_id("practitioner",documento))
 
 @router.put("/fhir/pacientes/{documento}",tags=["FHIR"])
-def sincronizar_patient(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def sincronizar_patient(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("SELECT * FROM pacientes WHERE numero_documento_paciente=%s;",(documento,))
@@ -305,14 +305,14 @@ def sincronizar_patient(documento:int,db=Depends(get_db),u=Depends(requerir_role
     finally: cur.close()
 
 @router.get("/fhir/pacientes/{documento}",tags=["FHIR"])
-def consultar_patient(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def consultar_patient(documento:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try: exigir_paciente_propio(cur,documento,u)
     finally: cur.close()
     return fhir_get("Patient",fhir_id("paciente",documento))
 
 @router.put("/fhir/encuentros/{id_encuentro}",tags=["FHIR"])
-def sincronizar_encounter(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def sincronizar_encounter(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         e=obtener_encuentro(cur,id_encuentro,True)
@@ -321,7 +321,7 @@ def sincronizar_encounter(id_encuentro:int,db=Depends(get_db),u=Depends(requerir
     finally: cur.close()
 
 @router.get("/fhir/encuentros/{id_encuentro}",tags=["FHIR"])
-def consultar_encounter(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def consultar_encounter(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         e=obtener_encuentro(cur,id_encuentro,True)
@@ -331,7 +331,7 @@ def consultar_encounter(id_encuentro:int,db=Depends(get_db),u=Depends(requerir_r
     return fhir_get("Encounter",fhir_id("encuentro",id_encuentro))
 
 @router.put("/fhir/observaciones/{id_observacion}",tags=["FHIR"])
-def sincronizar_observation(id_observacion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def sincronizar_observation(id_observacion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("SELECT o.*,e.id_paciente FROM observaciones o JOIN encuentros e ON e.id_encuentro=o.id_encuentro WHERE o.id_observacion=%s;",(id_observacion,))
@@ -341,7 +341,7 @@ def sincronizar_observation(id_observacion:int,db=Depends(get_db),u=Depends(requ
     finally: cur.close()
 
 @router.get("/fhir/observaciones/{id_observacion}",tags=["FHIR"])
-def consultar_observation(id_observacion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Paciente"))):
+def consultar_observation(id_observacion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista","Paciente"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("""
@@ -360,7 +360,7 @@ def consultar_observation(id_observacion:int,db=Depends(get_db),u=Depends(requer
     return fhir_get("Observation",fhir_id("observacion",id_observacion))
 
 @router.put("/fhir/diagnosticos/{id_diagnostico}",tags=["FHIR"])
-def sincronizar_condition(id_diagnostico:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def sincronizar_condition(id_diagnostico:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("SELECT d.*,e.id_paciente FROM diagnosticos d JOIN encuentros e ON e.id_encuentro=d.id_encuentro WHERE d.id_diagnostico=%s;",(id_diagnostico,))
@@ -370,7 +370,7 @@ def sincronizar_condition(id_diagnostico:int,db=Depends(get_db),u=Depends(requer
     finally: cur.close()
 
 @router.put("/fhir/medicamentos/{codigo_cum}",tags=["FHIR"])
-def sincronizar_medication(codigo_cum:str,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def sincronizar_medication(codigo_cum:str,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("SELECT * FROM medicamentos WHERE codigo_cum=%s;",(codigo_cum,))
@@ -380,7 +380,7 @@ def sincronizar_medication(codigo_cum:str,db=Depends(get_db),u=Depends(requerir_
     finally: cur.close()
 
 @router.put("/fhir/prescripciones/{id_prescripcion}",tags=["FHIR"])
-def sincronizar_medication_request(id_prescripcion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def sincronizar_medication_request(id_prescripcion:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("SELECT p.*,e.id_paciente FROM prescripciones p JOIN encuentros e ON e.id_encuentro=p.id_encuentro WHERE p.id_prescripcion=%s;",(id_prescripcion,))
@@ -390,7 +390,7 @@ def sincronizar_medication_request(id_prescripcion:int,db=Depends(get_db),u=Depe
     finally: cur.close()
 
 @router.put("/fhir/examenes/{id_examen}",tags=["FHIR"])
-def sincronizar_examen(id_examen:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def sincronizar_examen(id_examen:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("SELECT ex.*,e.id_paciente FROM examenes ex JOIN encuentros e ON e.id_encuentro=ex.id_encuentro WHERE ex.id_examen=%s;",(id_examen,))
@@ -404,7 +404,7 @@ def sincronizar_examen(id_examen:int,db=Depends(get_db),u=Depends(requerir_roles
     finally: cur.close()
 
 @router.put("/fhir/notas-clinicas/{id_nota}",tags=["FHIR"])
-def sincronizar_document_reference(id_nota:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def sincronizar_document_reference(id_nota:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("SELECT n.*,e.id_paciente FROM notas_clinicas n JOIN encuentros e ON e.id_encuentro=n.id_encuentro WHERE n.id_nota=%s;",(id_nota,))
@@ -414,7 +414,7 @@ def sincronizar_document_reference(id_nota:int,db=Depends(get_db),u=Depends(requ
     finally: cur.close()
 
 @router.put("/fhir/reportes-previos/{id_reporte}",tags=["FHIR"])
-def sincronizar_questionnaire_response(id_reporte:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico"))):
+def sincronizar_questionnaire_response(id_reporte:int,db=Depends(get_db),u=Depends(requerir_roles("Admin","Medico","Especialista"))):
     cur=db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("SELECT * FROM reportes_previos WHERE id_reporte=%s;",(id_reporte,))
@@ -438,7 +438,7 @@ def sincronizar_todo_fhir(db=Depends(get_db),u=Depends(requerir_roles("Admin")))
     cur=db.cursor(cursor_factory=RealDictCursor)
     resumen={"Practitioner":0,"Patient":0,"Medication":0,"Encounter":0,"Observation":0,"Condition":0,"MedicationRequest":0,"ServiceRequest":0,"DiagnosticReport":0,"DocumentReference":0,"QuestionnaireResponse":0,"Invoice":0}
     try:
-        cur.execute("SELECT u.* FROM usuarios u JOIN roles r ON r.id_rol=u.id_rol WHERE r.nombre='Medico' AND u.is_deleted=FALSE;")
+        cur.execute("SELECT u.* FROM usuarios u JOIN roles r ON r.id_rol=u.id_rol WHERE r.nombre IN ('Medico','Especialista') AND u.is_deleted=FALSE;")
         for med in cur.fetchall():
             fhir_put("Practitioner",fhir_id("practitioner",med["numero_documento_usuario"]),build_practitioner(med)); resumen["Practitioner"]+=1
         cur.execute("SELECT * FROM pacientes WHERE is_deleted=FALSE;")
