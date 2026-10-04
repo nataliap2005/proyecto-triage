@@ -6,6 +6,7 @@ from pydantic import BaseModel,Field
 from auth.service import requerir_roles
 from core.database import get_db
 from routers.common import registrar_auditoria
+from core.eventos import publicar
 
 router=APIRouter()
 
@@ -95,7 +96,28 @@ def crear_remision(data:RemisionCreate,db=Depends(get_db),u=Depends(requerir_rol
         ))
         nuevo=cur.fetchone()
         registrar_auditoria(cur,"remisiones",nuevo["id_remision"],"REMITIR",u["numero_documento_usuario"],nuevos=nuevo)
+        # Nombres de paciente y especialidad para el mensaje (misma transacción).
+        detalle=_obtener_remision(cur,nuevo["id_remision"])
         db.commit()
+
+        # R19: solo el especialista destino recibe el aviso (bandeja + canal en vivo).
+        # El paciente y el contable no están entre los destinatarios.
+        publicar(
+            db,
+            [nuevo["especialista_destino"]],
+            tipo="remision_recibida",
+            mensaje=(
+                f"Nueva remisión a {detalle['especialidad']}: "
+                f"{detalle['paciente_nombres']} {detalle['paciente_apellidos']}"
+            ),
+            paciente_id=nuevo["id_paciente"],
+            datos={
+                "remision_id":nuevo["id_remision"],
+                "id_encuentro":nuevo["id_encuentro"],
+                "especialidad":detalle["especialidad"],
+                "medico_remitente":nuevo["medico_remitente"],
+            },
+        )
         return {"id":nuevo["id_remision"],"estado":nuevo["estado"],"remision":nuevo}
     except UniqueViolation:
         db.rollback()
@@ -156,7 +178,25 @@ def aceptar_remision(id_remision:int,data:RemisionRespuesta,db=Depends(get_db),u
         """,(data.observacion,id_remision))
         nuevo=cur.fetchone()
         registrar_auditoria(cur,"remisiones",id_remision,"ACEPTAR_REMISION",u["numero_documento_usuario"],anterior,nuevo)
+        
         db.commit()
+        # R19: el médico remitente se entera de que su remisión fue aceptada.
+        publicar(
+            db,
+            [anterior["medico_remitente"]],
+            tipo="remision_aceptada",
+            mensaje=(
+                f"{anterior['especialista_nombres']} {anterior['especialista_apellidos']} "
+                f"aceptó la remisión de {anterior['paciente_nombres']} "
+                f"{anterior['paciente_apellidos']} a {anterior['especialidad']}"
+            ),
+            paciente_id=anterior["id_paciente"],
+            datos={
+                "remision_id":id_remision,
+                "especialidad":anterior["especialidad"],
+                "observacion":data.observacion,
+            },
+        )
         return {"id":id_remision,"estado":"aceptada"}
     except:
         db.rollback()

@@ -131,3 +131,41 @@ def leer_notificacion(
         return serializar_notificacion(fila)
     finally:
         cur.close()
+
+@router.get("/pendientes")
+def trabajo_pendiente(db=Depends(get_db), usuario=Depends(usuario_actual)):
+    """
+    Contadores del usuario autenticado. Suben cuando nace el trabajo y bajan
+    cuando se resuelve, porque se calculan desde el estado real de cada tabla.
+    """
+    uid = usuario["numero_documento_usuario"]
+    rol = usuario["rol"]
+
+    contadores = {
+        "reportes_por_revisar": 0,   # R10: se conecta cuando exista la tabla de reportes IA
+        "remisiones_recibidas": 0,
+        "alertas_activas": 0,        # R20: se conecta cuando exista la tabla de alertas
+        "notificaciones_no_leidas": 0,
+    }
+
+    cur = db.cursor()
+    try:
+        # Una remisión cuenta mientras está 'pendiente'. Al aceptarla o rechazarla, baja.
+        if rol == "Especialista":
+            cur.execute("""
+                SELECT count(*) FROM remisiones
+                WHERE especialista_destino = %s
+                  AND estado = 'pendiente'
+                  AND is_deleted = FALSE;
+            """, (uid,))
+            contadores["remisiones_recibidas"] = cur.fetchone()[0]
+
+        cur.execute("""
+            SELECT count(*) FROM notificaciones
+            WHERE numero_documento_usuario = %s AND leida = FALSE;
+        """, (uid,))
+        contadores["notificaciones_no_leidas"] = cur.fetchone()[0]
+
+        return contadores
+    finally:
+        cur.close()
