@@ -30,9 +30,9 @@ clínico no llega al paciente ni al contable (alcance por rol, R17).
 | `remision_recibida` | Médico crea una remisión (`POST /remisiones`) | El especialista destino | Aviso; sube `remisiones_recibidas` | `remision_id`, `id_encuentro`, `especialidad`, `medico_remitente` |
 | `remision_aceptada` | Especialista acepta (`PATCH /remisiones/{id}/aceptar`) | El médico remitente | Aviso; baja `remisiones_recibidas` del especialista | `remision_id`, `especialidad`, `observacion` |
 | `remision_rechazada` | Especialista rechaza (`PATCH /remisiones/{id}/rechazar`) | El médico remitente | Aviso; baja `remisiones_recibidas` del especialista | `remision_id`, `especialidad`, `observacion` |
+| `observacion_fhir` | Un sistema externo crea o actualiza una `Observation` en HAPI FHIR. HAPI la envía a `/fhir-hook` mediante la Subscription `triaje-observaciones` (rest-hook) | El médico responsable del encuentro activo del paciente; si no hay, los Admin | Aviso en bandeja y en vivo; fila `RECIBIR_FHIR` con `origen = FHIR` en `auditoria_cambios` | `origen`, `fhir_id`, `loinc`, `nombre`, `valor` |
 
 ## Pendiente de documentar
 
 - Aprobación de reporte IA → factura en MongoDB con `reporte_id` (R10, R19).
 - Alerta crítica y su escalamiento (R20).
-- Nueva `Observation` en FHIR → aviso al médico responsable (R21).

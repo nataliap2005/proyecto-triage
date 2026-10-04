@@ -24,3 +24,8 @@ if not PG_CONNECTION_STRING:
 
 if not JWT_SECRET_KEY:
     raise RuntimeError("Falta JWT_SECRET_KEY")
+
+# R21: HAPI FHIR avisa a la API en esta URL (red interna de Docker)
+# y se identifica con este secreto compartido.
+FHIR_HOOK_URL=os.getenv("FHIR_HOOK_URL","http://api:8000/fhir-hook")
+FHIR_HOOK_TOKEN=os.getenv("FHIR_HOOK_TOKEN")

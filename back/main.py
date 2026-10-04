@@ -26,6 +26,7 @@ from routers.pacs import router as pacs_router
 from routers.catalogos import router as catalogos_router
 from routers.remisiones import router as remisiones_router
 from routers.eventos import router as eventos_router
+from routers.fhir_suscripcion import router as fhir_suscripcion_router, iniciar_registro_suscripcion
 
 
 app = FastAPI(
@@ -77,13 +78,14 @@ app.include_router(pacs_router)
 app.include_router(catalogos_router)
 app.include_router(remisiones_router)
 app.include_router(eventos_router)
-
+app.include_router(fhir_suscripcion_router)
 
 # SISTEMA
 
 @app.on_event("startup")
 async def _iniciar_bus_eventos():
     configurar_loop(asyncio.get_running_loop())
+    iniciar_registro_suscripcion()
 
 @app.get("/", tags=["Sistema"])
 def raiz():

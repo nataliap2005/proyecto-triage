@@ -29,6 +29,7 @@ services:
       HIBERNATE_DIALECT: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
       HAPI_FHIR_FHIR_VERSION: R4
       HAPI_FHIR_OPENAPI_ENABLED: 'true'
+      HAPI_FHIR_SUBSCRIPTION_RESTHOOK_ENABLED: 'true'   # R21: activa las Subscription rest-hook
     ports:
     - 8080:8080
     depends_on:
@@ -81,6 +82,7 @@ services:
       ORTHANC_USERNAME: ${ORTHANC_USERNAME:-orthanc}
       ORTHANC_PASSWORD: ${ORTHANC_PASSWORD:-orthanc}
       MONGO_CONNECTION_STRING: mongodb://mongodb:27017/${MONGO_DB_NAME:-triaje}
+      FHIR_HOOK_URL: http://api:8000/fhir-hook
     ports:
     - 8000:8000
     depends_on:
