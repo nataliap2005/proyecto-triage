@@ -8,6 +8,7 @@ from psycopg2.extras import RealDictCursor
 
 from core.database import get_db
 from core.security import crear_token,decodificar_token,verificar_password
+from core.eventos import publicar, usuarios_por_rol
 
 security=HTTPBearer()
 MAX_INTENTOS_FALLIDOS=3
@@ -162,6 +163,18 @@ def autenticar_usuario(username:str,password:str,db):
             db.commit()
 
             if debe_bloquear:
+                # R19: el bloqueo avisa a todos los Admin, en vivo y en su bandeja.
+                publicar(
+                    db,
+                    usuarios_por_rol(db, "Admin"),
+                    tipo="cuenta_bloqueada",
+                    mensaje=f"La cuenta '{username}' fue bloqueada tras "
+                            f"{MAX_INTENTOS_FALLIDOS} intentos fallidos",
+                    datos={
+                        "usuario_bloqueado": username,
+                        "documento_usuario": documento,
+                    },
+                )
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail="Usuario bloqueado. Contacte al administrador"
@@ -212,25 +225,18 @@ def generar_respuesta_login(usuario:dict)->dict:
     }
 
 
-def usuario_actual(
-    credenciales:HTTPAuthorizationCredentials=Depends(security),
-    db=Depends(get_db)
-):
-    """
-    Obtiene el usuario autenticado a partir del JWT.
-    También invalida el acceso si la cuenta fue eliminada, deshabilitada o bloqueada.
-    """
+def usuario_desde_token(token: str, db) -> dict:
+    """Valida un JWT y devuelve el usuario activo. Lo usan el Bearer y el canal SSE (?token=)."""
     try:
-        payload=decodificar_token(credenciales.credentials)
-        documento=int(payload["sub"])
+        payload = decodificar_token(token)
+        documento = int(payload["sub"])
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token inválido o vencido"
         )
 
-    cur=db.cursor(cursor_factory=RealDictCursor)
-
+    cur = db.cursor(cursor_factory=RealDictCursor)
     try:
         cur.execute("""
             SELECT
@@ -245,9 +251,8 @@ def usuario_actual(
               AND u.estado=TRUE
               AND u.is_deleted=FALSE
               AND u.bloqueado=FALSE;
-        """,(documento,))
-
-        usuario=cur.fetchone()
+        """, (documento,))
+        usuario = cur.fetchone()
     finally:
         cur.close()
 
@@ -256,9 +261,14 @@ def usuario_actual(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuario no disponible"
         )
-
     return dict(usuario)
 
+
+def usuario_actual(
+    credenciales: HTTPAuthorizationCredentials = Depends(security),
+    db=Depends(get_db)):
+    """Dependencia estándar para rutas protegidas con Authorization: Bearer."""
+    return usuario_desde_token(credenciales.credentials, db)
 
 def requerir_roles(*roles):
     """Dependencia de FastAPI que permite el acceso solo a los roles indicados."""
@@ -271,7 +281,6 @@ def requerir_roles(*roles):
         return usuario
 
     return dependencia
-
 
 def desbloquear_usuario(documento:int,admin:dict,db):
     """

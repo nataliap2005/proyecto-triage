@@ -1,9 +1,12 @@
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+import asyncio
+
 from auth.router import router as auth_router
 from auth.service import requerir_roles
 from core.database import get_db
+from core.eventos import configurar_loop
 
 from routers.usuarios import router as usuarios_router
 from routers.pacientes import router as pacientes_router
@@ -22,6 +25,7 @@ from routers.fhir import router as fhir_router
 from routers.pacs import router as pacs_router
 from routers.catalogos import router as catalogos_router
 from routers.remisiones import router as remisiones_router
+from routers.eventos import router as eventos_router
 
 
 app = FastAPI(
@@ -32,7 +36,6 @@ app = FastAPI(
         "FHIR R4 e integración PACS/DICOM mediante Orthanc."
     ),
 )
-
 
 # Solo se permiten orígenes conocidos. El frontend actual usa /api mediante
 # Nginx (mismo origen), pero se conservan los orígenes locales autorizados
@@ -73,9 +76,14 @@ app.include_router(fhir_router)
 app.include_router(pacs_router)
 app.include_router(catalogos_router)
 app.include_router(remisiones_router)
+app.include_router(eventos_router)
 
 
 # SISTEMA
+
+@app.on_event("startup")
+async def _iniciar_bus_eventos():
+    configurar_loop(asyncio.get_running_loop())
 
 @app.get("/", tags=["Sistema"])
 def raiz():
