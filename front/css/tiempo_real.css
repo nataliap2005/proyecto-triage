@@ -1,0 +1,20 @@
+/* tiempo_real.css — indicador en vivo, campanita, contadores y bandeja (R16-R18) */
+
+.live-dot{width:10px;height:10px;border-radius:50%;background:#c9ced6;display:inline-block;flex:none}
+.live-dot.on{background:#1f9d55;box-shadow:0 0 0 3px rgba(31,157,85,.18)}
+
+.bell{position:relative}
+.bell-count,.nav-count{display:inline-block;min-width:18px;height:18px;padding:0 5px;border-radius:9px;
+  background:#d64545;color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center}
+.bell-count{position:absolute;top:-4px;right:-4px}
+.nav-count{margin-left:auto}
+/* display:inline-block anularía el atributo hidden: se restituye explícitamente */
+.bell-count[hidden],.nav-count[hidden]{display:none}
+
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.notif-lista{display:flex;flex-direction:column;gap:8px}
+.notif-item{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;
+  padding:12px 14px;border:1px solid #e3e7ee;border-radius:10px;background:#fff}
+.notif-item p{margin:6px 0 4px}
+.notif-item.no-leida{border-left:4px solid #2f6fdd;background:#f5f8ff}
+.metric-num{font-size:1.8rem}
