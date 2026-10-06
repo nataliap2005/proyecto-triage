@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="/css/admin.css">
   <link rel="stylesheet" href="/css/viewer.css">
   <link rel="stylesheet" href="/css/status.css">
+  <link rel="stylesheet" href="/css/status.css">
+  <link rel="stylesheet" href="/css/tiempo_real.css">
 </head>
 <body>
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
@@ -73,6 +75,8 @@
           <h1 id="page-title">Inicio</h1>
         </div>
         <div class="user-box">
+          <span id="estado-canal" class="live-dot" title="Tiempo real: desconectado"></span>
+          <button id="btn-notificaciones" class="btn btn-ghost btn-icon bell" type="button" aria-label="Notificaciones">🔔<span class="bell-count" data-contador="notificaciones_no_leidas" hidden>0</span></button>
           <div id="user-avatar" class="avatar">U</div>
           <div class="user-meta"><strong id="usuario-actual">Usuario</strong><span id="rol-actual" class="role-badge">Rol</span></div>
           <button id="cerrar-sesion" class="btn btn-secondary" type="button">Cerrar sesión</button>

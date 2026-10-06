@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+
+# Secretos locales
+.env
+pass.env
+
+# Las plantillas sí se versionan
+!.env.example
+!pass.env.example

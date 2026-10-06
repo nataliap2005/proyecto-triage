@@ -12,7 +12,7 @@ TablaAuditoria=Literal[
     "usuarios","pacientes","antecedentes","reportes_previos",
     "encuentros","observaciones","diagnosticos","notas_clinicas",
     "examenes","medicamentos","prescripciones","facturas",
-    "factura_detalle","remisiones"
+    "factura_detalle","remisiones","fhir:Observation"
 ]
 
 
@@ -32,6 +32,7 @@ def auditoria(
                 SELECT
                     a.id_auditoria::text AS id_evento,
                     'cambios'::text AS origen,
+                    a.origen AS sistema_origen,
                     a.tabla_afectada,
                     a.registro_id,
                     a.accion,
@@ -54,6 +55,7 @@ def auditoria(
                 SELECT
                     al.id_auth_log::text AS id_evento,
                     'autenticacion'::text AS origen,
+                    'API'::text AS sistema_origen, 
                     'usuarios'::text AS tabla_afectada,
                     COALESCE(
                         al.numero_documento_usuario::text,
