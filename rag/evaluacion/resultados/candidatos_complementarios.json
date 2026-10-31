@@ -1,0 +1,478 @@
+[
+  {
+    "id": "P04",
+    "pregunta": "¿Qué información debe recibir el paciente o su acompañante durante el proceso de triaje?",
+    "fuente_esperada": "Resolución 5596 de 2015.pdf",
+    "candidatos_nuevos": [
+      {
+        "id_fragmento": "de3bf6d8407b6f88106186e584365a6eac36570b539e42cc7ffb9d4ba7ef7ec9",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 2,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 27
+      },
+      {
+        "id_fragmento": "0afbcc339e65230ce17b3ebc0632408e1036a289f74693f93a0bd8dc31d83f9b",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 4,
+        "numero_fragmento": 2,
+        "puntaje_busqueda": 27
+      },
+      {
+        "id_fragmento": "dfd6cba6a121513b0816faa55b7b51d61c179b1ae19b7cd4de8adb1e5632cb81",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 3,
+        "numero_fragmento": 2,
+        "puntaje_busqueda": 25
+      },
+      {
+        "id_fragmento": "9230eb8053b970159d30621ef347f0df9fcc5b2d792da41374951961dcf06948",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 2,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 21
+      },
+      {
+        "id_fragmento": "098dc6a7d7e1235f9bb322a4cfd698bdc18e45900a8a46632b4a2d1be5edc06a",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 3,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 17
+      },
+      {
+        "id_fragmento": "7992da09986118a28a64bd9bdf54ffd0053eb5d8dba88e065c3cc7e8d978d3c1",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 3,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 17
+      },
+      {
+        "id_fragmento": "2ec79ea1bac1e42fbf61a4e6e02e9ba86395ef1e62671e0b329234923e851350",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 4,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 15
+      },
+      {
+        "id_fragmento": "eeb5fad10a8e7966105bb7e346eca2634b5617e32485324e1462aa0ac856191b",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 4,
+        "numero_fragmento": 3,
+        "puntaje_busqueda": 15
+      },
+      {
+        "id_fragmento": "5bee1265685f056b0760957bfe7d03bae710f95408e18c6ffc43336831d53935",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 5,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 12
+      },
+      {
+        "id_fragmento": "dae52d2fed63eb8d0d5c350f7fa844ea89f8afdf2e4bd1b99256c6ae21fcd124",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 2,
+        "numero_fragmento": 3,
+        "puntaje_busqueda": 11
+      },
+      {
+        "id_fragmento": "348156936d7fe75c8fec90813630f04132e94e764c8545cf6374ea43f1938cff",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 4,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 11
+      },
+      {
+        "id_fragmento": "b6f84baa9204e5a23f6538b9b9291c8ca3f47a8426db51480e604844025af1cf",
+        "fuente": "Resolución 5596 de 2015.pdf",
+        "pagina": 1,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 9
+      }
+    ]
+  },
+  {
+    "id": "P05",
+    "pregunta": "¿Qué observaciones fisiológicas mínimas recomienda NICE registrar en la valoración inicial?",
+    "fuente_esperada": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+    "candidatos_nuevos": [
+      {
+        "id_fragmento": "8ecd7b2342e7de6e04b6d99a86025f261018946cb0087f03508c1f3e31fce83f",
+        "fuente": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+        "pagina": 13,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 22
+      },
+      {
+        "id_fragmento": "de7578aaf09c8be983f68d67c65379ba17eff32cf5b323c5255b31e55c672b0d",
+        "fuente": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+        "pagina": 12,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 15
+      },
+      {
+        "id_fragmento": "e913b0a1c6efffc091e573c349385555978a0da3912610419e0266429e11eeb8",
+        "fuente": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+        "pagina": 3,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 4
+      },
+      {
+        "id_fragmento": "a826faec881c5c6aa3f6b00d8079d3b81b84965568871ac4a3eb08881aed100b",
+        "fuente": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+        "pagina": 5,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 4
+      },
+      {
+        "id_fragmento": "d1607692a0f70a5fb246a52e636b27ebe3766d055ae1f3e08ae6a9ffa28e0f6e",
+        "fuente": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+        "pagina": 7,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 3
+      },
+      {
+        "id_fragmento": "2b9c7463a345f0ad19bbc355b83475d64fcaae092ce0675ec86d3481a2a8f24f",
+        "fuente": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+        "pagina": 12,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 3
+      }
+    ]
+  },
+  {
+    "id": "P10",
+    "pregunta": "¿Qué recomienda NICE para evaluar el trauma torácico y el neumotórax a tensión?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "candidatos_nuevos": [
+      {
+        "id_fragmento": "27af8e360dad1ce4edb02e244d07ac0624c5bc4aea01f238f1732a8a537c06e6",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 7,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 65
+      },
+      {
+        "id_fragmento": "15ee9a8765b5c4032463fedf31e9ab1aabcbc46c4bd2c2a195277236c71361b7",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 8,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 25
+      },
+      {
+        "id_fragmento": "340580dc6cad7e5fc2a51ce51cb00a9e5c8e9172bb4b4a2147af3c8f06b2d16a",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 6,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 21
+      },
+      {
+        "id_fragmento": "ebc1c0768307190b3805794884e72afdd5874c3d59faf1374633804e3d7dc029",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 6,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 13
+      },
+      {
+        "id_fragmento": "f6d87d8e801055a6052a3915ae375adcfb1da49a1ebfd0152cba674c77caabb5",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 3,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 8
+      },
+      {
+        "id_fragmento": "f8d19988898c168b862b1b6d3160652fd33e22f86752bca23fecb693617ad845",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 12,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 6
+      },
+      {
+        "id_fragmento": "bb13f145fa5518a1005f3d809f44551650a2ea80b8b5b3d5588cfa19bb45924b",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 23,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 6
+      },
+      {
+        "id_fragmento": "3b9bffcb0b5bc6b1ff04f87cf109c58259a19481fbc7066b5c08d285b71613e7",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 8,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 3
+      },
+      {
+        "id_fragmento": "45a0e43cd1172478207552e238ec3eca73e85be9b2336287fb7dc6f4a7145ba5",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 12,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 2
+      },
+      {
+        "id_fragmento": "d3bdf366a18f3d76db6413e69e4ec426358804372712de9d8737dfc4049ca382",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 19,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 2
+      },
+      {
+        "id_fragmento": "83363cd0d676f4793ee07cc5ac6954b0b3f181b7746f51c7b17f9dfcddf431cc",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 20,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 2
+      }
+    ]
+  },
+  {
+    "id": "P12",
+    "pregunta": "¿Qué información mínima se debe registrar durante la evaluación primaria del trauma mayor?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "candidatos_nuevos": [
+      {
+        "id_fragmento": "3914fcd8fbdc86839dddf8ab97977bdeae0208c6ad0e5687566ec26818d5ad01",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 16,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 25
+      },
+      {
+        "id_fragmento": "8878aff9ce2ee421048720b26791e621c2eace81d257ac59b4c658d288bcdbba",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 15,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 21
+      },
+      {
+        "id_fragmento": "ea28f670b250048fd753ff22615132b6fb4cd550f54951151424190f689c9828",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 17,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 16
+      },
+      {
+        "id_fragmento": "20f7827258df765a96f0929842b4be4ffbf669400a9a099b0b621c12d90627a7",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 3,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 4
+      },
+      {
+        "id_fragmento": "d7789d05340e5f184bbe536f097b7b266754b1c57cb3178543018cadf604cc3e",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 23,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 4
+      },
+      {
+        "id_fragmento": "bb13f145fa5518a1005f3d809f44551650a2ea80b8b5b3d5588cfa19bb45924b",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 23,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 4
+      },
+      {
+        "id_fragmento": "89b7a03031633cd15377d100e3679581a59017f6cd16f8947a7954c35d54dcbd",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 14,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 3
+      },
+      {
+        "id_fragmento": "5c8625c1d4741222a1717a8459ea9e513ac75eb8212202d331cae1ccd8cabbab",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 14,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 3
+      },
+      {
+        "id_fragmento": "9e14983f5f91e9b3b4364194ed158d90e6bbfc1db5bd7574828007396650f3e7",
+        "fuente": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+        "pagina": 15,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 3
+      }
+    ]
+  },
+  {
+    "id": "P14",
+    "pregunta": "¿Qué consideraciones recomienda NICE para interpretar las concentraciones de troponina?",
+    "fuente_esperada": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+    "candidatos_nuevos": [
+      {
+        "id_fragmento": "15d5b45cda96258f78e47b5bf844785206194dc018699f729d00b8fc452245b3",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 14,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 25
+      },
+      {
+        "id_fragmento": "d4d328775179455c3b12c2547a662ae98bec2a8233fac6089c2b299c93347cd0",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 13,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 11
+      },
+      {
+        "id_fragmento": "65287b3e30258e29b83d086f268a3c51147037c5b20bba9ba003b40c3b7021e0",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 15,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 11
+      },
+      {
+        "id_fragmento": "f0efecd674a5fb8bc7dd0ad18f10970ab2c85a7339b7264c31c3c1f5ba4ca3bd",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 9,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 8
+      },
+      {
+        "id_fragmento": "37f7030a3ab4ec61b437ba173387017ca34e0c8a400e362a1925ce40f6ce170d",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 13,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 7
+      },
+      {
+        "id_fragmento": "7f69679347185e36c6a1ffe9cd93eaf5ae523e2abfa1ca05a8142837098a8981",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 25,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 6
+      },
+      {
+        "id_fragmento": "4171e234c8195801a0970a6f4c4f4bc5a9ecce168a96c4bf38244d8bdef29b08",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 3,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 2
+      },
+      {
+        "id_fragmento": "1ece2e6de57959753a1b8dca7cf4604f7fedbedc91a14a93508a9e1f9ed23732",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 4,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 2
+      },
+      {
+        "id_fragmento": "e44e63710a5700a3f9739c56093252ccd235bfabedfac86a0fb0b4ae0ae1a2c9",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 9,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 2
+      },
+      {
+        "id_fragmento": "afcf16f90774a64e451ff9dd73345cb39bbf2d336a4c2cb8481748da496b4a36",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 12,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 2
+      },
+      {
+        "id_fragmento": "879aa5cb08c24a16bd2cbba201cc945f3a4dbeff379ef6c5f01fc11be498e502",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 25,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 2
+      },
+      {
+        "id_fragmento": "44210b8099e7f12ff708ca185021ccb828d0c495aba70ec6543d50dcf0fffc2d",
+        "fuente": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+        "pagina": 34,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 2
+      }
+    ]
+  },
+  {
+    "id": "P17",
+    "pregunta": "¿Qué elementos incluye la evaluación sistemática ABCDE en atención básica de emergencia?",
+    "fuente_esperada": "9789240006331-spa.pdf",
+    "candidatos_nuevos": [
+      {
+        "id_fragmento": "5cfe34771760aff94b1196b3ae90df221b505f9631beee1e4156a0e7b87240c4",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 77,
+        "numero_fragmento": 1,
+        "puntaje_busqueda": 32
+      },
+      {
+        "id_fragmento": "23e40a56be6d06141ea34b1c55491e895392fe47a1ff9604ad7fca529d10833c",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 25,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 31
+      },
+      {
+        "id_fragmento": "f45877899747d90cc2f794c5b7f8dbb217e6b9c080686c4aec247bd944ab315d",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 51,
+        "numero_fragmento": 2,
+        "puntaje_busqueda": 28
+      },
+      {
+        "id_fragmento": "7828edf099af955f301b7f66099100a002910990231738116bc768042678a4d9",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 90,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 28
+      },
+      {
+        "id_fragmento": "4343ea4566a20a94f10620cd78e53391d9fa0c4824f2ffa5a33c864f560e04ef",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 136,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 28
+      },
+      {
+        "id_fragmento": "c1ac547265def8ce028da5063ce94321b694c34de90a38fbdeac6220bdc69882",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 221,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 28
+      },
+      {
+        "id_fragmento": "aa69be57d35a894fe9c9a24dec6ae2db9cf27dd26c52ffa6e90027773ff3f8db",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 226,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 28
+      },
+      {
+        "id_fragmento": "0fc68c3cdb6125260fed54108d7a6cc4d2c03c218e8f189fe4bdb743677bb75c",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 19,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 27
+      },
+      {
+        "id_fragmento": "e35eb061c9a7686cb62be108cfd9076113c8be4bca97564f54ff70d1fd04db64",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 40,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 27
+      },
+      {
+        "id_fragmento": "daf3263f80bf8939b850a3785bef75e6bd549b192896bf08f943e23a759176e2",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 26,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 25
+      },
+      {
+        "id_fragmento": "c341f2c53af85a2b87639aa58b81570be3b88ce33aae3be1a237b7fd76a2b159",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 30,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 25
+      },
+      {
+        "id_fragmento": "0a9bdb03ed1a2eb799cc3ad1d0dc0c7fae1a05fc0192974f2d1e78c277b5df98",
+        "fuente": "9789240006331-spa.pdf",
+        "pagina": 37,
+        "numero_fragmento": 0,
+        "puntaje_busqueda": 25
+      }
+    ]
+  }
+]

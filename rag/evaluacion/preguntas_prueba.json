@@ -1,0 +1,236 @@
+[
+  {
+    "id": "P01",
+    "pregunta": "¿Cuáles son las cinco categorías de triaje establecidas en el artículo 5?",
+    "fuente_esperada": "Resolución 5596 de 2015.pdf",
+    "estado": "validado_manualmente",
+    "fragmentos_relevantes": [
+      "4cc8edddac679fdeb53b8dd78c2af5a722e2b249bc6f4c06d7051d66fa46241c",
+      "dae52d2fed63eb8d0d5c350f7fa844ea89f8afdf2e4bd1b99256c6ae21fcd124",
+      "098dc6a7d7e1235f9bb322a4cfd698bdc18e45900a8a46632b4a2d1be5edc06a"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P02",
+    "pregunta": "¿Qué responsabilidades tienen las instituciones prestadoras de servicios de salud respecto al triaje?",
+    "fuente_esperada": "Resolución 5596 de 2015.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "7992da09986118a28a64bd9bdf54ffd0053eb5d8dba88e065c3cc7e8d978d3c1",
+      "dfd6cba6a121513b0816faa55b7b51d61c179b1ae19b7cd4de8adb1e5632cb81"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P03",
+    "pregunta": "¿Qué personal es responsable de realizar el triaje en servicios de urgencias?",
+    "fuente_esperada": "Resolución 5596 de 2015.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "348156936d7fe75c8fec90813630f04132e94e764c8545cf6374ea43f1938cff"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P04",
+    "pregunta": "¿Qué información debe recibir el paciente o su acompañante durante el proceso de triaje?",
+    "fuente_esperada": "Resolución 5596 de 2015.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "4cc8edddac679fdeb53b8dd78c2af5a722e2b249bc6f4c06d7051d66fa46241c",
+      "de3bf6d8407b6f88106186e584365a6eac36570b539e42cc7ffb9d4ba7ef7ec9",
+      "0afbcc339e65230ce17b3ebc0632408e1036a289f74693f93a0bd8dc31d83f9b",
+      "dfd6cba6a121513b0816faa55b7b51d61c179b1ae19b7cd4de8adb1e5632cb81",
+      "7992da09986118a28a64bd9bdf54ffd0053eb5d8dba88e065c3cc7e8d978d3c1"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P05",
+    "pregunta": "¿Qué observaciones fisiológicas mínimas recomienda NICE registrar en la valoración inicial?",
+    "fuente_esperada": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "4fe71de94496e05d68392eae3033412e2462255303a2131b0d322f4efa31c485",
+      "89f03fd76271f4b99f70c0b154cc679a85cd09f839e3624f2a7ac2ff8ae89ff8",
+      "8ecd7b2342e7de6e04b6d99a86025f261018946cb0087f03508c1f3e31fce83f"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P06",
+    "pregunta": "¿Cómo se utiliza un sistema track and trigger para identificar deterioro clínico?",
+    "fuente_esperada": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "de7578aaf09c8be983f68d67c65379ba17eff32cf5b323c5255b31e55c672b0d",
+      "2b9c7463a345f0ad19bbc355b83475d64fcaae092ce0675ec86d3481a2a8f24f",
+      "d79257832a1c3586b440939edebd59c3faca1f7a32d2dd24a210bced73d7d473"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P07",
+    "pregunta": "¿Qué respuesta se recomienda ante un puntaje alto de deterioro fisiológico?",
+    "fuente_esperada": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "c579ec73300e32a0448f6aa628cbecf9e2e6c88bcbd5927a575e9f6449e0b9a4"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P08",
+    "pregunta": "¿Qué medidas se recomiendan al transferir a un paciente desde cuidados críticos a una sala general?",
+    "fuente_esperada": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "b56078b220aa6b2f99bd7e0f6110fd77b7307e8e8392cc381872e769e202dc49",
+      "10db48e99711f78eb0f66e8a78f1cdb5b379255c45f6d4333ae6c06fcb7d7b5e"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P09",
+    "pregunta": "¿Qué recomienda NICE sobre el manejo inicial de la vía aérea en trauma mayor?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "ebc1c0768307190b3805794884e72afdd5874c3d59faf1374633804e3d7dc029",
+      "02dff99b8ff2d83e67a56a0a199ecbeee8cb02b8d3e7f31f88f1f6aea675591a"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P10",
+    "pregunta": "¿Qué recomienda NICE para evaluar el trauma torácico y el neumotórax a tensión?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "9ad29b7d00f58f518c2e226caa5930952a272ac6fbadec50df72fde3be311d0e",
+      "27af8e360dad1ce4edb02e244d07ac0624c5bc4aea01f238f1732a8a537c06e6",
+      "15ee9a8765b5c4032463fedf31e9ab1aabcbc46c4bd2c2a195277236c71361b7",
+      "340580dc6cad7e5fc2a51ce51cb00a9e5c8e9172bb4b4a2147af3c8f06b2d16a",
+      "ebc1c0768307190b3805794884e72afdd5874c3d59faf1374633804e3d7dc029"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P11",
+    "pregunta": "¿Cuándo recomienda NICE el ácido tranexámico en trauma mayor con hemorragia?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "f1848239fd6411427a24b4dfc39e4c65d88ff283bebf7fd4395b9d4976c6fb31"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P12",
+    "pregunta": "¿Qué información mínima se debe registrar durante la evaluación primaria del trauma mayor?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "3914fcd8fbdc86839dddf8ab97977bdeae0208c6ad0e5687566ec26818d5ad01",
+      "8878aff9ce2ee421048720b26791e621c2eace81d257ac59b4c658d288bcdbba"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P13",
+    "pregunta": "¿Qué pruebas recomienda NICE para evaluar un posible síndrome coronario agudo?",
+    "fuente_esperada": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "f0efecd674a5fb8bc7dd0ad18f10970ab2c85a7339b7264c31c3c1f5ba4ca3bd",
+      "e44e63710a5700a3f9739c56093252ccd235bfabedfac86a0fb0b4ae0ae1a2c9",
+      "002f254f72911ad97332087d56b3cb372eca5053efe49bd56e2216f22f528fd2",
+      "93f20c237fcebcd9c77279f00158dc089d80dcb8ddc8c6b56c131451a8de4181"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P14",
+    "pregunta": "¿Qué consideraciones recomienda NICE para interpretar las concentraciones de troponina?",
+    "fuente_esperada": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "ee66ad753f2350a4ff76fd0209b35d03667bcaf76345e424725118a8512a3c30",
+      "15d5b45cda96258f78e47b5bf844785206194dc018699f729d00b8fc452245b3",
+      "65287b3e30258e29b83d086f268a3c51147037c5b20bba9ba003b40c3b7021e0",
+      "f0efecd674a5fb8bc7dd0ad18f10970ab2c85a7339b7264c31c3c1f5ba4ca3bd"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P15",
+    "pregunta": "¿Qué recomienda NICE respecto a pruebas diagnósticas para dolor torácico no anginoso?",
+    "fuente_esperada": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "7469a2a009a87ba72e843e76e5f07019edeee903da317fafe4a1922fbef84fe9",
+      "ed6f8a4a30de8cd051b3141817d34320c52711e83d93e8b66e5f960f455285ec"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P16",
+    "pregunta": "¿Qué evaluación física recomienda NICE ante dolor torácico de posible origen cardíaco?",
+    "fuente_esperada": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "5b898525ceb23486f6e78bbef0c05eec1a5da2a66224679eccbb5b10e1741622"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P17",
+    "pregunta": "¿Qué elementos incluye la evaluación sistemática ABCDE en atención básica de emergencia?",
+    "fuente_esperada": "9789240006331-spa.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "23e40a56be6d06141ea34b1c55491e895392fe47a1ff9604ad7fca529d10833c",
+      "c1ac547265def8ce028da5063ce94321b694c34de90a38fbdeac6220bdc69882",
+      "aa69be57d35a894fe9c9a24dec6ae2db9cf27dd26c52ffa6e90027773ff3f8db"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P18",
+    "pregunta": "¿Qué antecedentes clínicos se deben considerar al valorar inicialmente a un paciente de urgencias?",
+    "fuente_esperada": "9789240006331-spa.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "d12be024cebad1dc04135187ad4417aafb9bcb89487c0fb477cde896c8027d91",
+      "ec40df46d593ea9c237d61f40069412529cca807836952f3e5aeca0eab96617c",
+      "d5edc3e85fb34585b99e86bb5897a0d782ed9874c5c7fc93b289c7220ded49df"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P19",
+    "pregunta": "¿Qué signos permiten reconocer la deshidratación en niños?",
+    "fuente_esperada": "9789240006331-spa.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "758cb2ad2fd684ffdfb3dbf5bb12a5b85820817678bbfca237a2b2502b4d6f8f",
+      "9af020c8d2cdbe10a7107385654ab9cb0b392da54193ee73940f3fc37f79a40d"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  },
+  {
+    "id": "P20",
+    "pregunta": "¿Qué medidas iniciales se describen para la atención de quemaduras?",
+    "fuente_esperada": "9789240006331-spa.pdf",
+    "estado": "referencias_revisadas_preliminarmente",
+    "fragmentos_relevantes": [
+      "fc2f3624b7a64ccd44219a98642e1428d2a8e0a7cc2fd56a5c3619bb62ead274",
+      "f45c2d7faa072f55655e31144aa9d10812e47a1a351b78db3f889adf42569a1b",
+      "4f2be6bb19487f8d210c4ab3ab4da5db9ce35adabc6c60eceead1e4d8b5bf0b0",
+      "4f292dda6cce951018e313287ca55acde7913e221026db479762522b6a733823",
+      "1eef26bb0f90c5d93ad3eb56656e835911acc479d40c691ddc5f5eca3f396fab"
+    ],
+    "procedencia_relevancia": "revision de candidatos originales y busqueda complementaria; no es anotacion exhaustiva de los 813 fragmentos"
+  }
+]

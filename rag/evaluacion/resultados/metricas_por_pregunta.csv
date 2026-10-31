@@ -1,0 +1,61 @@
+﻿id_pregunta,pregunta,metodo,n_relevantes,n_recuperados,recall_at_1,hit_at_1,recall_at_3,hit_at_3,primer_rango_relevante,rr_at_20
+P01,¿Cuáles son las cinco categorías de triaje establecidas en el artículo 5?,bm25,3,20,0.0,0,0.0,0,6,0.16666666666666666
+P01,¿Cuáles son las cinco categorías de triaje establecidas en el artículo 5?,dense,3,20,0.0,0,0.0,0,11,0.09090909090909091
+P01,¿Cuáles son las cinco categorías de triaje establecidas en el artículo 5?,hibrido,3,20,0.0,0,0.0,0,6,0.16666666666666666
+P02,¿Qué responsabilidades tienen las instituciones prestadoras de servicios de salud respecto al triaje?,bm25,2,20,0.5,1,0.5,1,1,1.0
+P02,¿Qué responsabilidades tienen las instituciones prestadoras de servicios de salud respecto al triaje?,dense,2,20,0.0,0,0.5,1,2,0.5
+P02,¿Qué responsabilidades tienen las instituciones prestadoras de servicios de salud respecto al triaje?,hibrido,2,20,0.5,1,0.5,1,1,1.0
+P03,¿Qué personal es responsable de realizar el triaje en servicios de urgencias?,bm25,1,20,1.0,1,1.0,1,1,1.0
+P03,¿Qué personal es responsable de realizar el triaje en servicios de urgencias?,dense,1,20,0.0,0,1.0,1,2,0.5
+P03,¿Qué personal es responsable de realizar el triaje en servicios de urgencias?,hibrido,1,20,1.0,1,1.0,1,1,1.0
+P04,¿Qué información debe recibir el paciente o su acompañante durante el proceso de triaje?,bm25,5,20,0.2,1,0.4,1,1,1.0
+P04,¿Qué información debe recibir el paciente o su acompañante durante el proceso de triaje?,dense,5,20,0.0,0,0.2,1,2,0.5
+P04,¿Qué información debe recibir el paciente o su acompañante durante el proceso de triaje?,hibrido,5,20,0.2,1,0.4,1,1,1.0
+P05,¿Qué observaciones fisiológicas mínimas recomienda NICE registrar en la valoración inicial?,bm25,3,20,0.0,0,0.0,0,,0.0
+P05,¿Qué observaciones fisiológicas mínimas recomienda NICE registrar en la valoración inicial?,dense,3,20,0.3333333333333333,1,0.3333333333333333,1,1,1.0
+P05,¿Qué observaciones fisiológicas mínimas recomienda NICE registrar en la valoración inicial?,hibrido,3,20,0.0,0,0.0,0,15,0.06666666666666667
+P06,¿Cómo se utiliza un sistema track and trigger para identificar deterioro clínico?,bm25,3,20,0.3333333333333333,1,0.6666666666666666,1,1,1.0
+P06,¿Cómo se utiliza un sistema track and trigger para identificar deterioro clínico?,dense,3,20,0.3333333333333333,1,0.3333333333333333,1,1,1.0
+P06,¿Cómo se utiliza un sistema track and trigger para identificar deterioro clínico?,hibrido,3,20,0.3333333333333333,1,0.3333333333333333,1,1,1.0
+P07,¿Qué respuesta se recomienda ante un puntaje alto de deterioro fisiológico?,bm25,1,20,0.0,0,0.0,0,,0.0
+P07,¿Qué respuesta se recomienda ante un puntaje alto de deterioro fisiológico?,dense,1,20,0.0,0,0.0,0,,0.0
+P07,¿Qué respuesta se recomienda ante un puntaje alto de deterioro fisiológico?,hibrido,1,20,0.0,0,0.0,0,,0.0
+P08,¿Qué medidas se recomiendan al transferir a un paciente desde cuidados críticos a una sala general?,bm25,2,20,0.0,0,0.0,0,,0.0
+P08,¿Qué medidas se recomiendan al transferir a un paciente desde cuidados críticos a una sala general?,dense,2,20,0.0,0,0.0,0,5,0.2
+P08,¿Qué medidas se recomiendan al transferir a un paciente desde cuidados críticos a una sala general?,hibrido,2,20,0.0,0,0.0,0,,0.0
+P09,¿Qué recomienda NICE sobre el manejo inicial de la vía aérea en trauma mayor?,bm25,2,20,0.0,0,0.0,0,,0.0
+P09,¿Qué recomienda NICE sobre el manejo inicial de la vía aérea en trauma mayor?,dense,2,20,0.5,1,0.5,1,1,1.0
+P09,¿Qué recomienda NICE sobre el manejo inicial de la vía aérea en trauma mayor?,hibrido,2,20,0.0,0,0.0,0,16,0.0625
+P10,¿Qué recomienda NICE para evaluar el trauma torácico y el neumotórax a tensión?,bm25,5,20,0.0,0,0.0,0,,0.0
+P10,¿Qué recomienda NICE para evaluar el trauma torácico y el neumotórax a tensión?,dense,5,20,0.0,0,0.0,0,,0.0
+P10,¿Qué recomienda NICE para evaluar el trauma torácico y el neumotórax a tensión?,hibrido,5,20,0.0,0,0.0,0,,0.0
+P11,¿Cuándo recomienda NICE el ácido tranexámico en trauma mayor con hemorragia?,bm25,1,20,0.0,0,0.0,0,,0.0
+P11,¿Cuándo recomienda NICE el ácido tranexámico en trauma mayor con hemorragia?,dense,1,20,1.0,1,1.0,1,1,1.0
+P11,¿Cuándo recomienda NICE el ácido tranexámico en trauma mayor con hemorragia?,hibrido,1,20,0.0,0,0.0,0,,0.0
+P12,¿Qué información mínima se debe registrar durante la evaluación primaria del trauma mayor?,bm25,2,20,0.0,0,0.0,0,,0.0
+P12,¿Qué información mínima se debe registrar durante la evaluación primaria del trauma mayor?,dense,2,20,0.0,0,0.0,0,12,0.08333333333333333
+P12,¿Qué información mínima se debe registrar durante la evaluación primaria del trauma mayor?,hibrido,2,20,0.0,0,0.0,0,,0.0
+P13,¿Qué pruebas recomienda NICE para evaluar un posible síndrome coronario agudo?,bm25,4,20,0.0,0,0.0,0,,0.0
+P13,¿Qué pruebas recomienda NICE para evaluar un posible síndrome coronario agudo?,dense,4,20,0.25,1,0.25,1,1,1.0
+P13,¿Qué pruebas recomienda NICE para evaluar un posible síndrome coronario agudo?,hibrido,4,20,0.0,0,0.0,0,6,0.16666666666666666
+P14,¿Qué consideraciones recomienda NICE para interpretar las concentraciones de troponina?,bm25,4,20,0.0,0,0.0,0,,0.0
+P14,¿Qué consideraciones recomienda NICE para interpretar las concentraciones de troponina?,dense,4,20,0.0,0,0.25,1,3,0.3333333333333333
+P14,¿Qué consideraciones recomienda NICE para interpretar las concentraciones de troponina?,hibrido,4,20,0.0,0,0.0,0,20,0.05
+P15,¿Qué recomienda NICE respecto a pruebas diagnósticas para dolor torácico no anginoso?,bm25,2,20,0.0,0,0.0,0,,0.0
+P15,¿Qué recomienda NICE respecto a pruebas diagnósticas para dolor torácico no anginoso?,dense,2,20,0.5,1,0.5,1,1,1.0
+P15,¿Qué recomienda NICE respecto a pruebas diagnósticas para dolor torácico no anginoso?,hibrido,2,20,0.0,0,0.0,0,,0.0
+P16,¿Qué evaluación física recomienda NICE ante dolor torácico de posible origen cardíaco?,bm25,1,20,0.0,0,0.0,0,,0.0
+P16,¿Qué evaluación física recomienda NICE ante dolor torácico de posible origen cardíaco?,dense,1,20,0.0,0,0.0,0,18,0.05555555555555555
+P16,¿Qué evaluación física recomienda NICE ante dolor torácico de posible origen cardíaco?,hibrido,1,20,0.0,0,0.0,0,,0.0
+P17,¿Qué elementos incluye la evaluación sistemática ABCDE en atención básica de emergencia?,bm25,3,20,0.0,0,0.0,0,11,0.09090909090909091
+P17,¿Qué elementos incluye la evaluación sistemática ABCDE en atención básica de emergencia?,dense,3,20,0.0,0,0.0,0,6,0.16666666666666666
+P17,¿Qué elementos incluye la evaluación sistemática ABCDE en atención básica de emergencia?,hibrido,3,20,0.0,0,0.6666666666666666,1,2,0.5
+P18,¿Qué antecedentes clínicos se deben considerar al valorar inicialmente a un paciente de urgencias?,bm25,3,20,0.0,0,0.0,0,10,0.1
+P18,¿Qué antecedentes clínicos se deben considerar al valorar inicialmente a un paciente de urgencias?,dense,3,20,0.0,0,0.0,0,18,0.05555555555555555
+P18,¿Qué antecedentes clínicos se deben considerar al valorar inicialmente a un paciente de urgencias?,hibrido,3,20,0.0,0,0.0,0,5,0.2
+P19,¿Qué signos permiten reconocer la deshidratación en niños?,bm25,2,20,0.5,1,0.5,1,1,1.0
+P19,¿Qué signos permiten reconocer la deshidratación en niños?,dense,2,20,0.5,1,1.0,1,1,1.0
+P19,¿Qué signos permiten reconocer la deshidratación en niños?,hibrido,2,20,0.5,1,1.0,1,1,1.0
+P20,¿Qué medidas iniciales se describen para la atención de quemaduras?,bm25,5,20,0.0,0,0.0,0,,0.0
+P20,¿Qué medidas iniciales se describen para la atención de quemaduras?,dense,5,20,0.0,0,0.0,0,7,0.14285714285714285
+P20,¿Qué medidas iniciales se describen para la atención de quemaduras?,hibrido,5,20,0.0,0,0.0,0,4,0.25
