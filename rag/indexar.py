@@ -31,8 +31,11 @@ SOLAPAMIENTO = 180
 load_dotenv(RAIZ / 'back' / 'pass.env', override=False)
 
 
-def cargar_jsonl(ruta: Path, tipo: str) -> list[dict]:
+def cargar_jsonl(ruta: Path, tipo: str, opcional: bool = False) -> list[dict]:
     if not ruta.is_file():
+        if opcional:
+            print(f'Aviso: no existe {ruta.name}; se indexan solo las guías.')
+            return []
         raise FileNotFoundError(f'Falta el archivo {ruta}')
     resultado = []
     with ruta.open(encoding='utf-8') as f:
@@ -57,6 +60,9 @@ def cargar_jsonl(ruta: Path, tipo: str) -> list[dict]:
                     raise ValueError(f'Historia sin id_encuentro válido en línea {linea}')
             resultado.append(doc)
     if not resultado:
+        if opcional:
+            print(f'Aviso: {ruta.name} está vacío (no hay encuentros con aprobado_rag); se indexan solo las guías.')
+            return []
         raise ValueError(f'Archivo sin documentos: {ruta.name}')
     ids = [x['id'] for x in resultado]
     if len(ids) != len(set(ids)):
@@ -194,7 +200,7 @@ def main():
     if args.lote < 1:
         parser.error('--lote debe ser mayor que cero')
     guias = cargar_jsonl(DATOS / 'guias.jsonl', 'guia')
-    historias = cargar_jsonl(DATOS / 'historias_aprobadas.jsonl', 'historia')
+    historias = cargar_jsonl(DATOS / 'historias_aprobadas.jsonl', 'historia', opcional=True)
     verificar_ocr()
     filas = construir_fragmentos(guias, historias)
     print(f'Documentos: {len(guias)} páginas de guías y {len(historias)} historias aprobadas')

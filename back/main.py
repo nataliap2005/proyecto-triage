@@ -31,6 +31,7 @@ from routers.ia import router as ia_router
 from routers.ia_reportes import router as ia_reportes_router
 from routers.alertas import router as alertas_router, iniciar_escalamiento
 from routers.papelera import router as papelera_router
+from routers.rag import router as rag_router          # Semana 12: asistente RAG
 
 
 app = FastAPI(
@@ -87,6 +88,7 @@ app.include_router(ia_router)
 app.include_router(ia_reportes_router)
 app.include_router(alertas_router)
 app.include_router(papelera_router)
+app.include_router(rag_router)
 
 # SISTEMA
 

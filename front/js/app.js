@@ -12,6 +12,7 @@ import {conectarCanal,desconectarCanal} from "./tiempo_real.js";          // NUE
 import {refrescarPendientes,pintarContadores} from "./pendientes.js";    // NUEVO
 import {renderNotificaciones} from "./notificaciones.js";                 // NUEVO
 import {renderAlertasEscaladas} from "./alertas.js";
+import {renderAsistente} from "./asistente.js";                       // Semana 12: RAG
 
 const loginView=document.getElementById("vista-login");
 const appView=document.getElementById("vista-app");
@@ -37,6 +38,7 @@ const routes={
   paciente:{label:"Paciente / Historia",icon:"♙",roles:["Medico"],render:c=>renderPacienteWorkspace(c)},
   remisionesEnviadas:{label:"Remisiones enviadas",icon:"↗",roles:["Medico"],render:renderRemisionesEnviadas},
   remisiones:{label:"Mis remisiones",icon:"↗",roles:["Especialista"],render:renderRemisiones,contador:"remisiones_recibidas"},                 // NUEVO
+  asistente:{label:"Asistente clínico",icon:"✦",roles:["Medico","Especialista"],render:renderAsistente},   // Semana 12: RAG
   miHistoria:{label:"Mi historia",icon:"♡",roles:["Paciente"],render:c=>renderPacienteWorkspace(c,{self:true})},
   misReportes:{label:"Mis reportes",icon:"✎",roles:["Paciente"],render:renderMisReportes},
   misEncuentros:{label:"Mis encuentros",icon:"☰",roles:["Paciente"],render:renderMisEncuentros},
@@ -114,7 +116,7 @@ async function renderHome(container){
   const u=getCurrentUser();
   let cards="";
   if(isRole("Admin"))cards='<div class="metric"><strong>Usuarios</strong><span>Crear, desbloquear, eliminar y restaurar cuentas</span></div><div class="metric"><strong>Seguridad</strong><span>Eventos de autenticación</span></div><div class="metric"><strong>Auditoría</strong><span>Trazabilidad de cambios</span></div>';
-  else if(isRole("Medico"))cards='<div class="metric"><strong>Pacientes</strong><span>Búsqueda por documento</span></div><div class="metric"><strong>Historia</strong><span>Eventos clínicos integrados</span></div><div class="metric"><strong>FHIR</strong><span>Sincronización clínica</span></div><div class="metric"><strong>PACS</strong><span>Visor de imágenes médicas</span></div>';
+  else if(isRole("Medico"))cards='<div class="metric"><strong>Pacientes</strong><span>Búsqueda por documento</span></div><div class="metric"><strong>Historia</strong><span>Eventos clínicos integrados</span></div><div class="metric"><strong>FHIR</strong><span>Sincronización clínica</span></div><div class="metric"><strong>PACS</strong><span>Visor de imágenes médicas</span></div><div class="metric"><strong>Asistente clínico</strong><span>Preguntas a guías e historia aprobada, con citas</span></div>';
   else if(isRole("Especialista"))cards='<div class="metric"><strong>Remisiones</strong><span>Reciba, acepte y atienda pacientes remitidos</span></div><div class="metric"><strong>Historia clínica</strong><span>Acceso restringido a remisiones aceptadas</span></div>';
   else if(isRole("Paciente"))cards='<div class="metric"><strong>Mi historia</strong><span>Consulta de información propia</span></div><div class="metric"><strong>Mis reportes</strong><span>Reporte de síntomas previos</span></div><div class="metric"><strong>Mis encuentros</strong><span>Seguimiento clínico</span></div><div class="metric"><strong>Imágenes</strong><span>Estudios vinculados</span></div>';
   else cards='<div class="metric"><strong>Facturación</strong><span>Consulta y creación de facturas en MongoDB</span></div>';

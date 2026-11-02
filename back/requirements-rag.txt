@@ -1,0 +1,4 @@
+# Semana 12 · dependencias del asistente RAG (rag/). torch se instala antes, versión CPU.
+sentence-transformers>=3.0
+rank-bm25
+groq

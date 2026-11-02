@@ -21,7 +21,7 @@ MIN_CARACTERES = 80
 # Edita las fuentes si cambias el corpus. No se inventan títulos ni URLs.
 CATALOGO = {
     'Resolución 5596 de 2015.pdf': {'titulo': 'Resolución 5596 de 2015', 'institucion': 'Ministerio de Salud y Protección Social (Colombia)', 'url': None},
-    '9789240006331-spa.pdf': {'titulo': 'Documento OMS 9789240006331 (edición española)', 'institucion': 'Organización Mundial de la Salud', 'url': None},
+    '9789240006331-spa.pdf': {'titulo': 'Atención básica de emergencia: abordaje de lesionados y enfermos agudos (OMS)', 'institucion': 'Organización Mundial de la Salud / CICR / IFEM', 'url': None},
     'recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf': {'titulo': 'Recent-onset chest pain of suspected cardiac origin (CG95)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/cg95'},
     'acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf': {'titulo': 'Acutely ill adults in hospital (CG50)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/cg50'},
     'major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf': {'titulo': 'Major trauma: assessment and initial management (NG39)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/ng39'},

@@ -10,6 +10,7 @@ import argparse
 import os
 import re
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 from dotenv import load_dotenv
@@ -40,6 +41,13 @@ def _filtro(acceso: AccesoClinico | None):
         params.append(acceso.id_encuentro)
     condicion += '))'
     return condicion, params
+
+
+@lru_cache(maxsize=1)
+def modelo_embeddings():
+    """Carga el modelo una sola vez por proceso (cargarlo en cada pregunta tarda segundos)."""
+    from sentence_transformers import SentenceTransformer
+    return SentenceTransformer(MODELO)
 
 
 def _tokenizar(texto: str):
@@ -98,8 +106,7 @@ def buscar(pregunta: str, metodo: Metodo = 'hibrido', top_k: int = 5,
     condicion, params = _filtro(acceso)
     modelo = None
     if metodo != 'bm25':
-        from sentence_transformers import SentenceTransformer
-        modelo = SentenceTransformer(MODELO)
+        modelo = modelo_embeddings()
     with _conectar() as db:
         db.set_session(readonly=True)
         with db.cursor() as cur:
