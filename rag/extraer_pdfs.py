@@ -25,6 +25,15 @@ CATALOGO = {
     'recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf': {'titulo': 'Recent-onset chest pain of suspected cardiac origin (CG95)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/cg95'},
     'acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf': {'titulo': 'Acutely ill adults in hospital (CG50)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/cg50'},
     'major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf': {'titulo': 'Major trauma: assessment and initial management (NG39)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/ng39'},
+    'suspected-sepsis-in-people-aged-16-or-over-recognition-assessment-and-early-management-pdf-66144015386053.pdf': {'titulo': 'Suspected sepsis in people aged 16 or over: recognition, assessment and early management (NG253)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/ng253'},
+    'head-injury-assessment-and-early-management-pdf-66143892774085.pdf': {'titulo': 'Head injury: assessment and early management (NG232)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/ng232'},
+    'pneumonia-diagnosis-and-management-pdf-66144010347205.pdf': {'titulo': 'Pneumonia: diagnosis and management (NG250)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/ng250'},
+    'hip-fracture-management-35109449902789.pdf': {'titulo': 'Hip fracture: management (CG124)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/cg124'},
+    'low-back-pain-and-sciatica-in-over-16s-assessment-and-management-1837521693637.pdf': {'titulo': 'Low back pain and sciatica in over 16s: assessment and management (NG59)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/ng59'},
+    'fractures-noncomplex-assessment-and-management-pdf-1837399081669.pdf': {'titulo': 'Fractures (non-complex): assessment and management (NG38)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/ng38'},
+    'acute-upper-gastrointestinal-bleeding-in-over-16s-management-35109565796293.pdf': {'titulo': 'Acute upper gastrointestinal bleeding in over 16s: management (CG141)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/cg141'},
+    'acute-coronary-syndromespdf-66142023361477.pdf': {'titulo': 'Acute coronary syndromes (NG185)', 'institucion': 'NICE', 'url': 'https://www.nice.org.uk/guidance/ng185'},
+    'gpc-profesionales-ataque-cerebro-vascular-isquemico.pdf': {'titulo': 'GPC para el diagnóstico, tratamiento y rehabilitación del episodio agudo del ataque cerebrovascular isquémico en mayores de 18 años (Guía No. 54, 2015), para profesionales', 'institucion': 'Ministerio de Salud y Protección Social (Colombia) / Colciencias', 'url': 'https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/DE/CA/gpc-profesionales-ataque-cerebro-vascular-isquemico.pdf'},
 }
 
 
