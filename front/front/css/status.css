@@ -1,0 +1,9 @@
+/* status.css — estado de servicios */
+.status-strip{display:flex;gap:.5rem;flex-wrap:wrap;padding:0 .25rem}
+.service-pill{display:inline-flex;align-items:center;gap:.45rem;background:#fff;border:1px solid var(--border);padding:.4rem .8rem;border-radius:var(--radius-pill);font-size:.78rem;font-weight:650;color:var(--ink-2)}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#aaa5bd}
+.service-pill.ok .status-dot{background:var(--accent);box-shadow:0 0 0 3px rgba(47,191,160,.2)}
+.service-pill.error .status-dot{background:#e0566a;box-shadow:0 0 0 3px rgba(224,86,106,.2)}
+.service-pill.loading .status-dot{background:#e3a43a}
+.service-pill.restricted .status-dot{background:#9d98b3}
+.service-pill small{font-weight:500;color:var(--muted)}

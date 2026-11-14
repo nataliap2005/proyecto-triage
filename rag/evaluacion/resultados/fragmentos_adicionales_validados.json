@@ -1,0 +1,152 @@
+{
+  "P04": {
+    "pregunta": "¿Qué información debe recibir el paciente o su acompañante durante el proceso de triaje?",
+    "fragmentos_adicionales_relevantes": [
+      "de3bf6d8407b6f88106186e584365a6eac36570b539e42cc7ffb9d4ba7ef7ec9",
+      "0afbcc339e65230ce17b3ebc0632408e1036a289f74693f93a0bd8dc31d83f9b",
+      "dfd6cba6a121513b0816faa55b7b51d61c179b1ae19b7cd4de8adb1e5632cb81",
+      "7992da09986118a28a64bd9bdf54ffd0053eb5d8dba88e065c3cc7e8d978d3c1"
+    ],
+    "detalle": [
+      {
+        "id_fragmento": "de3bf6d8407b6f88106186e584365a6eac36570b539e42cc7ffb9d4ba7ef7ec9",
+        "pagina": 2,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "0afbcc339e65230ce17b3ebc0632408e1036a289f74693f93a0bd8dc31d83f9b",
+        "pagina": 4,
+        "numero_fragmento": 2
+      },
+      {
+        "id_fragmento": "dfd6cba6a121513b0816faa55b7b51d61c179b1ae19b7cd4de8adb1e5632cb81",
+        "pagina": 3,
+        "numero_fragmento": 2
+      },
+      {
+        "id_fragmento": "7992da09986118a28a64bd9bdf54ffd0053eb5d8dba88e065c3cc7e8d978d3c1",
+        "pagina": 3,
+        "numero_fragmento": 1
+      }
+    ],
+    "justificacion": "Art. 4.3, 6.4–6.7 y 9.6: clasificación, tiempos, área de atención e información comprensible."
+  },
+  "P05": {
+    "pregunta": "¿Qué observaciones fisiológicas mínimas recomienda NICE registrar en la valoración inicial?",
+    "fragmentos_adicionales_relevantes": [
+      "8ecd7b2342e7de6e04b6d99a86025f261018946cb0087f03508c1f3e31fce83f"
+    ],
+    "detalle": [
+      {
+        "id_fragmento": "8ecd7b2342e7de6e04b6d99a86025f261018946cb0087f03508c1f3e31fce83f",
+        "pagina": 13,
+        "numero_fragmento": 0
+      }
+    ],
+    "justificacion": "El fragmento de la página 13 enumera los seis parámetros fisiológicos."
+  },
+  "P10": {
+    "pregunta": "¿Qué recomienda NICE para evaluar el trauma torácico y el neumotórax a tensión?",
+    "fragmentos_adicionales_relevantes": [
+      "27af8e360dad1ce4edb02e244d07ac0624c5bc4aea01f238f1732a8a537c06e6",
+      "15ee9a8765b5c4032463fedf31e9ab1aabcbc46c4bd2c2a195277236c71361b7",
+      "340580dc6cad7e5fc2a51ce51cb00a9e5c8e9172bb4b4a2147af3c8f06b2d16a",
+      "ebc1c0768307190b3805794884e72afdd5874c3d59faf1374633804e3d7dc029"
+    ],
+    "detalle": [
+      {
+        "id_fragmento": "27af8e360dad1ce4edb02e244d07ac0624c5bc4aea01f238f1732a8a537c06e6",
+        "pagina": 7,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "15ee9a8765b5c4032463fedf31e9ab1aabcbc46c4bd2c2a195277236c71361b7",
+        "pagina": 8,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "340580dc6cad7e5fc2a51ce51cb00a9e5c8e9172bb4b4a2147af3c8f06b2d16a",
+        "pagina": 6,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "ebc1c0768307190b3805794884e72afdd5874c3d59faf1374633804e3d7dc029",
+        "pagina": 6,
+        "numero_fragmento": 0
+      }
+    ],
+    "justificacion": "Evaluación clínica, eFAST y sus limitaciones, descompresión condicionada a inestabilidad o compromiso respiratorio grave, e imágenes."
+  },
+  "P12": {
+    "pregunta": "¿Qué información mínima se debe registrar durante la evaluación primaria del trauma mayor?",
+    "fragmentos_adicionales_relevantes": [
+      "3914fcd8fbdc86839dddf8ab97977bdeae0208c6ad0e5687566ec26818d5ad01",
+      "8878aff9ce2ee421048720b26791e621c2eace81d257ac59b4c658d288bcdbba"
+    ],
+    "detalle": [
+      {
+        "id_fragmento": "3914fcd8fbdc86839dddf8ab97977bdeae0208c6ad0e5687566ec26818d5ad01",
+        "pagina": 16,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "8878aff9ce2ee421048720b26791e621c2eace81d257ac59b4c658d288bcdbba",
+        "pagina": 15,
+        "numero_fragmento": 0
+      }
+    ],
+    "justificacion": "La recomendación 1.8.7 remite expresamente a 1.8.1 (<C>ABCDE); se incluyen ambos fragmentos."
+  },
+  "P14": {
+    "pregunta": "¿Qué consideraciones recomienda NICE para interpretar las concentraciones de troponina?",
+    "fragmentos_adicionales_relevantes": [
+      "15d5b45cda96258f78e47b5bf844785206194dc018699f729d00b8fc452245b3",
+      "65287b3e30258e29b83d086f268a3c51147037c5b20bba9ba003b40c3b7021e0",
+      "f0efecd674a5fb8bc7dd0ad18f10970ab2c85a7339b7264c31c3c1f5ba4ca3bd"
+    ],
+    "detalle": [
+      {
+        "id_fragmento": "15d5b45cda96258f78e47b5bf844785206194dc018699f729d00b8fc452245b3",
+        "pagina": 14,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "65287b3e30258e29b83d086f268a3c51147037c5b20bba9ba003b40c3b7021e0",
+        "pagina": 15,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "f0efecd674a5fb8bc7dd0ad18f10970ab2c85a7339b7264c31c3c1f5ba4ca3bd",
+        "pagina": 9,
+        "numero_fragmento": 1
+      }
+    ],
+    "justificacion": "Factores de interpretación de troponina, diagnósticos alternativos y contexto temporal del síndrome coronario agudo."
+  },
+  "P17": {
+    "pregunta": "¿Qué elementos incluye la evaluación sistemática ABCDE en atención básica de emergencia?",
+    "fragmentos_adicionales_relevantes": [
+      "23e40a56be6d06141ea34b1c55491e895392fe47a1ff9604ad7fca529d10833c",
+      "c1ac547265def8ce028da5063ce94321b694c34de90a38fbdeac6220bdc69882",
+      "aa69be57d35a894fe9c9a24dec6ae2db9cf27dd26c52ffa6e90027773ff3f8db"
+    ],
+    "detalle": [
+      {
+        "id_fragmento": "23e40a56be6d06141ea34b1c55491e895392fe47a1ff9604ad7fca529d10833c",
+        "pagina": 25,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "c1ac547265def8ce028da5063ce94321b694c34de90a38fbdeac6220bdc69882",
+        "pagina": 221,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "aa69be57d35a894fe9c9a24dec6ae2db9cf27dd26c52ffa6e90027773ff3f8db",
+        "pagina": 226,
+        "numero_fragmento": 0
+      }
+    ],
+    "justificacion": "Descripción operativa ABCDE y definiciones completas en guía OMS."
+  }
+}

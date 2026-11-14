@@ -6,7 +6,7 @@
 # IMPORTANTE: antes de la entrega, pegar la URL vigente del Quick Tunnel
 # de Cloudflare en url_publica, sin slash final.
 
-url_publica: "https://carbon-console-organ-breath.trycloudflare.com/"
+url_publica: ""
 espera_segundos: 8
 
 usuarios:

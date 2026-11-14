@@ -1,0 +1,501 @@
+[
+  {
+    "id": "P01",
+    "pregunta": "¿Cuáles son las cinco categorías de triaje establecidas en el artículo 5?",
+    "fuente_esperada": "Resolución 5596 de 2015.pdf",
+    "estado": "validado_manualmente",
+    "fragmentos_relevantes": [
+      "4cc8edddac679fdeb53b8dd78c2af5a722e2b249bc6f4c06d7051d66fa46241c",
+      "dae52d2fed63eb8d0d5c350f7fa844ea89f8afdf2e4bd1b99256c6ae21fcd124",
+      "098dc6a7d7e1235f9bb322a4cfd698bdc18e45900a8a46632b4a2d1be5edc06a"
+    ],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "098dc6a7d7e1235f9bb322a4cfd698bdc18e45900a8a46632b4a2d1be5edc06a",
+        "pagina": 3,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "4cc8edddac679fdeb53b8dd78c2af5a722e2b249bc6f4c06d7051d66fa46241c",
+        "pagina": 2,
+        "numero_fragmento": 2
+      },
+      {
+        "id_fragmento": "dae52d2fed63eb8d0d5c350f7fa844ea89f8afdf2e4bd1b99256c6ae21fcd124",
+        "pagina": 2,
+        "numero_fragmento": 3
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "pregunta": "¿Qué responsabilidades tienen las instituciones prestadoras de servicios de salud respecto al triaje?",
+    "fuente_esperada": "Resolución 5596 de 2015.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "7992da09986118a28a64bd9bdf54ffd0053eb5d8dba88e065c3cc7e8d978d3c1",
+        "pagina": 3,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "dfd6cba6a121513b0816faa55b7b51d61c179b1ae19b7cd4de8adb1e5632cb81",
+        "pagina": 3,
+        "numero_fragmento": 2
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "pregunta": "¿Qué personal es responsable de realizar el triaje en servicios de urgencias?",
+    "fuente_esperada": "Resolución 5596 de 2015.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "348156936d7fe75c8fec90813630f04132e94e764c8545cf6374ea43f1938cff",
+        "pagina": 4,
+        "numero_fragmento": 1
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "pregunta": "¿Qué información debe recibir el paciente o su acompañante durante el proceso de triaje?",
+    "fuente_esperada": "Resolución 5596 de 2015.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "4cc8edddac679fdeb53b8dd78c2af5a722e2b249bc6f4c06d7051d66fa46241c",
+        "pagina": 2,
+        "numero_fragmento": 2
+      }
+    ]
+  },
+  {
+    "id": "P05",
+    "pregunta": "¿Qué observaciones fisiológicas mínimas recomienda NICE registrar en la valoración inicial?",
+    "fuente_esperada": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "4fe71de94496e05d68392eae3033412e2462255303a2131b0d322f4efa31c485",
+        "pagina": 11,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "0ec6bf93b8c129e7681f947c0adcaa7f4800f1345cd185f06775101e43197dfb",
+        "pagina": 3,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "4d9d2b02cb11bef199a992be19f67faf3dd36709bf13592da0a0c4f2bda63d4e",
+        "pagina": 5,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "cba1b666b5d0c269070caf326a3fa080b158ba22b9a06f6010fbcc9767aa2f14",
+        "pagina": 7,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "89f03fd76271f4b99f70c0b154cc679a85cd09f839e3624f2a7ac2ff8ae89ff8",
+        "pagina": 11,
+        "numero_fragmento": 0
+      }
+    ]
+  },
+  {
+    "id": "P06",
+    "pregunta": "¿Cómo se utiliza un sistema track and trigger para identificar deterioro clínico?",
+    "fuente_esperada": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "0ec6bf93b8c129e7681f947c0adcaa7f4800f1345cd185f06775101e43197dfb",
+        "pagina": 3,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "de7578aaf09c8be983f68d67c65379ba17eff32cf5b323c5255b31e55c672b0d",
+        "pagina": 12,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "2b9c7463a345f0ad19bbc355b83475d64fcaae092ce0675ec86d3481a2a8f24f",
+        "pagina": 12,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "d79257832a1c3586b440939edebd59c3faca1f7a32d2dd24a210bced73d7d473",
+        "pagina": 13,
+        "numero_fragmento": 1
+      }
+    ]
+  },
+  {
+    "id": "P07",
+    "pregunta": "¿Qué respuesta se recomienda ante un puntaje alto de deterioro fisiológico?",
+    "fuente_esperada": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "c579ec73300e32a0448f6aa628cbecf9e2e6c88bcbd5927a575e9f6449e0b9a4",
+        "pagina": 14,
+        "numero_fragmento": 1
+      }
+    ]
+  },
+  {
+    "id": "P08",
+    "pregunta": "¿Qué medidas se recomiendan al transferir a un paciente desde cuidados críticos a una sala general?",
+    "fuente_esperada": "acutely-ill-adults-in-hospital-recognising-and-responding-to-deterioration-pdf-975500772037.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "b56078b220aa6b2f99bd7e0f6110fd77b7307e8e8392cc381872e769e202dc49",
+        "pagina": 6,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "97a1375b08bbad4ff8be4434e908410a54ade0191e6ce55339c5d306ca11a8b7",
+        "pagina": 8,
+        "numero_fragmento": 2
+      },
+      {
+        "id_fragmento": "10db48e99711f78eb0f66e8a78f1cdb5b379255c45f6d4333ae6c06fcb7d7b5e",
+        "pagina": 15,
+        "numero_fragmento": 1
+      }
+    ]
+  },
+  {
+    "id": "P09",
+    "pregunta": "¿Qué recomienda NICE sobre el manejo inicial de la vía aérea en trauma mayor?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "ebc1c0768307190b3805794884e72afdd5874c3d59faf1374633804e3d7dc029",
+        "pagina": 6,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "02dff99b8ff2d83e67a56a0a199ecbeee8cb02b8d3e7f31f88f1f6aea675591a",
+        "pagina": 5,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "94f0147458cce7cbce6994dbf016e8a2d8983492fc58d293ba8fb677cbccb2ec",
+        "pagina": 10,
+        "numero_fragmento": 0
+      }
+    ]
+  },
+  {
+    "id": "P10",
+    "pregunta": "¿Qué recomienda NICE para evaluar el trauma torácico y el neumotórax a tensión?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "9ad29b7d00f58f518c2e226caa5930952a272ac6fbadec50df72fde3be311d0e",
+        "pagina": 7,
+        "numero_fragmento": 1
+      }
+    ]
+  },
+  {
+    "id": "P11",
+    "pregunta": "¿Cuándo recomienda NICE el ácido tranexámico en trauma mayor con hemorragia?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "f1848239fd6411427a24b4dfc39e4c65d88ff283bebf7fd4395b9d4976c6fb31",
+        "pagina": 9,
+        "numero_fragmento": 0
+      }
+    ]
+  },
+  {
+    "id": "P12",
+    "pregunta": "¿Qué información mínima se debe registrar durante la evaluación primaria del trauma mayor?",
+    "fuente_esperada": "major-trauma-assessment-and-initial-management-pdf-1837400761285.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "15ee9a8765b5c4032463fedf31e9ab1aabcbc46c4bd2c2a195277236c71361b7",
+        "pagina": 8,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "9d31590cdb49b53a61ef0ca20bc094b21d4b634f990269ae7523a7280572d1e2",
+        "pagina": 16,
+        "numero_fragmento": 1
+      }
+    ]
+  },
+  {
+    "id": "P13",
+    "pregunta": "¿Qué pruebas recomienda NICE para evaluar un posible síndrome coronario agudo?",
+    "fuente_esperada": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "f0efecd674a5fb8bc7dd0ad18f10970ab2c85a7339b7264c31c3c1f5ba4ca3bd",
+        "pagina": 9,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "834455edc4335859050c3de4b4090603d34406809ea158d033642202248f29de",
+        "pagina": 15,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "e44e63710a5700a3f9739c56093252ccd235bfabedfac86a0fb0b4ae0ae1a2c9",
+        "pagina": 9,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "002f254f72911ad97332087d56b3cb372eca5053efe49bd56e2216f22f528fd2",
+        "pagina": 10,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "93f20c237fcebcd9c77279f00158dc089d80dcb8ddc8c6b56c131451a8de4181",
+        "pagina": 10,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "dc5a970ab8310bbd1582c832a8c1d794b774a934c7ea55bf291de865fb3ade21",
+        "pagina": 11,
+        "numero_fragmento": 0
+      }
+    ]
+  },
+  {
+    "id": "P14",
+    "pregunta": "¿Qué consideraciones recomienda NICE para interpretar las concentraciones de troponina?",
+    "fuente_esperada": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "ee66ad753f2350a4ff76fd0209b35d03667bcaf76345e424725118a8512a3c30",
+        "pagina": 14,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "834455edc4335859050c3de4b4090603d34406809ea158d033642202248f29de",
+        "pagina": 15,
+        "numero_fragmento": 1
+      }
+    ]
+  },
+  {
+    "id": "P15",
+    "pregunta": "¿Qué recomienda NICE respecto a pruebas diagnósticas para dolor torácico no anginoso?",
+    "fuente_esperada": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "7469a2a009a87ba72e843e76e5f07019edeee903da317fafe4a1922fbef84fe9",
+        "pagina": 19,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "0c3f497d34bda3e70f231f0962febcdc818800532ce9e8dec943f6943ed1b5c1",
+        "pagina": 6,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "a0ec83b8da028da51d9f3d4c14dc80937acce7c639cd2970ef8c2b5381a62456",
+        "pagina": 16,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "ed6f8a4a30de8cd051b3141817d34320c52711e83d93e8b66e5f960f455285ec",
+        "pagina": 20,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "983ddcc4f4a3660ac6b83bf2aef7c311679729cc8784b39c2be8815c2d27e310",
+        "pagina": 27,
+        "numero_fragmento": 0
+      }
+    ]
+  },
+  {
+    "id": "P16",
+    "pregunta": "¿Qué evaluación física recomienda NICE ante dolor torácico de posible origen cardíaco?",
+    "fuente_esperada": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "5b898525ceb23486f6e78bbef0c05eec1a5da2a66224679eccbb5b10e1741622",
+        "pagina": 17,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "21af2c3bafe7bad3ddfd37c19eaf7f0f7220a891727c8aedd67b586b478f1e6e",
+        "pagina": 8,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "6e80b536c00e2c6832024d600ad46c52a60039e79eee8be4b3d9bddcdeeafce8",
+        "pagina": 16,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "1f188d29e3343571ba2eed6ee26e397cf2208c1572ccf5f368899d57ee958f49",
+        "pagina": 18,
+        "numero_fragmento": 0
+      }
+    ]
+  },
+  {
+    "id": "P17",
+    "pregunta": "¿Qué elementos incluye la evaluación sistemática ABCDE en atención básica de emergencia?",
+    "fuente_esperada": "9789240006331-spa.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "26fa4982af9f16e3504fc6d802378ef1a72722646e78cdd7267a15aa6d0eac76",
+        "pagina": 3,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "6d1804817c7e56c6f2f81fea5102a1a32ccbdd789d670f58b3b80479a3279677",
+        "pagina": 4,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "e0fe489be73dccc93c62823d6404014cf3ad90e754598c4efa33d0eeb63ae021",
+        "pagina": 4,
+        "numero_fragmento": 2
+      },
+      {
+        "id_fragmento": "fd26ee058e66a3269c5935e459f6d602ed218a51509f8b49f1ebbccedfff267e",
+        "pagina": 7,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "76902dd178f1b3f340413408c349b2efa445679e50c83bac168a70af8c617923",
+        "pagina": 9,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "599d5472fed35078a376fe7a5bc4993f978115019863968d9bd0425675cbbe28",
+        "pagina": 9,
+        "numero_fragmento": 2
+      }
+    ]
+  },
+  {
+    "id": "P18",
+    "pregunta": "¿Qué antecedentes clínicos se deben considerar al valorar inicialmente a un paciente de urgencias?",
+    "fuente_esperada": "9789240006331-spa.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "d12be024cebad1dc04135187ad4417aafb9bcb89487c0fb477cde896c8027d91",
+        "pagina": 41,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "ec40df46d593ea9c237d61f40069412529cca807836952f3e5aeca0eab96617c",
+        "pagina": 139,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "d5edc3e85fb34585b99e86bb5897a0d782ed9874c5c7fc93b289c7220ded49df",
+        "pagina": 60,
+        "numero_fragmento": 0
+      }
+    ]
+  },
+  {
+    "id": "P19",
+    "pregunta": "¿Qué signos permiten reconocer la deshidratación en niños?",
+    "fuente_esperada": "9789240006331-spa.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "758cb2ad2fd684ffdfb3dbf5bb12a5b85820817678bbfca237a2b2502b4d6f8f",
+        "pagina": 124,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "8ea7a96fd6888da80c424c29de72e3f5841b9e135975d8b96133982b4209a6d1",
+        "pagina": 143,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "9af020c8d2cdbe10a7107385654ab9cb0b392da54193ee73940f3fc37f79a40d",
+        "pagina": 151,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "c4124a57be39aca7c0f86e8f1c6eeaecc493e51110bec6ce1fee15813e46b8d3",
+        "pagina": 242,
+        "numero_fragmento": 1
+      }
+    ]
+  },
+  {
+    "id": "P20",
+    "pregunta": "¿Qué medidas iniciales se describen para la atención de quemaduras?",
+    "fuente_esperada": "9789240006331-spa.pdf",
+    "estado": "pendiente_verificacion_texto_completo",
+    "fragmentos_relevantes": [],
+    "candidatos_para_revision": [
+      {
+        "id_fragmento": "fc2f3624b7a64ccd44219a98642e1428d2a8e0a7cc2fd56a5c3619bb62ead274",
+        "pagina": 205,
+        "numero_fragmento": 2
+      },
+      {
+        "id_fragmento": "f45c2d7faa072f55655e31144aa9d10812e47a1a351b78db3f889adf42569a1b",
+        "pagina": 31,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "df9b94ba8cb357e7fffa6a875e162d456304674028fcbb7b8ad2505ff4c014f3",
+        "pagina": 49,
+        "numero_fragmento": 0
+      },
+      {
+        "id_fragmento": "4f2be6bb19487f8d210c4ab3ab4da5db9ce35adabc6c60eceead1e4d8b5bf0b0",
+        "pagina": 51,
+        "numero_fragmento": 3
+      },
+      {
+        "id_fragmento": "4f292dda6cce951018e313287ca55acde7913e221026db479762522b6a733823",
+        "pagina": 52,
+        "numero_fragmento": 1
+      },
+      {
+        "id_fragmento": "1eef26bb0f90c5d93ad3eb56656e835911acc479d40c691ddc5f5eca3f396fab",
+        "pagina": 54,
+        "numero_fragmento": 1
+      }
+    ]
+  }
+]

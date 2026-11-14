@@ -107,3 +107,23 @@ Define los procedimientos y condiciones de inscripción de prestadores y de habi
 ## Documentos relacionados
 
 [`MODELO.md`](MODELO.md) (seudonimización del payload) · [`EVENTOS.md`](EVENTOS.md) · [`CONTABILIDAD.md`](CONTABILIDAD.md) · [`DATASETS.md`](DATASETS.md) · [README](../README.md)
+
+
+## R34 · Mapa de requisitos y controles adicionales R23–R33
+
+> **Nota de alcance:** esta matriz relaciona decisiones técnicas con temas normativos; **no constituye concepto jurídico ni certificación de cumplimiento**. Las referencias son las normas listadas en este documento. “Pendiente” no se debe presentar como control disponible.
+
+| Requisito | Control / evidencia verificable | Relación normativa relevante | Estado y responsable |
+|---|---|---|---|
+| R23 · RAG con fuentes | Autorización por paciente/encuentro, fragmentos citados o abstención, sin datos no aprobados en contexto | Ley 1581/2012 (finalidad, circulación restringida, seguridad); Res. 1995/1999 (reserva documental) | **Natalia:** demostrado con consultas y tests |
+| R12 · Seudonimización | HMAC y filtro por historia sintética aprobada, canario sin fugas detectadas | Ley 1581/2012; Res. 1995/1999 | **Natalia:** prueba acotada |
+| R24 · Herramientas | RBAC backend, auditoría de invocación, no ejecución libre desde LLM, borrador no enviado | Ley 1581/2012; Res. 1995/1999; Res. 3100/2019 (seguridad/calidad en prestación) | **Natalia:** tres herramientas probadas |
+| R25 · Inyección y bloqueo | Detección, registro de cuenta e IP observada, bloqueo temporal; filtrado clínico continúa en backend | Ley 1581/2012 (seguridad); Res. 1995/1999 | **Natalia:** bloqueo/desbloqueo verificados en piloto |
+| R26 · STRIDE | DFD, fronteras de confianza, amenazas y riesgos residuales por categoría | Ley 1581/2012; Res. 1995/1999; Res. 866/2021; Res. 3100/2019 | **Natalia:** análisis documentado, evidencias externas `...` |
+| R27 · Cifrado sensible AES-GCM | Cifrado en reposo de campos según diseño acordado | Ley 1581/2012 | **Sarah:** PENDIENTE evidencia `...` |
+| R28 · Auditoría encadenada | Integridad criptográfica y verificación de secuencia de eventos | Ley 1581/2012; Res. 1995/1999 | **Sarah:** PENDIENTE evidencia `...` |
+| R30 · FHIR remisiones | Consent previo, minimización de datos, LOINC/SNOMED, `Bundle transaction`, `OperationOutcome` | Ley 1581/2012; Ley 2015/2020; Res. 866/2021; Res. 1995/1999 | **Natalia:** piloto local con remisión #14, 11 recursos |
+| R31 · Identidad institucional | Credenciales por socio, HTTPS, verificación del receptor | Ley 1581/2012; Ley 2015/2020 | **Sarah:** PENDIENTE credenciales de socio real `...` |
+| R32–R33 · Recepción/retorno | Autenticación de webhooks, validación de entrada, respuesta Task, avisos al remitente | Ley 2015/2020; Res. 866/2021; Ley 1581/2012 | **Annie:** PENDIENTE integración real `...` |
+
+El piloto exitoso R30 acredita recepción técnica de HAPI dentro del equipo, **no** intercambio jurídico/operativo con una institución externa. Las pruebas con pacientes sintéticos y el consentimiento del prototipo no representan un consentimiento clínico productivo.

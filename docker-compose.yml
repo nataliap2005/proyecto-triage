@@ -2,8 +2,10 @@ services:
   # PostgreSQL local de la aplicación (R05). La API clínica usa hoy Neon
   # (PG_CONNECTION_STRING en back/pass.env); este servicio queda disponible
   # como base local alternativa y no expone puertos al host.
+  # Semana 12: imagen con pgvector para guardar los embeddings del RAG
+  # (en Neon basta CREATE EXTENSION vector, que hace rag/indexar.py).
   postgres:
-    image: postgres:16-alpine
+    image: pgvector/pgvector:pg16
     container_name: triaje-postgres
     restart: unless-stopped
     environment:
@@ -93,6 +95,8 @@ services:
     build:
       context: ./back
       dockerfile: Dockerfile
+      additional_contexts:
+        rag: ./rag          # Semana 12: el Dockerfile copia rag/ a /app/rag
     container_name: triaje-api
     restart: unless-stopped
     env_file:
