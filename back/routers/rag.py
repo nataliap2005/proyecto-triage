@@ -31,6 +31,7 @@ _RAIZ = Path(__file__).resolve().parents[2]
 if not (Path(__file__).resolve().parents[1] / "rag").exists() and str(_RAIZ) not in sys.path:
     sys.path.append(str(_RAIZ))
 
+from rag.privacidad import proteger_texto  # noqa: E402
 from rag.motor import preguntar as motor_preguntar  # noqa: E402
 from rag.recuperar import AccesoClinico  # noqa: E402
 
@@ -81,9 +82,10 @@ def preguntar(body: Pregunta, db=Depends(get_db), u=Depends(requerir_roles("Medi
     cur = db.cursor(cursor_factory=RealDictCursor)
     try:
         paciente_id, acceso = _resolver_acceso(cur, body, u)
+        pregunta_protegida = proteger_texto(body.pregunta.strip())
 
         try:
-            resultado = motor_preguntar(body.pregunta.strip(), acceso=acceso)
+            resultado = motor_preguntar(pregunta_protegida, acceso=acceso)
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc))
         except (RuntimeError, psycopg2.Error, ImportError) as exc:
@@ -94,7 +96,7 @@ def preguntar(body: Pregunta, db=Depends(get_db), u=Depends(requerir_roles("Medi
             cur, "rag_consultas", paciente_id if paciente_id is not None else "guias", "CONSULTA_RAG",
             u["numero_documento_usuario"],
             nuevos={
-                "pregunta": body.pregunta.strip(),
+                "pregunta": pregunta_protegida,
                 "id_encuentro": body.id_encuentro,
                 "metodo": resultado["metodo"],
                 "modo": resultado["modo"],

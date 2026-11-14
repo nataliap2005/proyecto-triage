@@ -93,3 +93,38 @@ Paciente y Contable no reciben ninguno de estos eventos, ni ven ni reconocen ale
 ## Documentos relacionados
 
 [`CONTABILIDAD.md`](CONTABILIDAD.md) (factura automática de IA) · [`MODELO.md`](MODELO.md) (análisis de IA y alertas) · [`LEYES.md`](LEYES.md) · [README](../README.md)
+
+
+## R30 · Eventos del envío FHIR saliente (actualización R34)
+
+El módulo `back/routers/remisiones_fhir_r30.py` publica un evento **después** de comprobar que el receptor devolvió un Bundle `transaction-response` con todas sus entradas confirmadas. **No debe confundir la recepción técnica con aceptación clínica.**
+
+| Evento | Disparador | Destinatario | Datos mínimos | Persistencia / canal | Evidencia |
+|---|---|---|---|---|---|
+| `remision_fhir_confirmada` | `POST /fhir/remisiones-r30/{id}/enviar` retorna confirmación completa | Médico remitente | `remision_id`, `recursos` | `core.eventos.publicar`; notificación interna y SSE existente | Código de R30; remisión 14, HTTP 200, 11 recursos y estado “FHIR enviado” en interfaz |
+| **PENDIENTE R33** `remision_socio_aceptada` / `remision_socio_rechazada` *(nombres por acordar)* | Respuesta autenticada del socio; actualización de `Task` | Médico remitente y actores pertinentes | ID técnico remisión, estado y tiempo (sin PII en evento) | `...` | **Annie + Sarah: ...** |
+
+### Secuencia del evento R30
+
+```mermaid
+sequenceDiagram
+  participant M as Médico / frontend
+  participant API as FastAPI R30
+  participant RX as Receptor piloto / HAPI
+  participant DB as Neon / auditoría
+  participant EV as Notificaciones y SSE
+  M->>API: POST enviar remisión
+  API->>API: Consent vigente, permisos y Bundle
+  API->>RX: Bundle transaction
+  alt confirmación completa
+    RX-->>API: transaction-response
+    API->>DB: r30_envios confirmado + REMITIR
+    API->>EV: remision_fhir_confirmada
+    EV-->>M: Aviso interno / SSE
+  else rechazo o error
+    RX-->>API: OperationOutcome / error
+    API-->>M: Error sin confirmación
+  end
+```
+
+**Pendientes de comprobación en vivo:** confirmar registro y destinatario en bandeja, llegada efectiva del evento SSE y retorno del sistema socio. El código emite la notificación, pero la entrega SSE **no fue verificada** en las pruebas reportadas.

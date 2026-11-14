@@ -7,6 +7,7 @@ from auth.router import router as auth_router
 from auth.service import requerir_roles
 from core.database import get_db
 from core.eventos import configurar_loop
+from core.defensa_prompt import DefensaPromptMiddleware
 
 from routers.usuarios import router as usuarios_router
 from routers.pacientes import router as pacientes_router
@@ -31,7 +32,11 @@ from routers.ia import router as ia_router
 from routers.ia_reportes import router as ia_reportes_router
 from routers.alertas import router as alertas_router, iniciar_escalamiento
 from routers.papelera import router as papelera_router
+from routers.agente import router as agente_router
 from routers.rag import router as rag_router          # Semana 12: asistente RAG
+from routers.agente_llm import router as agente_llm_router
+from routers.remisiones_fhir_r30 import router as remisiones_fhir_r30_router
+
 
 
 app = FastAPI(
@@ -59,6 +64,9 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type", "Accept"],
 )
 
+
+# R25: protección contra prompt injection en rutas RAG y agente.
+app.add_middleware(DefensaPromptMiddleware)
 
 # ROUTERS
 app.include_router(auth_router)
@@ -89,7 +97,9 @@ app.include_router(ia_reportes_router)
 app.include_router(alertas_router)
 app.include_router(papelera_router)
 app.include_router(rag_router)
-
+app.include_router(agente_router)
+app.include_router(agente_llm_router)
+app.include_router(remisiones_fhir_r30_router)
 # SISTEMA
 
 @app.on_event("startup")

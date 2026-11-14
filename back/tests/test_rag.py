@@ -34,6 +34,14 @@ DOC = 9900000057
 OTRO_MEDICO = 222
 ESPERADO = "pac-" + hmac.new(b"secreto-de-prueba", str(DOC).encode(), hashlib.sha256).hexdigest()[:32]
 
+@pytest.fixture(autouse=True)
+def fijar_secreto_seudonimizacion(monkeypatch):
+    """Aísla el secreto HMAC para las pruebas de RAG."""
+    monkeypatch.setattr(
+        "services.seudonimizacion.SEUDONIMO_SECRETO",
+        "secreto-de-prueba"
+    )
+
 
 class Cursor:
     def __init__(self, bd):

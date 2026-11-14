@@ -1,6 +1,8 @@
 import {apiGet,apiPost,apiPatch} from "./api.js";
 import {escapeHtml,formatDate,showToast,modal} from "./ui.js";
 import {renderPacienteWorkspace} from "./pacientes.js";
+import {abrirVistaPreviaR30} from "./r30_bundle_vista.js";
+import {consultarEstadoEnvioR30, confirmarEnvioR30} from "./r30_envio.js";
 
 export async function abrirRemisionModal(paciente,idEncuentro,onCreated=null){
   if(!idEncuentro){showToast("El paciente necesita un encuentro activo para ser remitido","warning");return;}
@@ -35,7 +37,15 @@ export async function renderResumenRemisionesMedico(documento,container){
       container.innerHTML='<div class="card"><div class="section-head"><div><h3>Remisiones</h3><p class="muted">Este paciente todavía no tiene remisiones creadas por usted.</p></div></div></div>';
       return;
     }
-    container.innerHTML=`<div class="card"><div class="section-head"><div><h3>Remisiones</h3><p class="muted">Seguimiento de las remisiones que usted ha generado para este paciente.</p></div></div><div class="compact-list">${rows.map(r=>`<div class="compact-row"><div><strong>${escapeHtml(r.especialidad)}</strong><div class="muted small-text">Especialista: ${escapeHtml(r.especialista_nombres)} ${escapeHtml(r.especialista_apellidos)} · ${formatDate(r.fecha_remision)}</div><div class="small-text">${escapeHtml(r.motivo)}</div>${r.observacion_respuesta?`<div class="muted small-text">Respuesta: ${escapeHtml(r.observacion_respuesta)}</div>`:""}</div>${badgeEstado(r.estado)}</div>`).join("")}</div></div>`;
+    container.innerHTML=`<div class="card"><div class="section-head"><div><h3>Remisiones</h3><p class="muted">Seguimiento de las remisiones que usted ha generado para este paciente.</p></div></div><div class="compact-list">${rows.map(r=>`<div class="compact-row"><div><strong>${escapeHtml(r.especialidad)}</strong><div class="muted small-text">Especialista: ${escapeHtml(r.especialista_nombres)} ${escapeHtml(r.especialista_apellidos)} · ${formatDate(r.fecha_remision)}</div><div class="small-text">${escapeHtml(r.motivo)}</div>${r.observacion_respuesta?`<div class="muted small-text">Respuesta: ${escapeHtml(r.observacion_respuesta)}</div>`:""}</div><div class="r30-ref-actions">${badgeEstado(r.estado)}<button class="btn btn-secondary" type="button" data-r30-preview="${Number(r.id_remision)}">Ver Bundle FHIR R30</button><span class="r30-status muted small-text" data-r30-status="${Number(r.id_remision)}">Comprobando envío…</span><button class="btn btn-primary" type="button" data-r30-send="${Number(r.id_remision)}" disabled>Enviar remisión FHIR</button></div></div>`).join("")}</div></div>`;
+    container.querySelectorAll("[data-r30-preview]").forEach(btn=>btn.addEventListener("click",()=>abrirVistaPreviaR30(btn.dataset.r30Preview,btn)));
+    // Consulta de estado por cada remisión. El backend decide si se puede enviar.
+    container.querySelectorAll("[data-r30-send]").forEach(async btn=>{
+      const id=Number(btn.dataset.r30Send);
+      const estado=container.querySelector(`[data-r30-status="${id}"]`);
+      await consultarEstadoEnvioR30(id,btn,estado);
+      btn.addEventListener("click",()=>confirmarEnvioR30(id,btn,estado));
+    });
   }catch(e){container.innerHTML=`<div class="error-box">${escapeHtml(e.message)}</div>`;}
 }
 

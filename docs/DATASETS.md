@@ -1,6 +1,6 @@
 # Datasets del proyecto
 
-Este documento describe los dos conjuntos de datos del sistema: el **tabular** (triaje, modelo de IA y clusters) y el de **imágenes** (PACS). Cada cifra proviene de los archivos del repositorio (`dataset_v1/`, `back/preprocesamiento/salida_ia/`); si cambia el procesamiento, hay que actualizarla aquí.
+Este documento describe los dos conjuntos de datos del sistema: el **tabular** (triaje, modelo de IA y clusters) y el de **imágenes** (PACS). Cada cifra proviene de los archivos del repositorio (`dataset_v1/`, `back/preprocesamiento/salida_ia/`);y el corpus documental del agente clínico RAG.
 
 ---
 
@@ -185,6 +185,78 @@ Los datasets entregan JPG o PNG, no DICOM. Cada imagen se convirtió con un scri
 
 ---
 
+
+
+## Corpus
+
+### 3.1 Fuentes documentales
+
+El agente clínico RAG utiliza un corpus de guías y protocolos clínicos pertinentes a la atención de urgencias y al proceso de triaje, complementado con historias clínicas aprobadas de pacientes sintéticos. Su función es proporcionar información de apoyo al profesional sanitario mediante respuestas fundamentadas en documentos recuperados, sin sustituir la valoración clínica.
+
+Las principales fuentes documentales son:
+
+| Documento | Institución | Aplicación |
+|---|---|---|
+| Resolución 5596 de 2015 | Ministerio de Salud y Protección Social de Colombia | Categorías, criterios y responsabilidades del triaje. |
+| Atención básica de emergencia: abordaje de lesionados y enfermos agudos | OMS, CICR e IFEM | Evaluación inicial y manejo de pacientes en urgencias. |
+| Recent-onset chest pain of suspected cardiac origin (CG95) | NICE | Evaluación del dolor torácico. |
+| Acutely ill adults in hospital: recognising and responding to deterioration (CG50) | NICE | Reconocimiento del deterioro clínico. |
+| Major trauma: assessment and initial management (NG39) | NICE | Evaluación y manejo inicial del trauma grave. |
+
+Los documentos originales y sus textos procesados se encuentran en `rag/documentos/`. Las fuentes y referencias específicas se documentan en `docs/RAG.md`.
+
+### 3.2 Preparación e indexación
+
+El procesamiento documental se realiza mediante los módulos de la carpeta `rag/`:
+
+- **Extracción:** `rag/extraer_pdfs.py` obtiene el texto de los documentos por página, conservando la información necesaria para identificar las fuentes.
+- **Fragmentación:** los textos se dividen en fragmentos de hasta 1.100 caracteres, con un solapamiento de 180 caracteres.
+- **Embeddings:** se utiliza `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`, con vectores de 384 dimensiones generados localmente.
+- **Almacenamiento:** los fragmentos y embeddings se almacenan en PostgreSQL (Neon), mediante la extensión pgvector.
+- **Recuperación:** se utiliza búsqueda semántica densa (`RAG_METODO=dense`), seleccionada a partir de la evaluación de los métodos BM25, denso e híbrido.
+
+El sistema conserva metadatos de fuente, título, página y fragmento para permitir la trazabilidad de las respuestas.
+
+### 3.3 Historias clínicas y privacidad
+
+El corpus también puede incorporar información de encuentros clínicos aprobados de pacientes sintéticos.
+
+Solamente se indexan encuentros con `aprobado_rag = TRUE`. Antes de indexar se aplica seudonimización mediante HMAC-SHA256, evitando almacenar identificadores personales directos en los fragmentos clínicos.
+
+Las consultas están restringidas según el rol y los permisos del profesional. El agente utiliza únicamente información documental autorizada y puede acceder a historias clínicas aprobadas cuando corresponde.
+
+### 3.4 Validación del sistema RAG
+
+La recuperación documental se evaluó utilizando 20 preguntas con fragmentos relevantes identificados manualmente. El método denso presentó los mejores resultados entre las estrategias evaluadas, con Recall@3 de 0,29 y MRR@20 de 0,48.
+
+En la evaluación parcial de generación mediante RAGAS, sobre ocho preguntas válidas, se registraron valores promedio de:
+
+- Faithfulness: 0,85.
+- Answer relevancy: 0,78.
+
+Adicionalmente, durante la validación funcional del proyecto se obtuvieron los siguientes resultados:
+
+- 18 pruebas automatizadas aprobadas.
+- Respuestas sobre las cinco categorías de triaje respaldadas por la Resolución 5596 de 2015.
+- Identificación correcta de los profesionales autorizados para realizar el triaje.
+- Abstención ante preguntas sin evidencia suficiente.
+- Consultas funcionales desde el frontend con fuentes citadas.
+- Restricciones de acceso verificadas para distintos roles.
+
+Los resultados de RAGAS son parciales y no representan una evaluación completa de las 20 preguntas.
+
+### 3.5 Limitaciones
+
+1. La calidad de las respuestas depende de los fragmentos recuperados y de la información disponible en el corpus.
+2. Algunos documentos pueden presentar errores de extracción de texto.
+3. Las historias clínicas indexadas corresponden exclusivamente a encuentros sintéticos aprobados.
+4. Las evaluaciones disponibles no constituyen una validación clínica del sistema.
+5. El agente funciona como apoyo documental y no realiza el triaje formal ni reemplaza el criterio del profesional sanitario.
+
+Para más detalles sobre arquitectura, evaluación, permisos y funcionamiento del agente, consultar [`RAG.md`](RAG.md).
+
+
+
 ## Fuentes
 
 - Moon S-H, Shim JL, Park K-S, Park C-S. *Triage accuracy and causes of mistriage using the Korean Triage and Acuity Scale.* PLOS ONE 2019;14(9):e0216972. https://doi.org/10.1371/journal.pone.0216972
@@ -194,3 +266,13 @@ Los datasets entregan JPG o PNG, no DICOM. Cada imagen se convirtió con un scri
 ## Documentos relacionados
 
 [`MODELO.md`](MODELO.md) · [`LEYES.md`](LEYES.md) · [README](../README.md)
+
+
+## R34 · Evidencia suplementaria de minimización del corpus y del intercambio
+
+- **Corpus R23:** se indexan guías permitidas e historias **sintéticas previamente aprobadas** con seudonimización y filtros de paciente/encuentro antes de recuperar fragmentos. Una consulta sin soporte devuelve abstención; citar F1/F3/etc. no reemplaza revisar que los fragmentos respalden su contenido.
+- **Prueba canario R12:** se informó ejecución sobre 1758 fragmentos y 585 identificadores asociados, filtros clínicos probados con cinco seudónimos, sin fugas detectadas en el ensayo. Esta evidencia no certifica ausencia universal de identificadores.
+- **Canal FHIR R30:** **no se vuelca el corpus completo ni todas las historias** al socio. Se construye un Bundle para la remisión concreta con historia relevante autorizada: `Patient` seudonimizado, consentimiento, solicitud, Task, observaciones codificadas e informes finales aprobados. El caso sintético #14 contenía seis signos vitales y un informe aprobado.
+- **Regla operativa:** no utilizar pacientes etiquetados `origen='real'` en pruebas de intercambio R30; revocación de consentimiento impide construir/envío según la política implementada. El prototipo no debe utilizarse como circuito clínico productivo.
+
+**Pendiente R33 / Annie:** `...` catálogo de campos mínimos acordados con el receptor externo, terminologías finales y evidencia de filtrado en entrada. **Pendiente Sarah:** `...` evidencia de cifrado de campos sensibles en reposo.

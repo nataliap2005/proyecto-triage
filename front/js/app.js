@@ -6,6 +6,7 @@ import {renderUsuarios,renderSecurity,renderAuditoria,renderPacientesEliminados,
 import {renderFacturacion} from "./facturacion.js";
 import {renderUrgencias} from "./urgencias.js";
 import {renderMisReportes,renderMisEncuentros} from "./paciente_portal.js";
+import {renderConsentimientoR30} from "./consentimiento_r30.js";
 import {renderRemisiones,renderRemisionesEnviadas} from "./remisiones.js";
 import {showToast,escapeHtml,enhanceTables} from "./ui.js";
 import {conectarCanal,desconectarCanal} from "./tiempo_real.js";          // NUEVO
@@ -42,6 +43,7 @@ const routes={
   miHistoria:{label:"Mi historia",icon:"♡",roles:["Paciente"],render:c=>renderPacienteWorkspace(c,{self:true})},
   misReportes:{label:"Mis reportes",icon:"✎",roles:["Paciente"],render:renderMisReportes},
   misEncuentros:{label:"Mis encuentros",icon:"☰",roles:["Paciente"],render:renderMisEncuentros},
+  consentimientoR30:{label:"Consentimiento FHIR",icon:"♡",roles:["Paciente"],render:renderConsentimientoR30},
   usuarios:{label:"Usuarios",icon:"⚙",roles:["Admin"],render:renderUsuarios},
   pacientesEliminados:{label:"Pacientes eliminados",icon:"↺",roles:["Admin"],render:renderPacientesEliminados},
   papeleraClinica:{label:"Papelera clínica",icon:"♻",roles:["Admin"],render:renderPapeleraClinica},
@@ -118,7 +120,7 @@ async function renderHome(container){
   if(isRole("Admin"))cards='<div class="metric"><strong>Usuarios</strong><span>Crear, desbloquear, eliminar y restaurar cuentas</span></div><div class="metric"><strong>Seguridad</strong><span>Eventos de autenticación</span></div><div class="metric"><strong>Auditoría</strong><span>Trazabilidad de cambios</span></div>';
   else if(isRole("Medico"))cards='<div class="metric"><strong>Pacientes</strong><span>Búsqueda por documento</span></div><div class="metric"><strong>Historia</strong><span>Eventos clínicos integrados</span></div><div class="metric"><strong>FHIR</strong><span>Sincronización clínica</span></div><div class="metric"><strong>PACS</strong><span>Visor de imágenes médicas</span></div><div class="metric"><strong>Asistente clínico</strong><span>Preguntas a guías e historia aprobada, con citas</span></div>';
   else if(isRole("Especialista"))cards='<div class="metric"><strong>Remisiones</strong><span>Reciba, acepte y atienda pacientes remitidos</span></div><div class="metric"><strong>Historia clínica</strong><span>Acceso restringido a remisiones aceptadas</span></div>';
-  else if(isRole("Paciente"))cards='<div class="metric"><strong>Mi historia</strong><span>Consulta de información propia</span></div><div class="metric"><strong>Mis reportes</strong><span>Reporte de síntomas previos</span></div><div class="metric"><strong>Mis encuentros</strong><span>Seguimiento clínico</span></div><div class="metric"><strong>Imágenes</strong><span>Estudios vinculados</span></div>';
+  else if(isRole("Paciente"))cards='<div class="metric"><strong>Mi historia</strong><span>Consulta de información propia</span></div><div class="metric"><strong>Mis reportes</strong><span>Reporte de síntomas previos</span></div><div class="metric"><strong>Mis encuentros</strong><span>Seguimiento clínico</span></div><div class="metric"><strong>Consentimiento FHIR</strong><span>Autorizar o revocar el intercambio de remisiones</span></div><div class="metric"><strong>Imágenes</strong><span>Estudios vinculados</span></div>';
   else cards='<div class="metric"><strong>Facturación</strong><span>Consulta y creación de facturas en MongoDB</span></div>';
 
   // NUEVO: tarjetas de trabajo pendiente; los números los llena pendientes.js

@@ -27,6 +27,11 @@ except ImportError:
     from recuperar import buscar, expandir_contexto, AccesoClinico
     from cliente_llm import generar
 
+try:
+    from .seguridad import sanear_fragmento
+except ImportError:
+    from seguridad import sanear_fragmento
+
 log = logging.getLogger('rag')
 SIN_EVIDENCIA = 'No hay evidencia suficiente en las fuentes del sistema para responder esta pregunta.'
 METODO_DEFECTO = os.getenv('RAG_METODO', 'dense')
@@ -81,6 +86,10 @@ def preguntar(pregunta: str, metodo: str | None = None, top_k: int | None = None
                 'metodo': metodo, 'fragmentos_recuperados': len(fragmentos), 'fragmentos_contexto': 0}
 
     contexto = expandir_contexto(fragmentos, acceso=acceso, max_fragmentos=MAX_CONTEXTO)
+    # Las guías y observaciones pueden contener instrucciones maliciosas.
+    # Se tratan como datos y se suprimen líneas sospechosas antes de enviarlas
+    # al LLM, mostrarlas como citas o devolverlas en modo extractivo.
+    contexto = [{**doc, 'texto': sanear_fragmento(doc['texto'])} for doc in contexto]
     aviso = None
     try:
         respuesta, modo = normalizar_citas(generar(pregunta, contexto)), 'llm'

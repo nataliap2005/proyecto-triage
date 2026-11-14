@@ -1,0 +1,26 @@
+/* R30: vista previa transaccional FHIR, solo lectura. */
+.r30-ref-actions{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:flex-end}
+.r30-preview h3{font-size:1rem;margin:1.1rem 0 .6rem}
+.r30-preview .r30-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+.r30-preview .r30-detail{border:1px solid var(--border);background:var(--lilac-50);padding:.65rem .8rem;border-radius:12px;display:flex;flex-direction:column;gap:.2rem;overflow-wrap:anywhere}
+.r30-preview .r30-detail span{font-size:.78rem;color:#746d91}
+.r30-preview .r30-detail strong{font-size:.9rem}
+.r30-preview .r30-count-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem}
+.r30-preview .r30-count{border:1px solid var(--border);border-radius:12px;padding:.65rem;display:flex;align-items:center;gap:.55rem}
+.r30-preview .r30-count strong{font-size:1.25rem;color:#7360b8}
+.r30-preview .r30-count span{font-size:.76rem}
+.r30-preview .r30-resource-list{display:grid;gap:.35rem}
+.r30-preview .r30-resource,.r30-preview .r30-json-details{border:1px solid var(--border);border-radius:12px;padding:.65rem .8rem}
+.r30-preview summary{cursor:pointer;font-weight:600}
+.r30-preview .r30-resource p{font-size:.85rem;overflow-wrap:anywhere}
+.r30-preview .r30-resource small{font-size:.75rem;color:#746d91;overflow-wrap:anywhere}
+.r30-preview .r30-json{white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow-y:auto;background:#1d1930;color:#eee9fc;border-radius:10px;padding:.85rem;font-size:.74rem}
+@media(max-width:640px){.r30-preview .r30-detail-grid{grid-template-columns:1fr}.r30-preview .r30-count-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.r30-ref-actions{justify-content:flex-start}}
+
+/* R30: envío seguro y presentación de la confirmación. */
+.r30-status{max-width:230px;overflow-wrap:anywhere}
+.r30-send-confirm{display:grid;gap:.85rem;max-width:570px}
+.r30-confirm-label{display:flex;gap:.55rem;align-items:flex-start;line-height:1.45}
+.r30-confirm-label input{margin-top:.25rem;flex:none}
+.r30-confirm-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.55rem}
+.r30-confirm-actions .btn:disabled{opacity:.55;cursor:not-allowed}

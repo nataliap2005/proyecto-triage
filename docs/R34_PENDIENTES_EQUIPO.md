@@ -1,0 +1,46 @@
+# R34 · Secciones pendientes de Sarah, Annie y coordinación
+
+Este archivo **no presenta como implementadas** las partes que aún requieren evidencia. Sustituir cada `...` con información real y enlazar commit, ruta de código, prueba, captura o endpoint antes de enviar al docente.
+
+## 1. Sarah — seguridad de datos y autenticación institucional
+
+| Componente | Evidencia exigida | Estado |
+|---|---|---|
+| R27 cifrado AES-GCM de datos sensibles | Campos cubiertos, modo nonce, manejo de claves/rotación, prueba descifrado y acceso no autorizado | `...` |
+| R28 auditoría con cadena de hashes | Estructura de hash, orden, prueba de manipulación y validador de integridad | `...` |
+| R31 autenticación entre instituciones | Mecanismo elegido, identidad del socio, HTTPS, credenciales y rotación, prueba de rechazo | `...` |
+| STRIDE actualizado | Evidencias para Spoofing/Repudiation/Disclosure; riesgos residuales | `...` |
+| LEYES actualizado | Alcance de controles R27, R28, R31 y normativa aplicable | `...` |
+
+## 2. Annie — seguridad externa e interoperabilidad de entrada
+
+| Componente | Evidencia exigida | Estado |
+|---|---|---|
+| Receptor real del Bundle FHIR | URL HTTPS y contrato de `Bundle transaction`, validación de recursos y OperationOutcome | `...` |
+| Protección webhook/endpoints | Header/firma/token, validación origen, rechazo de request inválido o repetido | `...` |
+| Integración HAPI socio | Pruebas de persistencia y rechazo sin escrituras parciales | `...` |
+| Consentimiento y visualización receptor | Cómo se reconoce `Consent`, posibilidad de revocación y vista clínica | `...` |
+| Retorno estado Task | Estados aceptado/rechazado/finalizado, payload y transición permitida | `...` |
+| Notificaciones socio ↔ remitente | Evento recibido, destinatario, cambios de bandeja y confirmación SSE | `...` |
+| STRIDE actualizado | Evidencias de validación/suplantación/manipulación del receptor | `...` |
+
+## 3. Natalia — tareas de cierre individual
+
+- [x] R12, R23, R24, R25, R26 inicial, Bundle R30, consentimiento y envío piloto local.
+- [x] Vista previa del Bundle #14 y confirmación de 11 recursos desde frontend.
+- [ ] Revisar SQL `r30_envios`, auditoría y entrega SSE real post-envío: `...`.
+- [ ] Repetir pruebas completas tras el último cambio (66 eran previas): fecha, comando y resultado `...`.
+- [ ] Revisar unidades UCUM y limitaciones de serialización FHIR: `...`.
+- [ ] Actualizar STRIDE con evidencias comprobadas de Sarah y Annie: `...`.
+- [ ] Resolver y documentar recepción en vivo R30/R33 con Annie y Sarah: `...`.
+- [ ] Subir cambios a rama, abrir PR y registrar URL: `...`.
+- [ ] Ensayar defensa cruzada de un control STRIDE: `...`.
+
+## 4. Equipo — entrega obligatoria
+
+- [ ] URL Git con acceso docente: `...`.
+- [ ] `tester.yaml` vigente en raíz: URL pública correcta, usuarios de prueba revisados: `...`.
+- [ ] Un solo `docker compose up -d` reproducible en máquina anfitriona: `...`.
+- [ ] Asignar encargado de mantener disponible Quick Tunnel toda la jornada: `...`.
+- [ ] Verificar acceso a frontend, API, FHIR y endpoints de evaluación desde red externa: `...`.
+- [ ] Compilar capturas, logs anonimizados, diagramas y reporte de tests: `...`.

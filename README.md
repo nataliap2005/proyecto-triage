@@ -8,10 +8,16 @@ Proyecto académico orientado al flujo de urgencias del Hospital San Andrés de 
 
 | Documento | Contenido |
 |---|---|
-| [`docs/DATASETS.md`](docs/DATASETS.md) | Datasets tabular y de imágenes: fuentes, licencias, filtros, clusters, sintéticos |
+| [`docs/DATASETS.md`](docs/DATASETS.md) | Datasets tabular, imagen y **## Corpus** RAG: procedencia, indexación y privacidad |
 | [`docs/MODELO.md`](docs/MODELO.md) | Modelo de IA completo: regla de decisión, umbrales, métricas, comparación de modelos, sesgo por subgrupo, limitaciones e integración (R10, R12, R20) |
 | [`docs/EVENTOS.md`](docs/EVENTOS.md) | Catálogo de eventos en tiempo real y alertas |
 | [`docs/CONTABILIDAD.md`](docs/CONTABILIDAD.md) | Facturación en MongoDB |
+| [`docs/RAG.md`](docs/RAG.md) | Corpus, filtros clínicos, recuperación y evaluación R23 |
+| [`docs/STRIDE.md`](docs/STRIDE.md) | Amenazas, fronteras de confianza, controles y riesgos residuales R26 |
+| [`docs/R30_FHIR.md`](docs/R30_FHIR.md) | Contrato FHIR R4, consentimiento, Task, recepción y pruebas R30/R33 |
+| [`docs/R34_NATALIA.md`](docs/R34_NATALIA.md) | Documentación de módulos y evidencias de IA e interoperabilidad de salida |
+| [`docs/R34_OPERACION.md`](docs/R34_OPERACION.md) | Despliegue, disponibilidad el día de sustentación y guía de verificación |
+| [`docs/R34_PENDIENTES_EQUIPO.md`](docs/R34_PENDIENTES_EQUIPO.md) | Apartados pendientes de Sarah, Annie y coordinación R33 |
 | [`docs/LEYES.md`](docs/LEYES.md) | Marco normativo y controles técnicos |
 | [`dataset_imagenes/`](dataset_imagenes/) | Imágenes DICOM cargadas en el PACS y su documentación |
 
@@ -105,6 +111,12 @@ Orthanc funciona como PACS. Las imágenes se asocian a pacientes y se consultan 
 ## Interoperabilidad FHIR
 
 HAPI FHIR R4 corre como servicio Docker y se expone mediante Nginx bajo `/fhir/`. La API mantiene recursos clínicos y registra una `Subscription` `rest-hook` para reaccionar cuando llega una nueva `Observation`. La reacción genera auditoría y notificación al médico responsable.
+
+**R30 (salida):** un paciente autenticado con rol `Paciente` registra o revoca el consentimiento para el socio piloto; el médico remitente consulta una vista previa y transmite una remisión existente. FastAPI verifica titularidad, origen sintético, consentimiento y reportes aprobados y genera un `Bundle` FHIR R4 `transaction` con `Patient`, `Consent`, `ServiceRequest`, `Task`, observaciones LOINC y, cuando corresponde, un `DiagnosticReport` final aprobado. El `ServiceRequest` utiliza SNOMED CT `306206005`; las IDs son derivadas con HMAC de un secreto local. El receptor piloto autentica con `X-R30-Token`, valida el paquete y lo remite a HAPI para procesamiento transaccional. Se registra `r30_envios`, auditoría y evento interno `remision_fhir_confirmada` únicamente después de una confirmación íntegra.
+
+**Prueba de referencia:** remisión sintética `14`, encuentro `459`, 11 recursos, respuesta HTTP 200 `Bundle.type=transaction-response`; rechazo de paquete inválido HTTP 422 con `OperationOutcome`. La pantalla médica muestra **FHIR enviado** y deshabilita un segundo envío confirmado. Esta confirmación es **técnica**, no equivale a aceptación clínica por el socio. La comunicación real con el equipo receptor y la devolución posterior de `Task` corresponden a R33 y siguen pendientes.
+
+Más detalles: [`docs/R30_FHIR.md`](docs/R30_FHIR.md) y [`docs/R34_NATALIA.md`](docs/R34_NATALIA.md).
 
 ## Sistema reactivo
 
@@ -229,3 +241,100 @@ git ls-files | findstr /I ".env pass.env"
 El segundo comando no debe devolver `.env` ni `back/pass.env`.
 
 Guion de demostración: alerta crítica, aprobación IA → factura, remisión y aceptación, Observation FHIR, bloqueo/desbloqueo, PDF y auditoría, sin recargar la página.
+
+
+## R34 · Arquitectura de servicios y fronteras de integración (actualización)
+
+> Diagrama lógico del despliegue observado en `docker-compose.yml`. El receptor socio remoto se representa como **previsto**, no como conectado. El receptor piloto R30 está alojado en la API local. Los puertos publicados en el host deben protegerse por separado del túnel.
+
+```mermaid
+flowchart LR
+  U[Usuarios: paciente / medico / especialista] --> T[Cloudflare Quick Tunnel]
+  T --> N[Nginx / frontend :80]
+  N -->|/api| A[FastAPI :8000]
+  N -->|/fhir| H[HAPI FHIR R4 :8080]
+  A -->|historia, consentimientos, auditoria| P[(Neon PostgreSQL)]
+  A -->|datos auxiliares| M[(MongoDB)]
+  A -->|prediccion autenticada| ML[Servicio ML :8001]
+  A -->|imagenes| O[Orthanc PACS]
+  A -->|RAG y seleccion de herramienta| G[Groq LLM externo]
+  A -->|R30 emisor HTTP interno para pruebas| RX[Receptor R30 en FastAPI]
+  RX -->|FHIR transaction| H
+  H --> HP[(PostgreSQL HAPI)]
+  H -->|rest-hook / Observation| A
+  A -.->|R33: HTTPS + credenciales acordadas| SOCIO[Sistema socio / Annie: PENDIENTE]
+```
+
+No se usan Kafka ni RabbitMQ. Se pretende desplegar con un único `docker compose up -d` desde la raíz. **No se afirma alta disponibilidad**: Quick Tunnel, ordenador anfitrión y conexión a Internet son dependencias operativas.
+
+## R34 · Diagrama de eventos
+
+```mermaid
+flowchart TD
+  EV[Accion autenticada o cambio clinico] --> API[FastAPI / reglas de negocio]
+  API -->|Remision creada| REM[Notificacion al especialista]
+  API -->|IA detecta caso critico| ALERT[Alerta y eventual escalamiento]
+  API -->|Reporte aprobado| BILL[Evento de factura IA]
+  API -->|Observation recibida via FHIR| FHIR[Evento de observacion]
+  API -->|R30 transaccion confirmada| CONF[remision_fhir_confirmada]
+  REM --> PUB[Publicador de eventos]
+  ALERT --> PUB
+  BILL --> PUB
+  FHIR --> PUB
+  CONF --> PUB
+  PUB --> DB[(Notificaciones persistentes)]
+  PUB --> SSE[Canal SSE /eventos/stream]
+  DB --> BANDEJA[Frontend / bandeja]
+  SSE --> BANDEJA
+  SOCIO[Respuesta clinica del socio / Task: PENDIENTE R33] -.-> API
+```
+
+La recepción de una transacción FHIR **no** demuestra que la aceptación o rechazo clínico del socio ya esté implementado. Catálogo y destinatarios: [`docs/EVENTOS.md`](docs/EVENTOS.md).
+
+## R34 · Diagrama del intercambio con la institución socia
+
+```mermaid
+sequenceDiagram
+  actor Pac as Paciente
+  actor Med as Medico remitente
+  participant Web as Frontend + Nginx
+  participant API as FastAPI emisor R30
+  participant DB as Neon PostgreSQL
+  participant Rx as Receptor piloto / socio
+  participant H as HAPI FHIR R4
+  Pac->>Web: Autorizar intercambio
+  Web->>API: POST consentimiento (JWT Paciente)
+  API->>DB: Persistir consentimiento y alcance
+  Med->>Web: Consultar remision y vista previa
+  Web->>API: GET /fhir/remisiones-r30/{id}/bundle
+  API->>DB: Verificar rol, remision, Consent y reportes
+  API-->>Web: Bundle transaction (sin envio)
+  Med->>Web: Confirmar enviar remision
+  Web->>API: POST /fhir/remisiones-r30/{id}/enviar
+  API->>DB: Revalidar autorizacion y evitar duplicado
+  API->>Rx: POST Bundle + credencial institucional
+  Note over Rx: Piloto local validado; socio externo pendiente R33
+  Rx->>H: POST Bundle transaction
+  alt recursos y transaccion validos
+    H-->>Rx: transaction-response completa
+    Rx-->>API: Confirmacion completa
+    API->>DB: Registrar envio y auditoria
+    API-->>Web: Confirmado / FHIR enviado
+  else recurso invalido
+    H-->>Rx: OperationOutcome / error
+    Rx-->>API: Rechazo
+    API-->>Web: Error sin confirmar envio
+  end
+  Note over Rx,API: R33 PENDIENTE: respuesta clinica Task, autent. socio, aviso de aceptacion/rechazo
+```
+
+## R34 · Entrega, disponibilidad y verificación
+
+- **Documentos:** `docs/STRIDE.md`, `docs/EVENTOS.md`, `docs/DATASETS.md` (incluye `## Corpus`), `docs/LEYES.md`, y documentos específicos R34 citados arriba.
+- **Repositorio de revisión:** URL Git pública o permisos de lectura al docente, con código, `docker-compose.yml`, `tester.yaml` en raíz y `docs/`. **PENDIENTE: URL del repositorio y PR de Natalia — ...**
+- **URL pública:** Quick Tunnel debe permanecer accesible **toda la jornada** de sustentación; `tester.yaml.url_publica` está vacío en el ZIP revisado. **PENDIENTE: URL vigente de la jornada — ...**
+- **Arranque:** `docker compose up -d`, verificar `docker compose ps`, API `/api/`, navegador `/` y HAPI `/fhir/metadata`. Asegurar energía, red y túnel continuo; comprobar desde otra red y dejar persona responsable de monitorear.
+- **Seguridad:** no compartir ni versionar `back/pass.env`, tokens, identificadores HMAC, credenciales de Groq. El `tester.yaml` del ZIP incluye **contraseñas de demostración en texto claro**: revisarlas y reemplazarlas/rotarlas si fueron utilizadas fuera de un entorno estrictamente sintético, coordinando con docente el contrato de prueba. No publicar credenciales reales en el README.
+- **Sustentación cruzada:** ensayar una pregunta sobre RAG, control de permisos de R24, bloqueo R25, un riesgo residual STRIDE y la diferencia entre entrega técnica FHIR y aceptación clínica.
+
+Lista reproducible: [`docs/R34_OPERACION.md`](docs/R34_OPERACION.md). Evidencias y pendientes de compañeras: [`docs/R34_NATALIA.md`](docs/R34_NATALIA.md), [`docs/R34_PENDIENTES_EQUIPO.md`](docs/R34_PENDIENTES_EQUIPO.md).
