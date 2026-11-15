@@ -36,7 +36,8 @@ ISSUER_DEFECTO = "triaje-uao"
 
 # Permisos que una institución puede tener. R33 usará task:write para devolver
 # aceptación/rechazo de una remisión.
-SCOPES_VALIDOS = ("bundle:write", "task:write", "patient:read")
+# R31: las credenciales del socio solo sirven para el endpoint de entrada; no dan acceso a la API clinica
+SCOPES_VALIDOS = ("bundle:write", "task:write")
 
 MAX_INTENTOS = 5
 BLOQUEO_MINUTOS = 15
@@ -174,7 +175,8 @@ def emitir_token(client_id: str, client_secret: str, scope_solicitado: str | Non
                                {"WWW-Authenticate": "Basic"})
 
         # Credenciales correctas: decidir scopes (solo un subconjunto de los permitidos).
-        permitidos = list(cliente["scopes"])
+        # Solo se conceden permisos que el sistema aun reconoce (R31: sin acceso a la API clinica)
+        permitidos = [s for s in cliente["scopes"] if s in SCOPES_VALIDOS]
         if scope_solicitado and scope_solicitado.strip():
             pedidos = scope_solicitado.split()
             if not set(pedidos).issubset(set(permitidos)):

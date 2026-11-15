@@ -124,5 +124,33 @@ def test_scope_desconocido_se_detecta_al_declarar_el_endpoint():
 
 
 def test_scopes_declarados_son_los_esperados():
-    assert set(inst.SCOPES_VALIDOS) == {"bundle:write", "task:write", "patient:read"}
+    assert set(inst.SCOPES_VALIDOS) == {"bundle:write", "task:write"} 
+
+def test_token_institucional_no_abre_la_api_clinica():
+    """R31: las credenciales del socio no dan acceso a la API clinica.
+    Un token institucional presentado donde se espera un token de usuario se rechaza con 401."""
+    import jwt
+    import pytest
+    from datetime import datetime, timedelta, timezone
+    from fastapi import HTTPException
+    from auth import service
+
+    ahora = datetime.now(timezone.utc)
+    token = jwt.encode(
+        {
+            "iss": "triaje",
+            "aud": "triaje-api-institucional",
+            "sub": "socio-demo",
+            "typ": "institucional",
+            "scope": "bundle:write task:write",
+            "jti": "prueba-r31",
+            "iat": ahora,
+            "exp": ahora + timedelta(minutes=10),
+        },
+        "llave-institucional-de-prueba-0123456789abcdef",
+        algorithm="HS256",
+    )
+    with pytest.raises(HTTPException) as error:
+        service.usuario_desde_token(token, db=None)
+    assert error.value.status_code == 401
     
