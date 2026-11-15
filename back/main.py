@@ -36,7 +36,7 @@ from routers.agente import router as agente_router
 from routers.rag import router as rag_router          # Semana 12: asistente RAG
 from routers.agente_llm import router as agente_llm_router
 from routers.remisiones_fhir_r30 import router as remisiones_fhir_r30_router
-
+from routers.oauth_institucional import router as oauth_institucional_router  # R31
 
 
 app = FastAPI(
@@ -100,6 +100,7 @@ app.include_router(rag_router)
 app.include_router(agente_router)
 app.include_router(agente_llm_router)
 app.include_router(remisiones_fhir_r30_router)
+app.include_router(oauth_institucional_router)  # R31
 # SISTEMA
 
 @app.on_event("startup")
