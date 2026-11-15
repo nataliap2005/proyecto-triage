@@ -7,10 +7,10 @@ Este archivo **no presenta como implementadas** las partes que aún requieren ev
 | Componente | Evidencia exigida | Estado |
 |---|---|---|
 | R27 cifrado AES-GCM de datos sensibles | Campos cubiertos, modo nonce, manejo de claves/rotación, prueba descifrado y acceso no autorizado | `...` |
-| R28 auditoría con cadena de hashes | Estructura de hash, orden, prueba de manipulación y validador de integridad | `...` |
-| R31 autenticación entre instituciones | Mecanismo elegido, identidad del socio, HTTPS, credenciales y rotación, prueba de rechazo | `...` |
-| STRIDE actualizado | Evidencias para Spoofing/Repudiation/Disclosure; riesgos residuales | `...` |
-| LEYES actualizado | Alcance de controles R27, R28, R31 y normativa aplicable | `...` |
+| R28 auditoría con cadena de hashes | Estructura de hash, orden, prueba de manipulación y validador de integridad | **Hecho (2026-11-15):** hash SHA-256 sobre `auditoria_cambios` por trigger con bloqueo; migración `016`; `back/routers/auditoria_cadena.py`; `back/scripts/prueba_r28_manipulacion.py`; verificación Admin 200 (314 eslabones), sin token 401, médico 403; commit `5f1f14f`, PR #6 |
+| R31 autenticación entre instituciones | Mecanismo elegido, identidad del socio, HTTPS, credenciales y rotación, prueba de rechazo | **Hecho para la entrada (2026-11-15):** OAuth2 `client_credentials` con JWT de 10 minutos; `back/auth/institucional.py`, `back/routers/oauth_institucional.py`, migración `015`, script de alta, rotación y baja; 31 pruebas; rechazos 401, 400, 403 y 409 y rotación comprobados; commits `c89ca86`, `4f4dc14`, `33f834f`, PR #6. **Pendiente:** credencial del socio real y HTTPS de extremo a extremo con el socio |
+| STRIDE actualizado | Evidencias para Spoofing/Repudiation/Disclosure; riesgos residuales | **Hecho para R28 y R31:** filas S2, T1, R1 y E3 y tabla final de `docs/STRIDE.md`. **Pendiente:** fila de Information disclosure de R27 |
+| LEYES actualizado | Alcance de controles R27, R28, R31 y normativa aplicable | **Hecho para R28 y R31** en `docs/LEYES.md`. **Pendiente:** R27 |
 
 ## 2. Annie — seguridad externa e interoperabilidad de entrada
 
