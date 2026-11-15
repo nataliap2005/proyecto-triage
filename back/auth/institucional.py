@@ -41,7 +41,7 @@ SCOPES_VALIDOS = ("bundle:write", "task:write")
 
 MAX_INTENTOS = 5
 BLOQUEO_MINUTOS = 15
-TOKEN_MINUTOS_DEFECTO = 15
+TOKEN_MINUTOS_DEFECTO = 10
 TOKEN_MINUTOS_MAXIMO = 30          # los nonces se conservan 1 h: siempre > vida del token
 NONCE_RETENCION_HORAS = 1
 PATRON_NONCE = re.compile(r"^[A-Za-z0-9_-]{16,128}$")

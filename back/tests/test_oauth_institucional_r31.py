@@ -94,7 +94,7 @@ def test_secreto_igual_al_de_usuarios_responde_503(monkeypatch):
 
 
 @pytest.mark.parametrize("valor,esperado", [
-    (None, 15), ("5", 5), ("0", 1), ("-3", 1), ("999", 30), ("abc", 15),
+    (None, 10), ("5", 5), ("0", 1), ("-3", 1), ("999", 30), ("abc", 10),
 ])
 def test_vigencia_del_token_se_limita(monkeypatch, valor, esperado):
     if valor is None:
@@ -153,4 +153,3 @@ def test_token_institucional_no_abre_la_api_clinica():
     with pytest.raises(HTTPException) as error:
         service.usuario_desde_token(token, db=None)
     assert error.value.status_code == 401
-    
