@@ -28,6 +28,16 @@ from dotenv import load_dotenv  # noqa: E402
 
 load_dotenv(RAIZ / 'back' / 'pass.env', override=False)
 
+
+def _descifrar_fila(fila):
+    """R27: teléfono y dirección se guardan cifrados; aquí se necesitan en claro para compararlos."""
+    try:
+        from core.cifrado import descifrar_fila
+    except ImportError:
+        sys.path.insert(0, str(RAIZ / 'back'))
+        from core.cifrado import descifrar_fila
+    return descifrar_fila(fila)
+
 PATRONES = {
     'correo': r'\b[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}\b',
     'celular': r'\b(?:\+?57[\s-]?)?3\d{9}\b',
@@ -40,7 +50,9 @@ def _identificadores(cur) -> list[str]:
                           telefono, direccion FROM pacientes''')
     valores = set()
     for fila in cur.fetchall():
-        for v in fila:
+        # R27: se descifran teléfono y dirección para poder buscarlos en el índice
+        datos = _descifrar_fila({'telefono': fila[3], 'direccion': fila[4]})
+        for v in (fila[0], fila[1], fila[2], datos['telefono'], datos['direccion']):
             v = (str(v).strip() if v is not None else '')
             # Nombres muy cortos ("Ana") generan falsos positivos con palabras clínicas: se exige >= 4.
             if len(v) >= 4:

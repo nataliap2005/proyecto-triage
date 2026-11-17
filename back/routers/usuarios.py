@@ -10,6 +10,7 @@ from auth.service import requerir_roles
 from core.database import get_db
 from core.eventos import publicar
 from core.security import hash_password
+from core.cifrado import cifrar,cifrar_campos
 from routers.common import obtener_registro,registrar_auditoria
 
 router=APIRouter()
@@ -109,8 +110,8 @@ def asegurar_paciente_para_cuenta(cur,data,admin_doc):
         RETURNING *;
     """,(
         data.numero_documento_usuario,data.numero_documento_usuario,data.tipo_documento,
-        data.nombres,data.apellidos,data.fecha_nacimiento or None,genero,data.telefono,
-        data.direccion,data.municipio_residencia,zona
+        data.nombres,data.apellidos,data.fecha_nacimiento or None,genero,cifrar(data.telefono,"telefono"),
+        cifrar(data.direccion,"direccion"),data.municipio_residencia,zona
     ))
     p=cur.fetchone()
     registrar_auditoria(cur,"pacientes",data.numero_documento_usuario,"CREAR",admin_doc,nuevos=p)
@@ -134,7 +135,7 @@ def crear_usuario(data:UsuarioCreate,db=Depends(get_db),u=Depends(requerir_roles
         """,(
             data.numero_documento_usuario,data.id_rol,data.username,
             hash_password(data.password),data.nombres,data.apellidos,
-            data.email,data.telefono
+            data.email,cifrar(data.telefono,"telefono")
         ))
 
         nuevo=cur.fetchone()
@@ -247,7 +248,8 @@ def editar_usuario(documento:int,data:UsuarioUpdate,db=Depends(get_db),u=Depends
         campos=[]
         valores=[]
 
-        for k,v in cambios.items():
+        # R27: el teléfono se guarda cifrado
+        for k,v in cifrar_campos(cambios).items():
             campos.append(f"{k}=%s")
             valores.append(v)
 

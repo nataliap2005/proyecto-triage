@@ -36,6 +36,16 @@ SALIDA = BASE / 'documentos' / 'textos_extraidos' / 'historias_aprobadas.jsonl'
 load_dotenv(RAIZ / 'back' / 'pass.env', override=False)
 
 
+def _descifrar_fila(fila):
+    """R27: teléfono y dirección se guardan cifrados; aquí se necesitan en claro para compararlos."""
+    try:
+        from core.cifrado import descifrar_fila
+    except ImportError:
+        sys.path.insert(0, str(RAIZ / 'back'))
+        from core.cifrado import descifrar_fila
+    return descifrar_fila(fila)
+
+
 def seudonimo(documento: int, secreto: str) -> str:
     firma = hmac.new(secreto.encode('utf-8'), str(documento).encode('utf-8'), hashlib.sha256).hexdigest()
     return 'pac-' + firma[:32]
@@ -135,6 +145,7 @@ def ejecutar(confirmar_revision: bool) -> None:
             ''')
             autorizados = cur.fetchall()
             for a in autorizados:
+                _descifrar_fila(a)  # R27: teléfono y dirección llegan cifrados de la base
                 datos = obtener_historia(cur, a['id_encuentro'], a['id_paciente'])
                 texto = redactar_historia(datos)
                 # Se bloquea el lote completo si se detecta algún identificador.

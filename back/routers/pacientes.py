@@ -20,6 +20,7 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, Tabl
 
 from auth.service import requerir_roles
 from core.database import get_db
+from core.cifrado import cifrar,cifrar_campos
 from routers.common import exigir_especialista_remitido,exigir_paciente_propio,obtener_registro,registrar_auditoria
 
 router=APIRouter()
@@ -78,7 +79,7 @@ def crear_paciente(data:PacienteCreate,db=Depends(get_db),u=Depends(requerir_rol
             cuenta["numero_documento_usuario"] if cuenta else None,
             data.tipo_documento,data.nombres,data.apellidos,
             data.fecha_nacimiento,
-            data.genero_fhir,data.telefono,data.direccion,
+            data.genero_fhir,cifrar(data.telefono,"telefono"),cifrar(data.direccion,"direccion"),
             data.municipio_residencia,data.zona_residencia
         ))
 
@@ -190,7 +191,8 @@ def editar_paciente(documento:int,data:PacienteUpdate,db=Depends(get_db),u=Depen
         campos=[]
         vals=[]
 
-        for k,v in cambios.items():
+        # R27: teléfono y dirección se guardan cifrados
+        for k,v in cifrar_campos(cambios).items():
             campos.append(f"{k}=%s")
             vals.append(v)
 
