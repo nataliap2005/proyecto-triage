@@ -401,15 +401,16 @@ def test_si_la_base_falla_despues_de_hapi_se_compensa(avisos):
 
 @pytest.fixture
 def cliente(monkeypatch):
+    # App mínima con solo este router: no carga main.py (que conecta a MongoDB,
+    # Orthanc, etc.), así la prueba corre igual dentro y fuera de Docker.
+    from fastapi import FastAPI
     from fastapi.testclient import TestClient
     from core.database import get_db
-    from main import app
+    app = FastAPI()
+    app.include_router(rx.router)
     monkeypatch.setenv("INSTITUCION_JWT_SECRET", "secreto-institucional-de-prueba-" * 2)
     app.dependency_overrides[get_db] = lambda: BaseFalsa()   # no toca Neon
-    try:
-        yield TestClient(app)
-    finally:
-        app.dependency_overrides.clear()
+    return TestClient(app)
 
 
 @pytest.mark.parametrize("cabeceras", [
