@@ -1,0 +1,15 @@
+[OK ] Sin token institucional                        esperado 401  recibido 401  Falta el token institucional
+Token institucional obtenido (vigencia 600 s, permisos: bundle:write task:write)
+[OK ] Token alterado                                 esperado 401  recibido 401  Token institucional inválido o vencido
+[OK ] Content-Type que no es FHIR                    esperado 415  recibido 415  Content-Type debe ser application/fhir+json
+[OK ] Cuerpo que no es JSON                          esperado 400  recibido 400  El cuerpo no es JSON válido
+[OK ] Observation sin código LOINC                   esperado 422  recibido 422  Cada Observation requiere un código LOINC
+[OK ] DiagnosticReport no aprobado                   esperado 422  recibido 422  Solo se reciben DiagnosticReport finales (aprobados)
+[OK ] Sin Consent del paciente (R32)                 esperado 422  recibido 422  Falta el Consent del paciente para compartir con esta institución
+[OK ] Intenta crear una Subscription en HAPI         esperado 422  recibido 422  Tipo de recurso no permitido en una remisión: Subscription
+[OK ] Intenta borrar un Patient propio               esperado 422  recibido 422  La entrada 1: método DELETE no permitido
+[OK ] Bundle válido                                  esperado 200  recibido 200  remisión externa #1
+[OK ] Mismo x-nonce otra vez (repetición)            esperado 409  recibido 409  Solicitud repetida: el nonce ya fue usado
+[OK ] Misma remisión con nonce nuevo (duplicado)     esperado 409  recibido 409  Esta remisión ya fue recibida
+
+12 de 12 casos con la respuesta esperada.
