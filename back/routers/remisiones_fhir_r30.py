@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from urllib.parse import urlparse
 
 import requests
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
@@ -424,40 +424,7 @@ def enviar(id_remision: int, db=Depends(get_db), u=Depends(requerir_roles("Medic
         cur.close()
 
 
-@router.post("/recibir")
-def recibir(bundle: dict, request: Request):
-    configurado = os.getenv("R30_RECEPTOR_TOKEN", "")
-    recibido = request.headers.get(HEADER, "")
-    if not configurado or not hmac.compare_digest(configurado, recibido):
-        return rechazo(401, "Credenciales del sistema socio inválidas", "login")
-    try:
-        validar_bundle(bundle)
-    except (ValueError, KeyError, IndexError, TypeError) as e:
-        return rechazo(422, str(e))
-    # El receptor delega atomicidad de la transacción al servidor HAPI FHIR.
-    from core.config import HAPI_FHIR_URL
-    try:
-        r = requests.post(HAPI_FHIR_URL, json=bundle, headers={
-            "Content-Type":"application/fhir+json", "Accept":"application/fhir+json"}, timeout=25)
-    except requests.RequestException:
-        return rechazo(503,"Servidor FHIR local no disponible","transient")
-    if r.status_code not in (200,201):
-        try:
-            fallo = r.json()
-        except ValueError:
-            fallo = None
-        if isinstance(fallo,dict) and fallo.get("resourceType") == "OperationOutcome":
-            return JSONResponse(status_code=422,content=fallo)
-        return rechazo(422,"El servidor FHIR rechazó la transacción")
-    try:
-        respuesta = r.json()
-    except ValueError:
-        return rechazo(502,"Respuesta inválida del servidor FHIR")
-    if respuesta.get("resourceType") != "Bundle" or respuesta.get("type") != "transaction-response":
-        return rechazo(502,"No se recibió confirmación transaccional")
-    if len(respuesta.get("entry", [])) != len(bundle["entry"]) or any(
-        not str(e.get("response", {}).get("status", "")).startswith(("200", "201"))
-        for e in respuesta.get("entry", [])
-    ):
-        return rechazo(502,"HAPI no confirmó todas las entradas", "processing")
-    return JSONResponse(status_code=200,content=respuesta)
+# El receptor de remisiones externas (POST /fhir/remisiones-r30/recibir) se movió a
+# routers/recepcion_externa.py (Annie). Ahora exige credenciales institucionales
+# R31 (Bearer + permiso bundle:write + x-nonce) en lugar de X-R30-Token, guarda la
+# remisión en la base, la audita con origen SOCIO y avisa al especialista.

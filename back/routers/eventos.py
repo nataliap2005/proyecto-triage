@@ -161,6 +161,9 @@ def trabajo_pendiente(db=Depends(get_db), usuario=Depends(usuario_actual)):
                   AND is_deleted = FALSE;
             """, (uid,))
             contadores["remisiones_recibidas"] = cur.fetchone()[0]
+            # R30: también cuentan las remisiones que llegan de la institución socio.
+            from routers.recepcion_externa import contar_externas_pendientes
+            contadores["remisiones_recibidas"] += contar_externas_pendientes(cur, uid)
 
         # Se calculan desde el estado real: bajan solos al aprobar/rechazar o al reconocer
         contadores["reportes_por_revisar"] = contar_reportes_por_revisar(cur, usuario)
