@@ -7,6 +7,8 @@ from decimal import Decimal
 from fastapi import HTTPException
 from psycopg2.extras import Json,RealDictCursor
 
+from core.cifrado import cifrar_campos
+
 
 def jsonable_row(row):
     if row is None:
@@ -20,6 +22,12 @@ def jsonable_row(row):
     return d
 
 def registrar_auditoria(cursor,tabla,registro_id,accion,usuario,anteriores=None,nuevos=None):
+    # R27: la fila llega descifrada desde la conexión; en la auditoría el teléfono
+    # y la dirección se guardan cifrados, igual que en su tabla.
+    if anteriores:
+        anteriores=cifrar_campos(anteriores)
+    if nuevos:
+        nuevos=cifrar_campos(nuevos)
     cursor.execute(
         """
         INSERT INTO auditoria_cambios(

@@ -1,5 +1,6 @@
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 import asyncio
 
@@ -36,6 +37,9 @@ from routers.agente import router as agente_router
 from routers.rag import router as rag_router          # Semana 12: asistente RAG
 from routers.agente_llm import router as agente_llm_router
 from routers.remisiones_fhir_r30 import router as remisiones_fhir_r30_router
+from routers.oauth_institucional import router as oauth_institucional_router  # R31
+from routers.auditoria_cadena import router as auditoria_cadena_router  # R28
+from core.cifrado import ErrorCifrado  # R27
 
 
 
@@ -63,6 +67,12 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "Accept"],
 )
+
+
+# R27: sin llave de cifrado no se guarda un dato sensible en claro; se responde 503.
+@app.exception_handler(ErrorCifrado)
+async def _cifrado_no_disponible(request, exc):
+    return JSONResponse(status_code=503, content={"detail": "El cifrado de datos sensibles no está configurado"})
 
 
 # R25: protección contra prompt injection en rutas RAG y agente.
@@ -100,6 +110,8 @@ app.include_router(rag_router)
 app.include_router(agente_router)
 app.include_router(agente_llm_router)
 app.include_router(remisiones_fhir_r30_router)
+app.include_router(oauth_institucional_router)  # R31
+app.include_router(auditoria_cadena_router)  # R28
 # SISTEMA
 
 @app.on_event("startup")
