@@ -11,9 +11,6 @@ import os
 import uuid
 import re
 from datetime import datetime, timezone
-from urllib.parse import urlparse
-
-import requests
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from psycopg2.extras import RealDictCursor
@@ -21,6 +18,8 @@ from pydantic import BaseModel
 
 from auth.service import requerir_roles
 from core.database import get_db
+from core.socio_cliente import (SocioError, SocioNoConfigurado, dias_consentimiento,
+                                enviar_fhir, socio_id, socio_nombre, url_envio)
 from routers.common import exigir_paciente_propio, registrar_auditoria
 from rag.privacidad import proteger_texto
 
@@ -28,7 +27,6 @@ router = APIRouter(prefix="/fhir/remisiones-r30", tags=["R30 · Remisiones FHIR 
 LOINC = "http://loinc.org"
 SNOMED = "http://snomed.info/sct"
 LOCAL = "urn:salud-digital:r30"
-HEADER = "X-R30-Token"
 MAX_ENTRIES = 30
 
 
@@ -178,7 +176,8 @@ def construir_bundle(remision: dict, observaciones: list[dict], reportes: list[d
         "category": [{"coding": [{"system": LOINC, "code": "59284-0", "display": "Consent Document"}]}],
         "patient": _ref(paciente), "dateTime": inicio.isoformat(),
         "performer": [_ref(paciente)],
-        "policyRule": {"text": "Consentimiento explícito para intercambio interinstitucional de remisión; socio-piloto"},
+        "policyRule": {"text": "Consentimiento explícito (Ley 1581 de 2012) para intercambio "
+                                 "interinstitucional de remisión con " + socio_nombre()},
         "provision": {"type": "permit", "period": {
             "start": inicio.isoformat(), **({"end": fin.isoformat()} if fin else {})},
             "purpose": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ActReason", "code": "TREAT"}]}
@@ -230,7 +229,7 @@ def _cargar(cur, id_remision: int, usuario: dict):
     if r["origen_paciente"] != "sintetico":
         raise HTTPException(status_code=403, detail="R30 piloto solo admite pacientes sintéticos")
     cur.execute("""SELECT vigente, expira_at, actualizado_at FROM r30_consentimientos
-                   WHERE id_paciente=%s AND socio=%s""", (r["id_paciente"], "socio-piloto"))
+                   WHERE id_paciente=%s AND socio=%s""", (r["id_paciente"], socio_id()))
     c = cur.fetchone()
     if not c or not c["vigente"] or (c["expira_at"] and c["expira_at"] <= datetime.now(timezone.utc)):
         raise HTTPException(status_code=403, detail="No existe consentimiento vigente para interoperabilidad")
@@ -258,15 +257,20 @@ def consultar_estado_consentimiento(db=Depends(get_db), u=Depends(requerir_roles
     cur = db.cursor(cursor_factory=RealDictCursor)
     try:
         exigir_paciente_propio(cur, id_paciente, u)
-        cur.execute("""SELECT vigente, actualizado_at
+        cur.execute("""SELECT vigente, actualizado_at, expira_at
                        FROM r30_consentimientos
-                       WHERE id_paciente=%s AND socio='socio-piloto'""", (id_paciente,))
+                       WHERE id_paciente=%s AND socio=%s""", (id_paciente, socio_id()))
         fila = cur.fetchone()
+        expira = fila.get("expira_at") if fila else None
+        vencido = bool(expira and expira <= datetime.now(timezone.utc))
         return {
             "registrado": fila is not None,
-            "consentimiento_vigente": bool(fila["vigente"]) if fila else False,
-            "socio": "socio-piloto",
+            "consentimiento_vigente": bool(fila["vigente"]) and not vencido if fila else False,
+            "vencido": vencido,
+            "socio": socio_id(),
+            "socio_nombre": socio_nombre(),
             "actualizado_at": fila["actualizado_at"].isoformat() if fila and fila["actualizado_at"] else None,
+            "expira_at": expira.isoformat() if expira else None,
         }
     finally:
         cur.close()
@@ -277,16 +281,27 @@ def consentimiento(body: Consentimiento, db=Depends(get_db), u=Depends(requerir_
     cur = db.cursor(cursor_factory=RealDictCursor)
     try:
         exigir_paciente_propio(cur, body.id_paciente, u)
-        cur.execute("""INSERT INTO r30_consentimientos(id_paciente,socio,vigente,registrado_por,actualizado_at)
-                       VALUES (%s,'socio-piloto',%s,%s,now())
+        # R32: el consentimiento es para UNA institución destino y vence. Revocar
+        # (autoriza=false) cierra la vigencia de inmediato.
+        cur.execute("""INSERT INTO r30_consentimientos(id_paciente,socio,vigente,registrado_por,
+                                                       actualizado_at,expira_at)
+                       VALUES (%s,%s,%s,%s,now(),
+                               CASE WHEN %s THEN now() + make_interval(days => %s) ELSE now() END)
                        ON CONFLICT(id_paciente,socio) DO UPDATE SET vigente=EXCLUDED.vigente,
-                       registrado_por=EXCLUDED.registrado_por, actualizado_at=now()""",
-                    (body.id_paciente,body.autoriza,u["numero_documento_usuario"]))
+                       registrado_por=EXCLUDED.registrado_por, actualizado_at=now(),
+                       expira_at=EXCLUDED.expira_at
+                       RETURNING expira_at""",
+                    (body.id_paciente, socio_id(), body.autoriza, u["numero_documento_usuario"],
+                     body.autoriza, dias_consentimiento()))
+        expira = cur.fetchone()["expira_at"]
         registrar_auditoria(cur, "r30_consentimientos", str(body.id_paciente), "EDITAR",
                            u["numero_documento_usuario"], nuevos={
-                               "socio": "socio-piloto", "vigente": body.autoriza})
+                               "socio": socio_id(), "vigente": body.autoriza,
+                               "expira_at": expira.isoformat() if expira else None})
         db.commit()
-        return {"consentimiento_vigente": body.autoriza, "socio": "socio-piloto"}
+        return {"consentimiento_vigente": body.autoriza, "socio": socio_id(),
+                "socio_nombre": socio_nombre(),
+                "expira_at": expira.isoformat() if expira and body.autoriza else None}
     except Exception:
         db.rollback()
         raise
@@ -302,17 +317,6 @@ def vista_previa(id_remision: int, db=Depends(get_db), u=Depends(requerir_roles(
         return construir_bundle(r,obs,rep,c)
     finally:
         cur.close()
-
-
-def _config_receptor():
-    url = os.getenv("R30_SOCIO_URL", "").strip().rstrip("/")
-    token = os.getenv("R30_SOCIO_TOKEN", "")
-    parsed = urlparse(url)
-    if not url or not token or parsed.scheme not in ("http", "https") or not parsed.hostname:
-        raise HTTPException(status_code=503, detail="Receptor R30 no configurado")
-    if parsed.scheme != "https" and parsed.hostname not in {"localhost", "127.0.0.1", "socio-receptor", "api"}:
-        raise HTTPException(status_code=503, detail="El socio requiere HTTPS fuera de la red de prueba")
-    return url, token
 
 
 @router.get("/{id_remision}/estado-envio")
@@ -332,19 +336,25 @@ def estado_envio(id_remision: int, db=Depends(get_db), u=Depends(requerir_roles(
             raise HTTPException(status_code=403, detail="Solo el médico remitente puede consultar el envío")
         if fila["origen_paciente"] != "sintetico":
             raise HTTPException(status_code=403, detail="R30 piloto solo admite pacientes sintéticos")
-        cur.execute("""SELECT estado, recursos, fecha_hora
-                       FROM r30_envios WHERE id_remision=%s AND socio='socio-piloto'
-                       AND estado='confirmado' ORDER BY fecha_hora DESC LIMIT 1""", (id_remision,))
+        cur.execute("""SELECT estado, recursos, fecha_hora, respuesta_socio, respuesta_motivo, respuesta_at
+                       FROM r30_envios WHERE id_remision=%s AND socio=%s
+                       AND estado='confirmado' ORDER BY fecha_hora DESC LIMIT 1""", (id_remision, socio_id()))
         enviado = cur.fetchone()
         if enviado:
             return {"id_remision": id_remision, "confirmado": True,
                     "puede_enviar": False, "estado": "confirmado",
                     "recursos": enviado["recursos"],
-                    "fecha_hora": enviado["fecha_hora"].isoformat() if enviado["fecha_hora"] else None}
+                    "fecha_hora": enviado["fecha_hora"].isoformat() if enviado["fecha_hora"] else None,
+                    "socio_nombre": socio_nombre(),
+                    # Respuesta del socio (Task accepted/rejected), si ya llegó.
+                    "respuesta_socio": enviado["respuesta_socio"],
+                    "respuesta_motivo": enviado["respuesta_motivo"],
+                    "respuesta_at": enviado["respuesta_at"].isoformat() if enviado["respuesta_at"] else None}
         # Verificación real antes de ofrecer el botón (se vuelve a validar en POST).
         _cargar(cur, id_remision, u)
         return {"id_remision": id_remision, "confirmado": False,
-                "puede_enviar": True, "estado": "sin_enviar", "recursos": None, "fecha_hora": None}
+                "puede_enviar": True, "estado": "sin_enviar", "recursos": None, "fecha_hora": None,
+                "socio_nombre": socio_nombre()}
     finally:
         cur.close()
 
@@ -369,16 +379,17 @@ def enviar(id_remision: int, db=Depends(get_db), u=Depends(requerir_roles("Medic
         # no pueden crear dos envíos confirmados.
         cur.execute("SELECT pg_advisory_xact_lock(%s, %s)", (30030, id_remision))
         cur.execute("""SELECT 1 FROM r30_envios WHERE id_remision=%s
-                       AND socio='socio-piloto' AND estado='confirmado' LIMIT 1""", (id_remision,))
+                       AND socio=%s AND estado='confirmado' LIMIT 1""", (id_remision, socio_id()))
         if cur.fetchone():
             raise HTTPException(status_code=409, detail="Esta remisión FHIR ya tiene un envío confirmado")
         r, obs, rep, c = _cargar(cur,id_remision,u)
         bundle = construir_bundle(r,obs,rep,c)
-        url, token = _config_receptor()
+        # R31 hacia el socio: token (client credentials) o API key + x-nonce nuevo.
         try:
-            response = requests.post(url, json=bundle, headers={HEADER: token,
-                "Content-Type": "application/fhir+json", "Accept": "application/fhir+json"}, timeout=20)
-        except requests.RequestException:
+            response = enviar_fhir(url_envio(), bundle, timeout=20)
+        except SocioNoConfigurado as e:
+            raise HTTPException(status_code=503, detail=f"Receptor R30 no configurado: {e}")
+        except SocioError:
             return rechazo(503,"Receptor FHIR no disponible","transient")
         if response.status_code not in (200,201):
             # No revelar mensajes remotos potencialmente sensibles en logs o respuestas.
@@ -395,11 +406,11 @@ def enviar(id_remision: int, db=Depends(get_db), u=Depends(requerir_roles("Medic
         ):
             return rechazo(502,"Respuesta transaccional parcial o inválida", "processing")
         cur.execute("""INSERT INTO r30_envios(id_remision,socio,remitido_por,estado,recursos,fecha_hora)
-                       VALUES (%s,'socio-piloto',%s,'confirmado',%s,now())""",
-                    (id_remision,u["numero_documento_usuario"],len(bundle["entry"])))
+                       VALUES (%s,%s,%s,'confirmado',%s,now())""",
+                    (id_remision,socio_id(),u["numero_documento_usuario"],len(bundle["entry"])))
         registrar_auditoria(cur, "r30_envios", str(id_remision), "REMITIR",
                            u["numero_documento_usuario"], nuevos={
-                               "socio": "socio-piloto", "estado": "confirmado",
+                               "socio": socio_id(), "estado": "confirmado",
                                "recursos": len(bundle["entry"]),
                                "task_fhir_id": _id_fhir("task", id_remision),
                                "consent_fhir_id": _id_fhir("con", r["id_paciente"])})

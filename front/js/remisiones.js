@@ -3,6 +3,7 @@ import {escapeHtml,formatDate,showToast,modal} from "./ui.js";
 import {renderPacienteWorkspace} from "./pacientes.js";
 import {abrirVistaPreviaR30} from "./r30_bundle_vista.js";
 import {consultarEstadoEnvioR30, confirmarEnvioR30} from "./r30_envio.js";
+import {anexarRemisionesExternas} from "./remisiones_externas.js";
 
 export async function abrirRemisionModal(paciente,idEncuentro,onCreated=null){
   if(!idEncuentro){showToast("El paciente necesita un encuentro activo para ser remitido","warning");return;}
@@ -55,12 +56,14 @@ export async function renderRemisiones(container){
   container.innerHTML='<div class="card">Cargando remisiones…</div>';
   try{
     const rows=await apiGet("/remisiones");
-    if(!rows.length){container.innerHTML='<div class="card" data-vista-remisiones="especialista"><h2>Mis remisiones</h2><div class="empty-state">No hay remisiones asignadas.</div></div>';return;}
+    if(!rows.length){container.innerHTML='<div class="card" data-vista-remisiones="especialista"><h2>Mis remisiones</h2><div class="empty-state">No hay remisiones asignadas.</div></div>';anexarRemisionesExternas(container);return;}
     container.innerHTML=`<div class="card" data-vista-remisiones="especialista"><div class="section-head"><div><h2>Mis remisiones</h2><p class="muted">Acepte una remisión antes de abrir la historia clínica del paciente.</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Fecha</th><th>Paciente</th><th>Especialidad</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>${rows.map(row=>`<tr><td>${formatDate(row.fecha_remision)}</td><td>${escapeHtml(row.paciente_nombres)} ${escapeHtml(row.paciente_apellidos)}<div class="muted small-text">${row.id_paciente}</div></td><td>${escapeHtml(row.especialidad)}</td><td>${escapeHtml(row.motivo)}</td><td>${badgeEstado(row.estado)}</td><td><div class="actions">${row.estado==="pendiente"?`<button class="btn btn-success" data-accept="${row.id_remision}">Aceptar</button><button class="btn btn-danger" data-reject="${row.id_remision}">Rechazar</button>`:""}${row.estado==="aceptada"?`<button class="btn btn-primary" data-open="${row.id_paciente}">Atender paciente</button><button class="btn btn-success" data-finish="${row.id_remision}">Finalizar valoración</button>`:""}</div></td></tr>`).join("")}</tbody></table></div></div>`;
     container.querySelectorAll("[data-accept]").forEach(b=>b.onclick=async()=>{try{await apiPatch(`/remisiones/${b.dataset.accept}/aceptar`,{observacion:"Remisión aceptada para valoración especializada"});showToast("Remisión aceptada","success");renderRemisiones(container);}catch(e){showToast(e.message,"error")}});
     container.querySelectorAll("[data-reject]").forEach(b=>b.onclick=async()=>{const reason=prompt("Motivo del rechazo (opcional):")||null;try{await apiPatch(`/remisiones/${b.dataset.reject}/rechazar`,{observacion:reason});showToast("Remisión rechazada","success");renderRemisiones(container);}catch(e){showToast(e.message,"error")}});
     container.querySelectorAll("[data-finish]").forEach(b=>b.onclick=async()=>{const obs=prompt("Conclusión de la valoración especializada (opcional):")||null;try{await apiPatch(`/remisiones/${b.dataset.finish}/finalizar`,{observacion:obs});showToast("Valoración especializada finalizada; el médico fue notificado","success");renderRemisiones(container);}catch(e){showToast(e.message,"error")}});
     container.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>renderPacienteWorkspace(container,{documento:Number(b.dataset.open)}));
+    // R30: debajo, las remisiones que llegan de la institución socio.
+    anexarRemisionesExternas(container);
   }catch(e){container.innerHTML=`<div class="error-box">${escapeHtml(e.message)}</div>`;}
 }
 
@@ -79,7 +82,9 @@ export async function renderRemisionesEnviadas(container){
 // NUEVO (R16): las vistas de remisiones se actualizan solas, sin F5.
 // Solo se repinta lo que está en pantalla; si el usuario está en otra cosa
 // (por ejemplo, atendiendo a un paciente), no se le interrumpe.
-const EVENTOS_REMISION=new Set(["remision_recibida","remision_aceptada","remision_rechazada","remision_finalizada"]);
+const EVENTOS_REMISION=new Set(["remision_recibida","remision_aceptada","remision_rechazada","remision_finalizada",
+  // R30: el socio respondió a una remisión que enviamos; se repinta la ficha del paciente.
+  "remision_fhir_confirmada","remision_socio_aceptada","remision_socio_rechazada"]);
 
 window.addEventListener("tr:evento",e=>{
   const evento=e.detail;

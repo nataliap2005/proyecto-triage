@@ -30,8 +30,9 @@ def test_estado_paciente_sin_autorizacion():
     result=r30.consultar_estado_consentimiento(db=DbFake(cur),u=USUARIO)
     assert result['registrado'] is False
     assert result['consentimiento_vigente'] is False
-    assert result['socio']=='socio-piloto'
-    assert cur.calls[-1][1]==(9900000196,)
+    # R32: el consentimiento es por institución destino configurada (R30_SOCIO_ID).
+    assert result['socio']==r30.socio_id()
+    assert cur.calls[-1][1]==(9900000196, r30.socio_id())
 
 def test_estado_autorizado_y_fecha():
     momento=datetime(2026,11,13,tzinfo=timezone.utc)

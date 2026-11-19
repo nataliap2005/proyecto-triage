@@ -65,6 +65,27 @@ rutas:
   # R21: HAPI FHIR se expone por Nginx bajo /fhir/ usando la misma URL pública.
   fhir_observation: "/fhir/Observation"
 
+  # R29: de HAPI solo quedan públicos POST /fhir/Observation, PUT /fhir/Observation/{id}
+  # y GET /fhir/metadata; cualquier otra ruta /fhir/ responde 403.
+  fhir_observation: "/fhir/Observation"
+  fhir_ruta_cerrada: "/fhir/Patient"
+
+  # R29: webhook de la Subscription de HAPI (cabecera X-Triaje-Token).
+  fhir_hook: "/api/fhir-hook"
+
+  # R30-R32: interoperabilidad con la institución socio (contrato en docs/CONTRATO_R30.md).
+  # La institución socio se autentica con client credentials (R31), nunca con usuario humano.
+  oauth_token: "/api/oauth/token"
+  r30_recibir: "/api/fhir/remisiones-r30/recibir"        # Bundle del socio · bundle:write + x-nonce
+  r30_respuesta: "/api/fhir/remisiones-r30/respuesta"    # Task del socio · task:write + x-nonce
+  r30_consentimiento: "/api/fhir/remisiones-r30/consentimiento"
+  r30_enviar: "/api/fhir/remisiones-r30/{id_remision}/enviar"
+  r30_estado_envio: "/api/fhir/remisiones-r30/{id_remision}/estado-envio"
+  remisiones_externas: "/api/remisiones-externas"
+  remision_externa_aceptar: "/api/remisiones-externas/{id_remision_externa}/aceptar"
+  remision_externa_rechazar: "/api/remisiones-externas/{id_remision_externa}/rechazar"
+
+
 # Valores que el modelo actual reconoce como caso crítico y que pueden usarse
 # para la prueba automática de R20.
 paciente_critico:
@@ -102,3 +123,38 @@ metodos:
   alerta_reconocer: "PATCH"
   tiempo_real: "GET"
   fhir_observation: "POST"
+  fhir_ruta_cerrada: "GET"
+  fhir_hook: "POST"
+  oauth_token: "POST"
+  r30_recibir: "POST"
+  r30_respuesta: "POST"
+  r30_consentimiento: "POST"
+  r30_enviar: "POST"
+  r30_estado_envio: "GET"
+  remisiones_externas: "GET"
+  remision_externa_aceptar: "PATCH"
+  remision_externa_rechazar: "PATCH"
+
+# R29-R31: respuestas esperadas de las entradas externas (prueba negativa).
+# Las credenciales de la institución de prueba NO van aquí: se entregan por privado.
+seguridad_entradas_externas:
+  r30_recibir:
+    sin_token: 401
+    token_alterado: 401
+    sin_x_nonce: 400
+    x_nonce_repetido: 409
+    content_type_no_fhir: 415
+    cuerpo_no_json: 400
+    bundle_invalido: 422            # OperationOutcome; no se escribe nada
+    sin_consent: 422
+    remision_repetida: 409
+    valido: 200                     # Bundle transaction-response
+  r30_respuesta:
+    sin_token: 401
+    task_estado_invalido: 422
+    task_de_remision_ajena: 404
+  fhir_hook:
+    sin_token: 401
+    observation_invalida: 422
+  fhir_ruta_cerrada: 403
+  token_institucional_en_api_clinica: 401

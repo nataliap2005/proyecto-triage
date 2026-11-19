@@ -11,8 +11,11 @@ Flujo (lado B del enunciado):
        que un fallo en cualquiera de los dos no deja datos a medias.
     5. Se audita con origen 'SOCIO' y se avisa en vivo al especialista (R17-R19).
 
-Lo que NO hace este módulo (paso siguiente): aceptar o rechazar la remisión
-y devolverle el Task al socio.
+Devolución (secciones 8 y 9):
+    - nuestro especialista acepta o rechaza y el socio recibe un Task
+      accepted/rejected en su endpoint (R30_SOCIO_RESPUESTA_URL);
+    - el socio responde a lo que NOSOTROS enviamos en /fhir/remisiones-r30/respuesta
+      (permiso task:write) y el médico remitente recibe el aviso en vivo.
 """
 from __future__ import annotations
 
@@ -28,16 +31,20 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
 import requests
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 from psycopg2.errors import UniqueViolation
 from psycopg2.extras import Json, RealDictCursor
+from pydantic import BaseModel, Field
 
 from auth.institucional import requerir_institucion
 from auth.service import requerir_roles
 from core.database import get_db
 from core.eventos import publicar, usuarios_por_rol
+from core.socio_cliente import (SocioError, SocioNoConfigurado, enviar_fhir,
+                                institucion_propia, url_respuesta)
+from routers.common import registrar_auditoria
 
 log = logging.getLogger("uvicorn.error")
 router = APIRouter(tags=["R30 · Recepción de remisiones externas"])
@@ -790,3 +797,313 @@ def contar_externas_pendientes(cur, especialista: int) -> int:
     """, (especialista,))
     fila = cur.fetchone()
     return int(fila[0] if isinstance(fila, (tuple, list)) else list(fila.values())[0])
+
+
+# =====================================================================
+# 8. Devolución: nuestro especialista acepta o rechaza (salida hacia el socio)
+# =====================================================================
+
+class Decision(BaseModel):
+    observacion: str | None = Field(default=None, max_length=500)
+
+
+ESTADO_TASK = {"aceptada": "accepted", "rechazada": "rejected"}
+
+
+def construir_task_respuesta(fila: dict) -> dict:
+    """Task que le devolvemos al socio. Apunta a SU ServiceRequest y a SU paciente."""
+    estado = fila["estado"]
+    task = {
+        "resourceType": "Task",
+        "status": ESTADO_TASK[estado],
+        "intent": "order",
+        "focus": {"reference": fila["sr_ref_origen"]},
+        "basedOn": [{"reference": fila["sr_ref_origen"]}],
+        "for": {"reference": fila["paciente_ref_origen"]},
+        "lastModified": (fila.get("fecha_respuesta") or datetime.now(timezone.utc)).isoformat(),
+        "owner": {"display": institucion_propia()},
+        "businessStatus": {"text": "Aceptada por el especialista" if estado == "aceptada"
+                           else "Rechazada por el especialista"},
+        "identifier": [{"system": "urn:salud-digital:remision-externa",
+                        "value": str(fila["id_remision_externa"])}],
+    }
+    m = PATRON_REF.search(fila.get("task_ref_origen") or "")
+    if m and m.group(1) == "Task":
+        task["id"] = m.group(2)            # el mismo Task que ellos enviaron
+    if fila.get("observacion_respuesta"):
+        task["statusReason"] = {"text": _texto(fila["observacion_respuesta"], 500)}
+    return task
+
+
+def _actualizar_task_local(fila: dict) -> None:
+    """Refleja la decisión en la copia del Task guardada en nuestro HAPI (mejor esfuerzo)."""
+    local = (fila.get("ids_locales") or {}).get(fila.get("task_ref_origen") or "")
+    if not local:
+        return
+    url = f"{_hapi_url()}/{local}"
+    try:
+        r = requests.get(url, timeout=10, headers={"Accept": "application/fhir+json"})
+        if r.status_code != 200:
+            return
+        task = r.json()
+        task["status"] = ESTADO_TASK[fila["estado"]]
+        task["lastModified"] = datetime.now(timezone.utc).isoformat()
+        if fila.get("observacion_respuesta"):
+            task["statusReason"] = {"text": _texto(fila["observacion_respuesta"], 500)}
+        requests.put(url, json=task, timeout=10, headers={"Content-Type": "application/fhir+json"})
+    except (requests.RequestException, ValueError):
+        log.warning("R30: no se pudo actualizar el Task local %s", local)
+
+
+def enviar_respuesta_al_socio(db, id_externa: int, post=None) -> dict:
+    """Envía el Task de respuesta y marca respuesta_enviada. Nunca lanza por fallas del socio."""
+    cur = db.cursor(cursor_factory=RealDictCursor)
+    try:
+        cur.execute("SELECT * FROM remisiones_externas WHERE id_remision_externa = %s;", (id_externa,))
+        fila = cur.fetchone()
+    finally:
+        cur.close()
+    db.rollback()
+    if not fila or fila["estado"] == "pendiente":
+        return {"respuesta_enviada": False, "detalle": "La remisión aún no tiene respuesta"}
+    if fila["respuesta_enviada"]:
+        return {"respuesta_enviada": True, "detalle": "La respuesta ya había sido entregada"}
+    try:
+        respuesta = enviar_fhir(url_respuesta(), construir_task_respuesta(fila), post=post)
+    except SocioNoConfigurado as e:
+        return {"respuesta_enviada": False, "detalle": f"Socio sin configurar: {e}"}
+    except SocioError as e:
+        return {"respuesta_enviada": False, "detalle": str(e)}
+    if respuesta.status_code not in (200, 201):
+        return {"respuesta_enviada": False,
+                "detalle": f"El socio no aceptó la respuesta (HTTP {respuesta.status_code})"}
+    cur = db.cursor()
+    try:
+        cur.execute("""UPDATE remisiones_externas
+                       SET respuesta_enviada = TRUE, respuesta_enviada_at = now()
+                       WHERE id_remision_externa = %s;""", (id_externa,))
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        cur.close()
+    return {"respuesta_enviada": True, "detalle": "El socio recibió la respuesta"}
+
+
+def _decidir(id_externa: int, estado: str, body: Decision, db, u: dict) -> dict:
+    uid = u["numero_documento_usuario"]
+    cur = db.cursor(cursor_factory=RealDictCursor)
+    try:
+        cur.execute("""SELECT * FROM remisiones_externas
+                       WHERE id_remision_externa = %s FOR UPDATE;""", (id_externa,))
+        fila = cur.fetchone()
+        if not fila:
+            raise HTTPException(status_code=404, detail="Remisión externa no encontrada")
+        if fila["estado"] != "pendiente":
+            raise HTTPException(status_code=409, detail="La remisión externa ya fue respondida")
+        if fila["id_especialidad"] is not None:
+            cur.execute("""SELECT 1 FROM usuario_especialidades
+                           WHERE numero_documento_usuario = %s AND id_especialidad = %s;""",
+                        (uid, fila["id_especialidad"]))
+            if not cur.fetchone():
+                raise HTTPException(status_code=403, detail="La remisión es de otra especialidad")
+        observacion = _texto(body.observacion, 500) or None
+        cur.execute("""
+            UPDATE remisiones_externas
+            SET estado = %s, especialista_asignado = %s, observacion_respuesta = %s,
+                fecha_respuesta = now()
+            WHERE id_remision_externa = %s
+            RETURNING *;
+        """, (estado, uid, observacion, id_externa))
+        fila = cur.fetchone()
+        registrar_auditoria(
+            cur, "remisiones_externas", id_externa,
+            "ACEPTAR_REMISION_EXTERNA" if estado == "aceptada" else "RECHAZAR_REMISION_EXTERNA",
+            uid, anteriores={"estado": "pendiente"},
+            nuevos={"estado": estado, "observacion": observacion,
+                    "socio_client_id": fila["socio_client_id"],
+                    "sr_ref_origen": fila["sr_ref_origen"]})
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        cur.close()
+
+    _actualizar_task_local(fila)
+    envio = enviar_respuesta_al_socio(db, id_externa)
+    if not envio["respuesta_enviada"]:
+        log.warning("R30: respuesta de la remisión externa %s pendiente: %s", id_externa, envio["detalle"])
+    return {"id_remision_externa": id_externa, "estado": estado, **envio}
+
+
+@router.patch("/remisiones-externas/{id_externa}/aceptar", tags=["Remisiones"])
+def aceptar_remision_externa(id_externa: int, body: Decision = Decision(), db=Depends(get_db),
+                             u=Depends(requerir_roles("Especialista"))):
+    """El especialista acepta; el socio recibe un Task en estado accepted."""
+    return _decidir(id_externa, "aceptada", body, db, u)
+
+
+@router.patch("/remisiones-externas/{id_externa}/rechazar", tags=["Remisiones"])
+def rechazar_remision_externa(id_externa: int, body: Decision = Decision(), db=Depends(get_db),
+                              u=Depends(requerir_roles("Especialista"))):
+    """El especialista rechaza; el socio recibe un Task en estado rejected con el motivo."""
+    return _decidir(id_externa, "rechazada", body, db, u)
+
+
+@router.post("/remisiones-externas/{id_externa}/reenviar-respuesta", tags=["Remisiones"])
+def reenviar_respuesta(id_externa: int, db=Depends(get_db),
+                       u=Depends(requerir_roles("Especialista", "Admin"))):
+    """Reintenta entregar la respuesta si el socio no estaba disponible."""
+    cur = db.cursor(cursor_factory=RealDictCursor)
+    try:
+        cur.execute("""SELECT estado, especialista_asignado FROM remisiones_externas
+                       WHERE id_remision_externa = %s;""", (id_externa,))
+        fila = cur.fetchone()
+    finally:
+        cur.close()
+    db.rollback()
+    if not fila:
+        raise HTTPException(status_code=404, detail="Remisión externa no encontrada")
+    if fila["estado"] == "pendiente":
+        raise HTTPException(status_code=409, detail="Primero acepte o rechace la remisión")
+    if u["rol"] == "Especialista" and fila["especialista_asignado"] != u["numero_documento_usuario"]:
+        raise HTTPException(status_code=403, detail="Solo quien respondió puede reenviar")
+    return {"id_remision_externa": id_externa, **enviar_respuesta_al_socio(db, id_externa)}
+
+
+# =====================================================================
+# 9. Respuesta del socio a lo que NOSOTROS le enviamos (entrada)
+# =====================================================================
+
+ESTADO_SOCIO = {"accepted": "aceptada", "rejected": "rechazada"}
+MAX_BYTES_TASK = 64 * 1024
+
+
+def validar_task_respuesta(task) -> dict:
+    if not isinstance(task, dict) or task.get("resourceType") != "Task":
+        raise ErrorValidacion("Se esperaba un recurso Task")
+    _profundidad(task)
+    if task.get("status") not in ESTADO_SOCIO:
+        raise ErrorValidacion("El Task de respuesta debe estar en accepted o rejected")
+    rid = task.get("id")
+    if rid is not None and (not isinstance(rid, str) or not PATRON_ID.match(rid)):
+        raise ErrorValidacion("El Task tiene un id FHIR inválido")
+    referencias = [_ref(task, "focus")]
+    referencias += [b.get("reference") for b in task.get("basedOn") or [] if isinstance(b, dict)]
+    referencias = [r for r in referencias if isinstance(r, str) and r]
+    if not referencias and not rid:
+        raise ErrorValidacion("El Task debe identificar la remisión (id, focus o basedOn)")
+    motivo = ""
+    if isinstance(task.get("statusReason"), dict):
+        motivo = _nombre_concepto(task["statusReason"])
+    if not motivo and isinstance(task.get("businessStatus"), dict):
+        motivo = _nombre_concepto(task["businessStatus"])
+    return {"estado": ESTADO_SOCIO[task["status"]], "task_id": rid,
+            "referencias": referencias, "motivo": _texto(motivo, 500) or None}
+
+
+def _corresponde(envio_id_remision: int, datos: dict) -> bool:
+    from routers.remisiones_fhir_r30 import _id_fhir
+    task_id = _id_fhir("task", envio_id_remision)
+    sr_id = _id_fhir("ref", envio_id_remision)
+    if datos["task_id"] == task_id:
+        return True
+    for referencia in datos["referencias"]:
+        m = PATRON_REF.search(referencia)
+        if m and ((m.group(1) == "ServiceRequest" and m.group(2) == sr_id)
+                  or (m.group(1) == "Task" and m.group(2) == task_id)):
+            return True
+    return False
+
+
+def procesar_respuesta(db, inst: dict, crudo: bytes, content_type: str | None,
+                       ip: str | None) -> JSONResponse:
+    client_id = inst["client_id"]
+    try:
+        if not _content_type_valido(content_type):
+            raise ErrorValidacion("Content-Type debe ser application/fhir+json", 415, "not-supported")
+        if len(crudo) > MAX_BYTES_TASK:
+            raise ErrorValidacion("El Task supera el tamaño máximo (64 KB)", 413, "too-costly")
+        try:
+            task = json.loads(crudo)
+        except (ValueError, RecursionError):
+            raise ErrorValidacion("El cuerpo no es JSON válido", 400, "structure")
+        datos = validar_task_respuesta(task)
+    except ErrorValidacion as error:
+        registrar_rechazo(db, inst, error, ip)
+        return rechazo(error.status, error.mensaje, error.codigo)
+
+    cur = db.cursor(cursor_factory=RealDictCursor)
+    try:
+        # Solo las remisiones que enviamos A ESTA institución: otra no puede responderlas.
+        cur.execute("""
+            SELECT e.id_envio, e.id_remision, e.remitido_por, e.respuesta_socio, r.id_paciente
+            FROM r30_envios e JOIN remisiones r ON r.id_remision = e.id_remision
+            WHERE e.socio = %s AND e.estado = 'confirmado'
+            ORDER BY e.fecha_hora DESC
+            LIMIT 500;
+        """, (client_id,))
+        envio = next((f for f in cur.fetchall() if _corresponde(f["id_remision"], datos)), None)
+        if not envio:
+            error = ErrorValidacion("No hay una remisión enviada a esta institución que corresponda "
+                                    "a este Task", 404, "not-found")
+            registrar_rechazo(db, inst, error, ip, notificar=False)
+            return rechazo(error.status, error.mensaje, error.codigo)
+        cur.execute("SELECT respuesta_socio FROM r30_envios WHERE id_envio = %s FOR UPDATE;",
+                    (envio["id_envio"],))
+        actual = cur.fetchone()["respuesta_socio"]
+        if actual == datos["estado"]:
+            db.rollback()     # reintento del socio: misma respuesta, nada que hacer
+            return JSONResponse(status_code=200, content=task, media_type="application/fhir+json")
+        if actual is not None:
+            error = ErrorValidacion(f"La remisión ya fue {actual} por el socio", 409, "conflict")
+            registrar_rechazo(db, inst, error, ip, notificar=False)
+            return rechazo(error.status, error.mensaje, error.codigo)
+        cur.execute("""
+            UPDATE r30_envios
+            SET respuesta_socio = %s, respuesta_motivo = %s, respuesta_at = now(),
+                respuesta_client_id = %s
+            WHERE id_envio = %s;
+        """, (datos["estado"], datos["motivo"], client_id, envio["id_envio"]))
+        auditar_externo(cur, "r30_envios", envio["id_remision"], "RESPUESTA_SOCIO", {
+            "client_id": client_id, "institucion": inst.get("nombre"),
+            "estado": datos["estado"], "motivo": datos["motivo"],
+            "task_id": datos["task_id"], "ip": ip,
+        })
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        cur.close()
+
+    try:
+        verbo = "aceptó" if datos["estado"] == "aceptada" else "rechazó"
+        mensaje = f"{inst.get('nombre') or client_id} {verbo} la remisión #{envio['id_remision']}"
+        if datos["motivo"]:
+            mensaje += f": {datos['motivo'][:200]}"
+        publicar(db, [envio["remitido_por"]],
+                 tipo=f"remision_socio_{datos['estado']}",
+                 mensaje=mensaje, paciente_id=envio["id_paciente"],
+                 datos={"remision_id": envio["id_remision"], "institucion": inst.get("nombre"),
+                        "estado": datos["estado"], "motivo": datos["motivo"]})
+    except Exception:
+        db.rollback()
+        log.exception("Respuesta del socio guardada, pero no se pudo notificar al médico")
+
+    return JSONResponse(status_code=200, content=task, media_type="application/fhir+json")
+
+
+@router.post("/fhir/remisiones-r30/respuesta")
+async def recibir_respuesta_socio(
+    request: Request,
+    inst=Depends(requerir_institucion("task:write", exigir_nonce=True)),
+    db=Depends(get_db),
+):
+    """El socio acepta o rechaza una remisión que le enviamos (Task accepted/rejected)."""
+    crudo = await request.body()
+    return await run_in_threadpool(
+        procesar_respuesta, db, inst, crudo,
+        request.headers.get("content-type"), ip_cliente(request))

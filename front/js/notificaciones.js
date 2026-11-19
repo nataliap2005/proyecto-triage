@@ -9,6 +9,12 @@ const ETIQUETAS={
   remision_recibida:"Remisión recibida",
   remision_aceptada:"Remisión aceptada",
   remision_rechazada:"Remisión rechazada",
+  remision_finalizada:"Remisión finalizada",
+  remision_fhir_confirmada:"Remisión FHIR enviada",
+  remision_externa_recibida:"Remisión de otra institución",
+  remision_externa_invalida:"Remisión externa rechazada por validación",
+  remision_socio_aceptada:"La institución socio aceptó",
+  remision_socio_rechazada:"La institución socio rechazó",
   observacion_fhir:"Resultado FHIR",
 };
 export const etiquetaEvento=tipo=>ETIQUETAS[tipo]||tipo;
