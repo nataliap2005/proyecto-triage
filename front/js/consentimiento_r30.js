@@ -6,7 +6,6 @@ import {getCurrentUser} from "./auth.js";
 import {escapeHtml, showToast} from "./ui.js";
 
 const RUTA = "/fhir/remisiones-r30/consentimiento";
-const SOCIO = "socio-piloto";
 
 function formatFecha(fecha) {
   if (!fecha) return "No disponible";
@@ -33,7 +32,7 @@ export async function renderConsentimientoR30(container) {
       <p id="r30-consent-details" class="muted small-text">Consultando tu consentimiento vigente…</p>
       <div class="r30-consent-details">
         <h4>¿Qué estás autorizando?</h4>
-        <p>El envío al <strong>sistema socio del piloto (${escapeHtml(SOCIO)})</strong> de los datos mínimos necesarios para una remisión clínica autorizada.</p>
+        <p>El envío a <strong id="r30-consent-socio">la institución socio</strong> de los datos mínimos necesarios para una remisión clínica autorizada. La autorización es solo para esa institución y tiene fecha de vencimiento.</p>
         <ul>
           <li>Una referencia seudonimizada del paciente y la solicitud de remisión.</li>
           <li>Observaciones clínicas pertinentes, como signos vitales codificados con LOINC.</li>
@@ -74,11 +73,19 @@ export async function renderConsentimientoR30(container) {
   }
   function pintarEstado(info) {
     vigente = Boolean(info.consentimiento_vigente);
+    const socio = info.socio_nombre || info.socio || "la institución socio";
+    $("#r30-consent-socio").textContent = socio;   // textContent: nunca se interpreta como HTML
     status.className = `badge ${vigente ? "success" : "warning"}`;
-    status.textContent = vigente ? "Autorizado" : "No autorizado";
-    details.textContent = info.registrado
-      ? `Última actualización: ${formatFecha(info.actualizado_at)}. Receptor: ${info.socio || SOCIO}.`
-      : "Aún no has registrado un consentimiento para este intercambio.";
+    status.textContent = vigente ? "Autorizado" : (info.vencido ? "Vencido" : "No autorizado");
+    if (!info.registrado) {
+      details.textContent = `Aún no has registrado un consentimiento para compartir con ${socio}.`;
+    } else if (vigente) {
+      details.textContent = `Autorizado para ${socio} · Última actualización: ${formatFecha(info.actualizado_at)} · Vence: ${formatFecha(info.expira_at)}`;
+    } else if (info.vencido) {
+      details.textContent = `Tu autorización para ${socio} venció (${formatFecha(info.expira_at)}). Si deseas, puedes autorizar de nuevo.`;
+    } else {
+      details.textContent = `No autorizado para ${socio} · Última actualización: ${formatFecha(info.actualizado_at)}`;
+    }
     consentCheck.checked = false;
     botones();
   }

@@ -3,6 +3,7 @@
 # La API identifica al paciente, notifica al médico responsable y lo audita con origen FHIR.
 
 import hmac
+import json
 import logging
 import re
 import threading
@@ -131,6 +132,52 @@ def _resumen(obs: dict) -> dict:
 
 
 # ============================================================
+# R29: validación del recurso ANTES de procesarlo
+# ============================================================
+
+MAX_BYTES_HOOK = 1024 * 1024
+MAX_OBSERVACIONES_HOOK = 50
+ESTADOS_OBSERVATION = {"registered", "preliminary", "final", "amended", "corrected",
+                       "cancelled", "entered-in-error", "unknown"}
+PATRON_ID_FHIR = re.compile(r"^[A-Za-z0-9\-.]{1,64}$")
+PATRON_SUJETO = re.compile(r"(?:^|/)Patient/[A-Za-z0-9\-.]{1,64}$")
+
+
+def validar_observation(obs) -> str | None:
+    """Devuelve el motivo del rechazo, o None si la Observation se puede procesar."""
+    if not isinstance(obs, dict) or obs.get("resourceType") != "Observation":
+        return "Se esperaba una Observation"
+    if not isinstance(obs.get("id"), str) or not PATRON_ID_FHIR.match(obs["id"]):
+        return "Observation sin id FHIR válido"
+    if obs.get("status") not in ESTADOS_OBSERVATION:
+        return "Observation con estado no válido"
+    code = obs.get("code")
+    codings = code.get("coding") if isinstance(code, dict) else None
+    if not isinstance(codings, list) or not any(
+            isinstance(c, dict) and c.get("system") and c.get("code") for c in codings):
+        return "Observation sin código (code.coding con system y code)"
+    subject = obs.get("subject")
+    referencia = subject.get("reference") if isinstance(subject, dict) else None
+    if not isinstance(referencia, str) or not PATRON_SUJETO.search(referencia):
+        return "Observation sin paciente (subject debe ser Patient/<id>)"
+    if "valueQuantity" in obs:
+        q = obs["valueQuantity"]
+        if not isinstance(q, dict) or not isinstance(q.get("value"), (int, float)) \
+                or isinstance(q.get("value"), bool):
+            return "valueQuantity sin valor numérico"
+    for campo in ("valueString",):
+        if campo in obs and (not isinstance(obs[campo], str) or len(obs[campo]) > 2000):
+            return f"{campo} inválido"
+    return None
+
+
+def _outcome(status: int, mensaje: str, codigo: str = "invalid") -> JSONResponse:
+    return JSONResponse(status_code=status, media_type="application/fhir+json", content={
+        "resourceType": "OperationOutcome",
+        "issue": [{"severity": "error", "code": codigo, "diagnostics": mensaje}]})
+
+
+# ============================================================
 # Reacción: auditar y notificar
 # ============================================================
 
@@ -219,21 +266,39 @@ async def recibir_de_fhir(request: Request, ruta: str = ""):
     if not FHIR_HOOK_TOKEN or not hmac.compare_digest(recibido, FHIR_HOOK_TOKEN):
         raise HTTPException(status_code=401, detail="Token de integración inválido")
 
-    try:
-        recurso = await request.json()
-    except Exception:
-        recurso = None
-    if not recurso:
+    crudo = await request.body()
+    if not crudo.strip():
         # Sin cuerpo: HAPI solo está comprobando que el canal responde.
         return JSONResponse({"recibido": True})
+    # R29: el recurso se valida completo ANTES de procesar nada.
+    if len(crudo) > MAX_BYTES_HOOK:
+        return _outcome(413, "El recurso supera el tamaño máximo", "too-costly")
+    try:
+        recurso = json.loads(crudo)
+    except (ValueError, RecursionError):
+        return _outcome(400, "El cuerpo no es JSON válido", "structure")
+    if not isinstance(recurso, dict):
+        return _outcome(422, "Se esperaba un recurso FHIR")
 
     if recurso.get("resourceType") == "Observation":
         observaciones = [recurso]
     elif recurso.get("resourceType") == "Bundle":
-        observaciones = [e["resource"] for e in recurso.get("entry", [])
-                         if (e.get("resource") or {}).get("resourceType") == "Observation"]
+        entradas = recurso.get("entry") if isinstance(recurso.get("entry"), list) else []
+        observaciones = [e["resource"] for e in entradas
+                         if isinstance(e, dict) and isinstance(e.get("resource"), dict)
+                         and e["resource"].get("resourceType") == "Observation"]
+        if len(observaciones) > MAX_OBSERVACIONES_HOOK:
+            return _outcome(413, "Demasiadas Observation en una sola notificación", "too-costly")
     else:
-        observaciones = []
+        return _outcome(422, "La Subscription solo admite Observation")
+
+    for obs in observaciones:
+        if _es_propia(obs):
+            continue            # las que sube nuestra API se ignoran más adelante
+        motivo = validar_observation(obs)
+        if motivo:
+            log.warning("fhir-hook: Observation rechazada (%s): %s", obs.get("id"), motivo)
+            return _outcome(422, motivo)
 
     for obs in observaciones:
         await run_in_threadpool(procesar_observation, obs)

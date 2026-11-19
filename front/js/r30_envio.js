@@ -11,7 +11,15 @@ export async function consultarEstadoEnvioR30(id, boton, etiqueta){
     if (estado.confirmado) {
       boton.disabled = true;
       boton.textContent = 'FHIR enviado';
-      if (etiqueta) etiqueta.textContent = `Confirmado: ${estado.recursos ?? '—'} recursos · ${estado.fecha_hora ? formatDate(estado.fecha_hora) : 'sin fecha'}`;
+      if (etiqueta) {
+        const socio = estado.socio_nombre || 'la institución socio';
+        let respuesta = `esperando respuesta de ${socio}`;
+        if (estado.respuesta_socio === 'aceptada') respuesta = `${socio} la ACEPTÓ`;
+        if (estado.respuesta_socio === 'rechazada') respuesta = `${socio} la RECHAZÓ`;
+        if (estado.respuesta_motivo) respuesta += ` (${estado.respuesta_motivo})`;
+        etiqueta.textContent = `Enviada: ${estado.recursos ?? '—'} recursos · ${estado.fecha_hora ? formatDate(estado.fecha_hora) : 'sin fecha'} · ${respuesta}`;
+        etiqueta.dataset.respuestaSocio = estado.respuesta_socio || 'pendiente';
+      }
     } else {
       boton.disabled = !estado.puede_enviar;
       boton.textContent = 'Enviar remisión FHIR';
@@ -37,7 +45,7 @@ export async function confirmarEnvioR30(id, boton, etiqueta){
     const ventana = modal(`Confirmar envío FHIR · Remisión #${id}`, `
       <div class="r30-send-confirm">
         <p>Esta acción <strong>sí transmite</strong> datos clínicos sintéticos al receptor FHIR configurado en el servidor.</p>
-        <p><strong>Destino:</strong> socio-piloto (prueba local o institución configurada por el backend).</p>
+        <p><strong>Destino:</strong> ${escapeHtml(estado.socio_nombre || 'institución socio configurada en el servidor')}.</p>
         <p>El servidor volverá a verificar el médico remitente, el consentimiento vigente y los recursos aprobados. No se muestran credenciales institucionales.</p>
         <label class="r30-confirm-label"><input type="checkbox" data-r30-ack> Confirmo que deseo enviar esta remisión FHIR.</label>
         <div class="r30-confirm-actions">

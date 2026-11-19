@@ -77,49 +77,6 @@ def test_no_se_incluye_reporte_sin_aprobacion():
     assert len(r30.construir_bundle(rem,obs,[reps[0]],consentimiento)['entry']) == 5
 
 
-def _request_con_token(token: str):
-    from starlette.requests import Request
-    return Request({"type": "http", "method": "POST", "path": "/fhir/remisiones-r30/recibir",
-                    "headers": [(b"x-r30-token", token.encode())]})
-
-
-def test_receptor_rechaza_credenciales(monkeypatch):
-    monkeypatch.setenv('R30_RECEPTOR_TOKEN','clave-receptor-diferente')
-    monkeypatch.setattr(r30.requests, 'post', lambda *a, **k: (_ for _ in ()).throw(AssertionError('No enviar')))
-    respuesta = r30.recibir(r30.construir_bundle(*ejemplo()), _request_con_token('incorrecta'))
-    assert respuesta.status_code == 401
-    assert b'OperationOutcome' in respuesta.body
-
-
-def test_receptor_rechaza_recurso_invalido_sin_escritura(monkeypatch):
-    monkeypatch.setenv('R30_RECEPTOR_TOKEN','clave-correcta')
-    monkeypatch.setattr(r30.requests, 'post', lambda *a, **k: (_ for _ in ()).throw(AssertionError('No enviar')))
-    bundle = r30.construir_bundle(*ejemplo())
-    next(e['resource'] for e in bundle['entry'] if e['resource']['resourceType']=='Observation')['code']['coding'][0]['code']=''
-    respuesta = r30.recibir(bundle, _request_con_token('clave-correcta'))
-    assert respuesta.status_code == 422
-    assert b'OperationOutcome' in respuesta.body
-
-
-def test_receptor_envia_transaccion_completa_una_sola_vez(monkeypatch):
-    monkeypatch.setenv('R30_RECEPTOR_TOKEN','clave-correcta')
-    enviados = []
-    bundle = r30.construir_bundle(*ejemplo())
-    class FakeResponse:
-        status_code = 200
-        def json(self):
-            return {'resourceType':'Bundle','type':'transaction-response',
-                    'entry':[{'response':{'status':'200 OK'}} for _ in bundle['entry']]}
-    def fake_post(url, json, headers, timeout):
-        enviados.append((url,json))
-        return FakeResponse()
-    monkeypatch.setattr(r30.requests, 'post', fake_post)
-    respuesta = r30.recibir(bundle, _request_con_token('clave-correcta'))
-    assert respuesta.status_code == 200
-    assert len(enviados) == 1
-    assert enviados[0][1]['type']=='transaction'
-
-
 def test_exige_consentimiento_explicito():
     rem, obs, reps, consentimiento = ejemplo()
     consentimiento["vigente"] = False
@@ -136,21 +93,6 @@ def test_consent_fhir_vinculado_y_task_refiere_orden():
     assert recursos["Task"]["status"] == "requested"
 
 
-def test_rechaza_consent_invalido_antes_de_hapi(monkeypatch):
-    monkeypatch.setenv('R30_RECEPTOR_TOKEN', 'clave-correcta')
-    monkeypatch.setattr(r30.requests, 'post', lambda *a, **k: (_ for _ in ()).throw(AssertionError('No enviar')))
-    b = r30.construir_bundle(*ejemplo())
-    next(e['resource'] for e in b['entry'] if e['resource']['resourceType']=='Consent')['status'] = 'inactive'
-    r = r30.recibir(b, _request_con_token('clave-correcta'))
-    assert r.status_code == 422
-    assert b'OperationOutcome' in r.body
-
-
-def test_rechaza_task_cruzada_antes_de_hapi(monkeypatch):
-    monkeypatch.setenv('R30_RECEPTOR_TOKEN', 'clave-correcta')
-    monkeypatch.setattr(r30.requests, 'post', lambda *a, **k: (_ for _ in ()).throw(AssertionError('No enviar')))
-    b = r30.construir_bundle(*ejemplo())
-    next(e['resource'] for e in b['entry'] if e['resource']['resourceType']=='Task')['focus']['reference'] = 'ServiceRequest/invalida'
-    r = r30.recibir(b, _request_con_token('clave-correcta'))
-    assert r.status_code == 422
-    assert b'OperationOutcome' in r.body
+# Las pruebas del receptor (credenciales, Bundle inválido sin escritura, transacción
+# única, Consent inactivo y Task cruzado) se movieron a tests/test_recepcion_externa_r30.py,
+# porque el receptor ahora usa las credenciales institucionales R31.
