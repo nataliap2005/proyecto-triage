@@ -1,4 +1,4 @@
-# Evidencias R28 y R31 - Sarah Gomez (API local, Swagger, 2026-11-15)
+# Evidencias R28 y R31 (API local, Swagger, 2026-11-15)
 
 | Archivo | Que demuestra | Hora |
 |---|---|---|
@@ -23,7 +23,7 @@
 Notas:
 - Se recorto el bloque Curl de la primera captura porque mostraba parte del token.
 - La captura del login Admin NO se incluye: su bloque Curl mostraba la contrasena.
-- hash_cabeza de la verificacion: Sarah lo guardo en sus notas (valor completo).
+- hash_cabeza de la verificacion: se conserva el valor completo fuera del repositorio.
 - R31 completo. Hechas: credenciales falsas, token valido, /institucion/yo, token vs API clinica, invalid_scope, nonce 200/409, token alterado, eventos, 403 scope insuficiente, rotacion (viejo 401, nuevo 200), baja con revocacion inmediata. institucion-prueba-r31 quedo DESACTIVADA en la base (no se borra). invalid_scope, 403, 409, token institucional vs API clinica.
 
 REGISTRO_SERVIDOR_R28_R31.txt: peticiones HTTP que recibio el servidor durante las pruebas, en orden (login 200, verificar-cadena 200/401/403, oauth/token 401/200/400, institucion/yo 200/401, auth/me 401, prueba-bundle 200/409, oauth/eventos 200). Coincide con las capturas.
