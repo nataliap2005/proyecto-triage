@@ -13,6 +13,7 @@ from datetime import date
 
 from fastapi import HTTPException
 
+from core import identidad
 from core.config import SEUDONIMO_SECRETO
 
 # Signos vitales: variable del modelo -> códigos LOINC aceptados (el primero es el que usa el sistema)
@@ -43,6 +44,8 @@ def seudonimo(documento: int) -> str:
     """Mismo paciente -> mismo seudónimo; sin el secreto no se puede volver al documento."""
     if not SEUDONIMO_SECRETO:
         raise HTTPException(status_code=503, detail="Falta configurar SEUDONIMO_SECRETO en la API")
+    # R27: el seudónimo se calcula sobre el documento real, así no cambia tras cifrar el documento.
+    documento = identidad.real(documento)
     firma = hmac.new(SEUDONIMO_SECRETO.encode(), str(documento).encode(), hashlib.sha256).hexdigest()
     return "pac-" + firma[:32]
 

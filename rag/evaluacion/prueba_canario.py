@@ -38,6 +38,16 @@ def _descifrar_fila(fila):
         from core.cifrado import descifrar_fila
     return descifrar_fila(fila)
 
+
+def _documento_real(valor):
+    """R27: el paciente se guarda con número interno; el canario busca el documento real."""
+    try:
+        from core.identidad import real
+    except ImportError:
+        sys.path.insert(0, str(RAIZ / 'back'))
+        from core.identidad import real
+    return real(int(valor)) if str(valor).isdigit() else valor
+
 PATRONES = {
     'correo': r'\b[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}\b',
     'celular': r'\b(?:\+?57[\s-]?)?3\d{9}\b',
@@ -52,7 +62,7 @@ def _identificadores(cur) -> list[str]:
     for fila in cur.fetchall():
         # R27: se descifran teléfono y dirección para poder buscarlos en el índice
         datos = _descifrar_fila({'telefono': fila[3], 'direccion': fila[4]})
-        for v in (fila[0], fila[1], fila[2], datos['telefono'], datos['direccion']):
+        for v in (_documento_real(fila[0]), fila[1], fila[2], datos['telefono'], datos['direccion']):
             v = (str(v).strip() if v is not None else '')
             # Nombres muy cortos ("Ana") generan falsos positivos con palabras clínicas: se exige >= 4.
             if len(v) >= 4:

@@ -46,7 +46,18 @@ def _descifrar_fila(fila):
     return descifrar_fila(fila)
 
 
+def _documento_real(valor):
+    """R27: en la base el paciente se guarda con un número interno; el seudónimo usa el documento real."""
+    try:
+        from core.identidad import real
+    except ImportError:
+        sys.path.insert(0, str(RAIZ / 'back'))
+        from core.identidad import real
+    return real(int(valor)) if str(valor).isdigit() else valor
+
+
 def seudonimo(documento: int, secreto: str) -> str:
+    documento = _documento_real(documento)
     firma = hmac.new(secreto.encode('utf-8'), str(documento).encode('utf-8'), hashlib.sha256).hexdigest()
     return 'pac-' + firma[:32]
 

@@ -17,6 +17,7 @@ from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
 
 from auth.service import requerir_roles
+from core import identidad
 from core.database import get_db
 from core.socio_cliente import (SocioError, SocioNoConfigurado, dias_consentimiento,
                                 enviar_fhir, socio_id, socio_nombre, url_envio)
@@ -43,6 +44,7 @@ def _id_fhir(kind: str, value: int) -> str:
     secreto = os.getenv("R30_IDENTIFICADOR_SECRETO", "")
     if len(secreto) < 32:
         raise HTTPException(status_code=503, detail="R30 no tiene identificador secreto configurado")
+    value = identidad.real(value)  # R27: estable antes y después de cifrar el documento
     digest = hmac.new(secreto.encode(), f"{kind}:{value}".encode(), hashlib.sha256).hexdigest()[:32]
     return f"r30-{kind}-{digest}"
 

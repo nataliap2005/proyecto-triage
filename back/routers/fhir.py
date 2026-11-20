@@ -9,6 +9,7 @@ from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel,Field
 
 from auth.service import requerir_roles
+from core import identidad
 from core.config import HAPI_FHIR_URL
 from core.database import get_db
 from routers.common import exigir_acceso_encuentro,exigir_paciente_propio,obtener_encuentro
@@ -24,6 +25,9 @@ FHIR_CUM_SYSTEM="urn:salud-digital:cum"
 FHIR_LOCAL_SYSTEM="urn:salud-digital:local"
 
 def fhir_id(prefijo,valor):
+    # R27: hacia HAPI sale siempre el documento real, no el número interno.
+    if prefijo in ("paciente","practitioner"):
+        valor=identidad.real(valor)
     limpio=re.sub(r"[^A-Za-z0-9.-]","-",str(valor))
     return f"{prefijo}-{limpio}"[:64]
 
@@ -107,7 +111,7 @@ def map_invoice_status(estado):
 
 def build_patient(p):
     r={
-        "identifier":[{"system":FHIR_IDENTIFIER_SYSTEM,"value":str(p["numero_documento_paciente"])}],
+        "identifier":[{"system":FHIR_IDENTIFIER_SYSTEM,"value":str(identidad.real(p["numero_documento_paciente"]))}],
         "active":not p["is_deleted"],
         "name":[{"use":"official","family":p["apellidos"],"given":[p["nombres"]]}]
     }
@@ -120,7 +124,7 @@ def build_patient(p):
 
 def build_practitioner(u):
     r={
-        "identifier":[{"system":FHIR_IDENTIFIER_SYSTEM,"value":str(u["numero_documento_usuario"])}],
+        "identifier":[{"system":FHIR_IDENTIFIER_SYSTEM,"value":str(identidad.real(u["numero_documento_usuario"]))}],
         "active":bool(u["estado"] and not u["is_deleted"]),
         "name":[{"family":u["apellidos"],"given":[u["nombres"]]}]
     }

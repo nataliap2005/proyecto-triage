@@ -41,6 +41,7 @@ from routers.oauth_institucional import router as oauth_institucional_router  # 
 from routers.auditoria_cadena import router as auditoria_cadena_router  # R28
 from routers.recepcion_externa import router as recepcion_externa_router  # R29/R30: entrada del socio
 from core.cifrado import ErrorCifrado  # R27
+from core.identidad_middleware import IdentidadMiddleware  # R27: documento cifrado
 
 
 
@@ -78,6 +79,10 @@ async def _cifrado_no_disponible(request, exc):
 
 # R25: protección contra prompt injection en rutas RAG y agente.
 app.add_middleware(DefensaPromptMiddleware)
+
+# R27: el documento de identidad se guarda cifrado; en la frontera se traduce
+# documento <-> número interno. Va de último para ser la capa más externa.
+app.add_middleware(IdentidadMiddleware)
 
 # ROUTERS
 app.include_router(auth_router)
