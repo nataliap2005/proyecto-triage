@@ -2,7 +2,7 @@
 
 **Requisito:** el documento de identidad, el teléfono y la dirección se guardan cifrados con AES-GCM en PostgreSQL; la llave vive en una variable de entorno, nunca en el repositorio.
 
-**Responsable:** Sarah Gómez. **Código:** PR #8 (`7c1acc4`) y commit `3027003` (teléfono y dirección).
+**Código:** PR #8 (`7c1acc4`) y commit `3027003` (teléfono y dirección).
 
 ## Qué se hizo
 

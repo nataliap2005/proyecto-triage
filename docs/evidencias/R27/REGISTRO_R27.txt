@@ -1,6 +1,6 @@
 R27 · Registro de ejecución sobre la base compartida (Neon)
 Fecha: 2026-11-20, entre las 02:07 y las 03:13 (hora de Colombia)
-Equipo: computador de Sarah, carpeta back/, Python 3.14
+Equipo: computador local, carpeta back/, Python 3.14
 
 Código: PR #8 (commit 7c1acc4, merge f03550f en main).
 Antes de cambiar nada se hizo un respaldo de las 34 tablas (5690 filas) en CSV, fuera del repositorio.
