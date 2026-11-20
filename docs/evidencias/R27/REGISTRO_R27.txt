@@ -1,0 +1,198 @@
+R27 · Registro de ejecución sobre la base compartida (Neon)
+Fecha: 2026-11-20, entre las 02:07 y las 03:13 (hora de Colombia)
+Equipo: computador de Sarah, carpeta back/, Python 3.14
+
+Código: PR #8 (commit 7c1acc4, merge f03550f en main).
+Antes de cambiar nada se hizo un respaldo de las 34 tablas (5690 filas) en CSV, fuera del repositorio.
+
+------------------------------------------------------------
+1. Teléfono y dirección (scripts/cifrar_datos_existentes_r27.py)
+------------------------------------------------------------
+> python scripts/cifrar_datos_existentes_r27.py
+pacientes.telefono: 1 ya cifradas, 42 en claro
+pacientes.direccion: 1 ya cifradas, 40 en claro
+usuarios.telefono: 0 ya cifradas, 32 en claro
+No se cambió nada. Para cifrar, repita con --aplicar
+
+> python scripts/cifrar_datos_existentes_r27.py --aplicar
+pacientes.telefono: 1 ya cifradas, 42 en claro -> cifradas ahora
+pacientes.direccion: 1 ya cifradas, 40 en claro -> cifradas ahora
+usuarios.telefono: 0 ya cifradas, 32 en claro -> cifradas ahora
+
+> python scripts/cifrar_datos_existentes_r27.py --verificar
+pacientes.telefono: 43 cifradas y verificadas, 0 en claro
+pacientes.direccion: 41 cifradas y verificadas, 0 en claro
+usuarios.telefono: 32 cifradas y verificadas, 0 en claro
+
+------------------------------------------------------------
+2. Pruebas automáticas (antes de migrar)
+------------------------------------------------------------
+> python -m pytest tests -q
+213 passed  (incluye 18 de test_cifrado_r27.py y 22 de test_identidad_r27.py)
+
+La simulación de la migración (sin --aplicar) sobre la base real dio el mismo
+resultado que la aplicación de abajo y no guardó nada.
+
+Comprobación previa: con el código nuevo y la base todavía sin migrar,
+GET /pacientes devolvió 242 pacientes, idéntico byte a byte a la respuesta posterior.
+
+------------------------------------------------------------
+3. Documento de identidad (scripts/migrar_documentos_r27.py --aplicar)
+------------------------------------------------------------
+Documentos a cifrar: 258
+Llaves foráneas que se quitan y se vuelven a crear: 56
+  - usuarios(deleted_by) -> usuarios
+  - auditoria_cambios(realizado_por) -> usuarios  (NO se vuelve a crear: auditoría inmutable, R28)
+  - auth_log(numero_documento_usuario) -> usuarios
+  - pacientes(id_usuario) -> usuarios
+  - pacientes(deleted_by) -> usuarios
+  - antecedentes(id_paciente) -> pacientes
+  - antecedentes(registrado_por) -> usuarios
+  - antecedentes(deleted_by) -> usuarios
+  - reportes_previos(id_paciente) -> pacientes
+  - reportes_previos(registrado_por) -> usuarios
+  - reportes_previos(deleted_by) -> usuarios
+  - notas_clinicas(registrado_por) -> usuarios
+  - notas_clinicas(deleted_by) -> usuarios
+  - encuentros(id_paciente) -> pacientes
+  - encuentros(clasificado_por) -> usuarios
+  - encuentros(medico_responsable) -> usuarios
+  - encuentros(creado_por) -> usuarios
+  - encuentros(deleted_by) -> usuarios
+  - observaciones(registrado_por) -> usuarios
+  - observaciones(deleted_by) -> usuarios
+  - diagnosticos(registrado_por) -> usuarios
+  - diagnosticos(deleted_by) -> usuarios
+  - examenes(solicitado_por) -> usuarios
+  - examenes(registrado_resultado_por) -> usuarios
+  - examenes(deleted_by) -> usuarios
+  - facturas(creado_por) -> usuarios
+  - prescripciones(prescrito_por) -> usuarios
+  - prescripciones(deleted_by) -> usuarios
+  - facturas(deleted_by) -> usuarios
+  - facturas(id_paciente, id_encuentro) -> encuentros
+  - factura_detalle(creado_por) -> usuarios
+  - factura_detalle(deleted_by) -> usuarios
+  - estudios_imagenes(creado_por) -> usuarios
+  - estudios_imagenes(deleted_by) -> usuarios
+  - estudios_imagenes(id_paciente, id_encuentro) -> encuentros
+  - usuario_especialidades(numero_documento_usuario) -> usuarios
+  - notificaciones(numero_documento_usuario) -> usuarios
+  - notificaciones(paciente_id) -> pacientes
+  - reportes_ia(id_paciente) -> pacientes
+  - reportes_ia(revisado_por) -> usuarios
+  - reportes_ia(solicitado_por) -> usuarios
+  - reportes_ia(id_paciente, id_encuentro) -> encuentros
+  - remisiones(id_paciente) -> pacientes
+  - remisiones(medico_remitente) -> usuarios
+  - remisiones(especialista_destino) -> usuarios
+  - remisiones(deleted_by) -> usuarios
+  - remisiones(id_paciente, id_encuentro) -> encuentros
+  - ia_cohorte(numero_documento_paciente) -> pacientes
+  - ia_payloads(enviado_por) -> usuarios
+  - alertas(id_paciente) -> pacientes
+  - alertas(destinatario) -> usuarios
+  - alertas(reconocida_por) -> usuarios
+  - r30_consentimientos(id_paciente) -> pacientes
+  - r30_consentimientos(registrado_por) -> usuarios
+  - r30_envios(remitido_por) -> usuarios
+  - remisiones_externas(especialista_asignado) -> usuarios
+Columnas actualizadas:
+  - alertas.destinatario: 7 filas
+  - alertas.id_paciente: 7 filas
+  - alertas.reconocida_por: 3 filas
+  - antecedentes.deleted_by: 0 filas
+  - antecedentes.id_paciente: 29 filas
+  - antecedentes.registrado_por: 29 filas
+  - auth_log.numero_documento_usuario: 303 filas
+  - diagnosticos.deleted_by: 0 filas
+  - diagnosticos.registrado_por: 91 filas
+  - encuentros.clasificado_por: 72 filas
+  - encuentros.creado_por: 274 filas
+  - encuentros.deleted_by: 0 filas
+  - encuentros.id_paciente: 274 filas
+  - encuentros.medico_responsable: 274 filas
+  - estudios_imagenes.creado_por: 6 filas
+  - estudios_imagenes.deleted_by: 0 filas
+  - estudios_imagenes.id_paciente: 6 filas
+  - examenes.deleted_by: 0 filas
+  - examenes.registrado_resultado_por: 40 filas
+  - examenes.solicitado_por: 74 filas
+  - factura_detalle.creado_por: 134 filas
+  - factura_detalle.deleted_by: 0 filas
+  - facturas.creado_por: 42 filas
+  - facturas.deleted_by: 0 filas
+  - facturas.id_paciente: 42 filas
+  - ia_cohorte.numero_documento_paciente: 200 filas
+  - ia_payloads.enviado_por: 16 filas
+  - notas_clinicas.deleted_by: 0 filas
+  - notas_clinicas.registrado_por: 118 filas
+  - notificaciones.numero_documento_usuario: 198 filas
+  - notificaciones.paciente_id: 123 filas
+  - observaciones.deleted_by: 0 filas
+  - observaciones.registrado_por: 1597 filas
+  - pacientes.deleted_by: 1 filas
+  - pacientes.id_usuario: 20 filas
+  - pacientes.numero_documento_paciente: 243 filas
+  - prescripciones.deleted_by: 0 filas
+  - prescripciones.prescrito_por: 72 filas
+  - r25_bloqueos_prompt.numero_documento_usuario: 1 filas
+  - r25_intentos_prompt.numero_documento_usuario: 3 filas
+  - r30_consentimientos.id_paciente: 2 filas
+  - r30_consentimientos.registrado_por: 2 filas
+  - r30_envios.remitido_por: 2 filas
+  - remisiones.deleted_by: 0 filas
+  - remisiones.especialista_destino: 11 filas
+  - remisiones.id_paciente: 11 filas
+  - remisiones.medico_remitente: 11 filas
+  - remisiones_externas.especialista_asignado: 3 filas
+  - reportes_ia.id_paciente: 16 filas
+  - reportes_ia.revisado_por: 15 filas
+  - reportes_ia.solicitado_por: 16 filas
+  - reportes_previos.deleted_by: 0 filas
+  - reportes_previos.id_paciente: 12 filas
+  - reportes_previos.registrado_por: 12 filas
+  - usuario_especialidades.numero_documento_usuario: 6 filas
+  - usuarios.deleted_by: 0 filas
+  - usuarios.numero_documento_usuario: 35 filas
+Llaves foráneas recreadas y comprobadas por la base: OK
+pacientes: 243 filas, 0 con documento en claro, 0 sin registro en la bóveda
+usuarios: 35 filas, 0 con documento en claro, 0 sin registro en la bóveda
+Bóveda: 258 documentos cifrados, todos descifran y coinciden
+
+CAMBIOS GUARDADOS.
+
+> python scripts/migrar_documentos_r27.py --verificar
+pacientes: 243 filas, 0 con documento en claro, 0 sin registro en la bóveda
+usuarios: 35 filas, 0 con documento en claro, 0 sin registro en la bóveda
+Bóveda: 258 documentos cifrados, todos descifran y coinciden
+
+------------------------------------------------------------
+4. Comprobación con la API ya migrada (Swagger, Admin)
+------------------------------------------------------------
+GET /auth/me                            200, documento normal (captura R27_auth_me_documento_normal_200.png)
+GET /pacientes                          200, 242 pacientes, documentos normales, ningún número interno,
+                                        teléfonos y direcciones legibles; idéntica a la respuesta previa
+GET /pacientes/{documento}/historia-clinica  200, historia completa con documentos normales
+GET /auditoria/verificar-cadena         200, integra=true, 360 eslabones (los 359 previos + el registro
+                                        de la migración), captura R27_cadena_R28_integra_tras_migrar_200.png
+
+------------------------------------------------------------
+5. Cómo queda un paciente (scripts/evidencia_r27.py)
+------------------------------------------------------------
+=== 1. Lo que hay guardado en PostgreSQL (lo que vería quien robe la base) ===
+pacientes.numero_documento_paciente : 3818768391017186   (número interno, no es el documento)
+pacientes.telefono                  : v1.k1.ZlHZZOofXKxsqyB1.nDC-3md8cBfZBVE9n06o-HkKig0EwJ7riPF3lV_-
+pacientes.direccion                 : v1.k1.eYWqS8_V0QzZta0o.X12KrczCS7oa-vRrBdVvDi3KHVgmYb5gDbvUKL20exmZuNctY6RYZQ
+identidades.documento_cifrado       : v1.k1.vYSXQtVBSpH969gy.1arIuz9kqtnwJLj45uqdD989v4aiCrTi_vU
+
+=== 2. Lo mismo descifrado con la llave CIFRADO_LLAVE_K1 (lo que muestra la API) ===
+(paciente sintético; se omiten aquí sus datos descifrados)
+
+=== 3. Resumen de toda la base ===
+pacientes: 243 filas, documentos en claro: 0
+usuarios: 35 filas, documentos en claro: 0
+pacientes.telefono: 43 con dato, en claro: 0
+pacientes.direccion: 41 con dato, en claro: 0
+usuarios.telefono: 32 con dato, en claro: 0
+identidades (bóveda): 258 documentos cifrados
