@@ -16,6 +16,7 @@ from fastapi.responses import JSONResponse
 from psycopg2.extras import Json, RealDictCursor
 
 from auth.service import requerir_roles
+from core import identidad
 from core.config import FHIR_HOOK_TOKEN, FHIR_HOOK_URL, PG_CONNECTION_STRING
 from core.eventos import publicar, usuarios_por_rol
 from routers.fhir import FHIR_IDENTIFIER_SYSTEM, FHIR_LOCAL_SYSTEM, fhir_get, fhir_put
@@ -89,6 +90,14 @@ def _es_propia(obs: dict) -> bool:
 
 
 def _documento_paciente(referencia: str) -> int | None:
+    """Documento (o número interno, si la base ya cifra el documento) del Patient."""
+    documento = _documento_real(referencia)
+    if documento is not None and identidad.activa():
+        return identidad.interno(documento)  # R27: en la base el paciente se busca por su número interno
+    return documento
+
+
+def _documento_real(referencia: str) -> int | None:
     # Caso normal: nuestros Patient se llaman paciente-{documento}.
     m = re.search(r"Patient/paciente-(\d+)", referencia)
     if m:

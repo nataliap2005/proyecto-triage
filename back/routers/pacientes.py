@@ -21,6 +21,7 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, Tabl
 from auth.service import requerir_roles
 from core.database import get_db
 from core.cifrado import cifrar,cifrar_campos
+from core import identidad
 from routers.common import exigir_especialista_remitido,exigir_paciente_propio,obtener_registro,registrar_auditoria
 
 router=APIRouter()
@@ -472,7 +473,8 @@ def historia_clinica(documento:int,db=Depends(get_db),u=Depends(requerir_roles("
 
 
 def _texto(v):
-    return escape("—" if v is None else str(v))
+    # R27: si aparece un número interno, en el PDF se imprime el documento real.
+    return escape("—" if v is None else identidad.traducir_texto(str(identidad.real(v))))
 
 def _fecha_local(v, solo_fecha=False):
     if v is None:
@@ -631,9 +633,9 @@ def historia_clinica_pdf(
     carpeta=Path("/app/historias_clinicas")
     try:
         carpeta.mkdir(parents=True,exist_ok=True)
-        (carpeta/f"historia_{documento}.pdf").write_bytes(contenido)
+        (carpeta/f"historia_{identidad.real(documento)}.pdf").write_bytes(contenido)
     except OSError:
         pass
 
-    return Response(content=contenido,media_type="application/pdf",headers={"Content-Disposition":f'attachment; filename="historia_{documento}.pdf"'})
+    return Response(content=contenido,media_type="application/pdf",headers={"Content-Disposition":f'attachment; filename="historia_{identidad.real(documento)}.pdf"'})
 
