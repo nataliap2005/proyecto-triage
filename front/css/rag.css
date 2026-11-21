@@ -83,3 +83,8 @@
 .rag-encuentro-ayuda{margin:0}
 .rag-probabilidades{display:grid;gap:.35rem;margin:.6rem 0}
 .rag-probabilidades>div{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--border);padding:.2rem 0}
+/* Fuentes plegadas: la respuesta se ve limpia; las fuentes se abren solo si se piden */
+.rag-fuentes-plegadas>summary{cursor:pointer;font-size:.8rem;color:var(--muted);font-weight:600;list-style:none}
+.rag-fuentes-plegadas>summary::-webkit-details-marker{display:none}
+.rag-fuentes-plegadas>summary::before{content:"▸ ";}
+.rag-fuentes-plegadas[open]>summary::before{content:"▾ ";}
