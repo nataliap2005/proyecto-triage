@@ -16,29 +16,30 @@ Este archivo **no presenta como implementadas** las partes que aún requieren ev
 
 | Componente | Evidencia exigida | Estado |
 |---|---|---|
-| Receptor real del Bundle FHIR | URL HTTPS y contrato de `Bundle transaction`, validación de recursos y OperationOutcome | `...` |
-| Protección webhook/endpoints | Header/firma/token, validación origen, rechazo de request inválido o repetido | `...` |
-| Integración HAPI socio | Pruebas de persistencia y rechazo sin escrituras parciales | `...` |
-| Consentimiento y visualización receptor | Cómo se reconoce `Consent`, posibilidad de revocación y vista clínica | `...` |
-| Retorno estado Task | Estados aceptado/rechazado/finalizado, payload y transición permitida | `...` |
-| Notificaciones socio ↔ remitente | Evento recibido, destinatario, cambios de bandeja y confirmación SSE | `...` |
-| STRIDE actualizado | Evidencias de validación/suplantación/manipulación del receptor | `...` |
+| Receptor real del Bundle FHIR | URL HTTPS y contrato de `Bundle transaction`, validación de recursos y OperationOutcome | **Hecho (2026-11-18):** `POST /fhir/remisiones-r30/recibir` en `back/routers/recepcion_externa.py`; contrato para el socio en `docs/CONTRATO_R30.md`; HTTPS lo aporta el túnel. Validación completa con 422 `OperationOutcome` |
+| Protección webhook/endpoints | Header/firma/token, validación origen, rechazo de request inválido o repetido | **Hecho:** entrada del socio con token institucional R31 (`bundle:write`/`task:write`) + `x-nonce` (409 si se repite); `fhir-hook` con token comparado en tiempo constante; Nginx solo publica de HAPI lo que exige R21. Pruebas: `test_recepcion_externa_r30.py`, `test_fhir_hook_r29.py`; `docs/evidencias/R29_R30/prueba_recepcion.txt` (12 de 12) |
+| Integración HAPI socio | Pruebas de persistencia y rechazo sin escrituras parciales | **Hecho en autoprueba local:** Bundle válido 200 `transaction-response`; rechazos sin escrituras; ids del socio reescritos (`ext-...`) y compensación si HAPI falla a medias. **Pendiente:** con el socio real (R33) |
+| Consentimiento y visualización receptor | Cómo se reconoce `Consent`, posibilidad de revocación y vista clínica | **Hecho:** Bundle sin `Consent` activo o vencido → 422; consentimiento por institución destino con vencimiento y revocación (R32); el especialista ve la remisión externa en su bandeja (`GET /remisiones-externas`) |
+| Retorno estado Task | Estados aceptado/rechazado/finalizado, payload y transición permitida | **Hecho:** aceptar/rechazar (`PATCH /remisiones-externas/{id}/aceptar` o `/rechazar`) envía un `Task` `accepted`/`rejected` al socio; la respuesta del socio llega por `POST /fhir/remisiones-r30/respuesta` (no se puede cambiar de decisión: 409). Pruebas: `test_devolucion_r30.py` |
+| Notificaciones socio ↔ remitente | Evento recibido, destinatario, cambios de bandeja y confirmación SSE | **Hecho:** `remision_externa_recibida` (especialistas), `remision_externa_invalida` (Admin) y `remision_socio_aceptada`/`rechazada` (médico remitente), por bandeja y SSE; catálogo en `docs/EVENTOS.md` |
+| STRIDE actualizado | Evidencias de validación/suplantación/manipulación del receptor | **Hecho:** filas T2 y tabla R34 de `docs/STRIDE.md` |
 
 ## 3. Natalia — tareas de cierre individual
 
 - [x] R12, R23, R24, R25, R26 inicial, Bundle R30, consentimiento y envío piloto local.
 - [x] Vista previa del Bundle #14 y confirmación de 11 recursos desde frontend.
 - [ ] Revisar SQL `r30_envios`, auditoría y entrega SSE real post-envío: `...`.
-- [ ] Repetir pruebas completas tras el último cambio (66 eran previas): fecha, comando y resultado `...`.
+- [x] Repetir pruebas completas tras el último cambio: `python -m pytest tests -q` desde `back/` → **213 passed** (2026-11-20, `main` en `f03550f`).
 - [ ] Revisar unidades UCUM y limitaciones de serialización FHIR: `...`.
-- [ ] Actualizar STRIDE con evidencias comprobadas de Sarah y Annie: `...`.
-- [ ] Resolver y documentar recepción en vivo R30/R33 con Annie y Sarah: `...`.
-- [ ] Subir cambios a rama, abrir PR y registrar URL: `...`.
+- [x] Actualizar STRIDE con evidencias comprobadas de Sarah y Annie (tabla R34 y fila T2 de `docs/STRIDE.md`).
+- [x] Recepción R30 documentada (Annie, `docs/CONTRATO_R30.md`) y autenticada con R31 (Sarah).
+- [ ] Ida y vuelta con el socio asignado (R33).
+- [x] Subir cambios a rama y abrir PR: PR #4 y #5 fusionados en `main`.
 - [ ] Ensayar defensa cruzada de un control STRIDE: `...`.
 
 ## 4. Equipo — entrega obligatoria
 
-- [ ] URL Git con acceso docente: `...`.
+- [ ] URL Git con acceso docente: `https://github.com/nataliap2005/proyecto-triage` (confirmar acceso de lectura del docente).
 - [ ] `tester.yaml` vigente en raíz: URL pública correcta, usuarios de prueba revisados: `...`.
 - [ ] Un solo `docker compose up -d` reproducible en máquina anfitriona: `...`.
 - [ ] Asignar encargado de mantener disponible Quick Tunnel toda la jornada: `...`.

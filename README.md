@@ -245,7 +245,7 @@ Guion de demostración: alerta crítica, aprobación IA → factura, remisión y
 
 ## R34 · Arquitectura de servicios y fronteras de integración (actualización)
 
-> Diagrama lógico del despliegue observado en `docker-compose.yml`. El receptor socio remoto se representa como **previsto**, no como conectado. El receptor piloto R30 está alojado en la API local. Los puertos publicados en el host deben protegerse por separado del túnel.
+> Diagrama lógico del despliegue observado en `docker-compose.yml`. La entrada y la salida hacia la institución socia están implementadas y probadas en autoprueba local; la conexión con el socio que asigne el docente se hace en R33. Los puertos publicados en el host deben protegerse por separado del túnel.
 
 ```mermaid
 flowchart LR
@@ -262,7 +262,8 @@ flowchart LR
   RX -->|FHIR transaction| H
   H --> HP[(PostgreSQL HAPI)]
   H -->|rest-hook / Observation| A
-  A -.->|R33: HTTPS + credenciales acordadas| SOCIO[Sistema socio / Annie: PENDIENTE]
+  A -.->|R30 salida: Bundle por HTTPS + credenciales del socio| SOCIO[Sistema socio R33]
+  SOCIO -.->|R29/R31 entrada: /recibir y /respuesta con token institucional + x-nonce| T
 ```
 
 No se usan Kafka ni RabbitMQ. Se pretende desplegar con un único `docker compose up -d` desde la raíz. **No se afirma alta disponibilidad**: Quick Tunnel, ordenador anfitrión y conexión a Internet son dependencias operativas.
@@ -282,14 +283,18 @@ flowchart TD
   BILL --> PUB
   FHIR --> PUB
   CONF --> PUB
+  EXT[Remision externa recibida / rechazada por validacion] --> PUB
+  RESP[Respuesta del socio: Task accepted o rejected] --> PUB
   PUB --> DB[(Notificaciones persistentes)]
   PUB --> SSE[Canal SSE /eventos/stream]
   DB --> BANDEJA[Frontend / bandeja]
   SSE --> BANDEJA
-  SOCIO[Respuesta clinica del socio / Task: PENDIENTE R33] -.-> API
+  SOCIO[Sistema socio con token R31] -.->|/recibir y /respuesta| API
+  API --> EXT
+  API --> RESP
 ```
 
-La recepción de una transacción FHIR **no** demuestra que la aceptación o rechazo clínico del socio ya esté implementado. Catálogo y destinatarios: [`docs/EVENTOS.md`](docs/EVENTOS.md).
+La confirmación técnica de un envío (`transaction-response`) no es aceptación clínica: la aceptación o el rechazo llegan después como `Task` del socio y generan su propio evento. Catálogo y destinatarios, incluidos los eventos externos: [`docs/EVENTOS.md`](docs/EVENTOS.md).
 
 ## R34 · Diagrama del intercambio con la institución socia
 
@@ -313,7 +318,7 @@ sequenceDiagram
   Web->>API: POST /fhir/remisiones-r30/{id}/enviar
   API->>DB: Revalidar autorizacion y evitar duplicado
   API->>Rx: POST Bundle + credencial institucional
-  Note over Rx: Piloto local validado; socio externo pendiente R33
+  Note over Rx: Autoprueba local validada; socio asignado en R33
   Rx->>H: POST Bundle transaction
   alt recursos y transaccion validos
     H-->>Rx: transaction-response completa
@@ -325,13 +330,16 @@ sequenceDiagram
     Rx-->>API: Rechazo
     API-->>Web: Error sin confirmar envio
   end
-  Note over Rx,API: R33 PENDIENTE: respuesta clinica Task, autent. socio, aviso de aceptacion/rechazo
+  Rx->>API: POST /fhir/remisiones-r30/respuesta (Task accepted o rejected, token R31 + x-nonce)
+  API->>DB: Auditoria RESPUESTA_SOCIO (origen SOCIO, cadena R28)
+  API-->>Web: Aviso en vivo al medico remitente
+  Note over Rx,API: Ida y vuelta probada en autoprueba local (2026-11-18); pendiente con el socio asignado (R33)
 ```
 
 ## R34 · Entrega, disponibilidad y verificación
 
 - **Documentos:** `docs/STRIDE.md`, `docs/EVENTOS.md`, `docs/DATASETS.md` (incluye `## Corpus`), `docs/LEYES.md`, y documentos específicos R34 citados arriba.
-- **Repositorio de revisión:** URL Git pública o permisos de lectura al docente, con código, `docker-compose.yml`, `tester.yaml` en raíz y `docs/`. **PENDIENTE: URL del repositorio y PR de Natalia — ...**
+- **Repositorio de revisión:** URL Git pública o permisos de lectura al docente, con código, `docker-compose.yml`, `tester.yaml` en raíz y `docs/`. Repositorio: `https://github.com/nataliap2005/proyecto-triage`; los PR del equipo están fusionados en `main`. **Pendiente:** confirmar el acceso de lectura del docente.
 - **URL pública:** Quick Tunnel debe permanecer accesible **toda la jornada** de sustentación; `tester.yaml.url_publica` está vacío en el ZIP revisado. **PENDIENTE: URL vigente de la jornada — ...**
 - **Arranque:** `docker compose up -d`, verificar `docker compose ps`, API `/api/`, navegador `/` y HAPI `/fhir/metadata`. Asegurar energía, red y túnel continuo; comprobar desde otra red y dejar persona responsable de monitorear.
 - **Seguridad:** no compartir ni versionar `back/pass.env`, tokens, identificadores HMAC, credenciales de Groq. El `tester.yaml` del ZIP incluye **contraseñas de demostración en texto claro**: revisarlas y reemplazarlas/rotarlas si fueron utilizadas fuera de un entorno estrictamente sintético, coordinando con docente el contrato de prueba. No publicar credenciales reales en el README.
