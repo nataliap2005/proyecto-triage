@@ -96,3 +96,33 @@ def test_consent_fhir_vinculado_y_task_refiere_orden():
 # Las pruebas del receptor (credenciales, Bundle inválido sin escritura, transacción
 # única, Consent inactivo y Task cruzado) se movieron a tests/test_recepcion_externa_r30.py,
 # porque el receptor ahora usa las credenciales institucionales R31.
+
+
+# --- Confirmación del socio: Bundle transaction-response o Task ---------------
+import pytest as _pytest
+
+
+@_pytest.mark.parametrize("respuesta, esperado", [
+    ({"resourceType": "Bundle", "type": "transaction-response",
+      "entry": [{"response": {"status": "201 Created"}}] * 3}, "transaction-response"),
+    ({"resourceType": "Task", "status": "completed", "intent": "order"}, "Task completed"),
+    ({"resourceType": "Task", "status": "accepted"}, "Task accepted"),
+])
+def test_confirmaciones_validas(respuesta, esperado):
+    from routers.remisiones_fhir_r30 import evaluar_confirmacion
+    assert evaluar_confirmacion(respuesta, 3) == (esperado, None)
+
+
+@_pytest.mark.parametrize("respuesta", [
+    {"resourceType": "Bundle", "type": "transaction-response", "entry": [{"response": {"status": "201"}}]},
+    {"resourceType": "Bundle", "type": "transaction-response",
+     "entry": [{"response": {"status": "400"}}] * 3},
+    {"resourceType": "Task", "status": "rejected"},
+    {"resourceType": "OperationOutcome"},
+    {"ok": True},
+    [],
+])
+def test_confirmaciones_invalidas(respuesta):
+    from routers.remisiones_fhir_r30 import evaluar_confirmacion
+    tipo, error = evaluar_confirmacion(respuesta, 3)
+    assert tipo is None and error
