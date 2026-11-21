@@ -1,5 +1,5 @@
 import {apiGet,apiPost,apiPut,apiPatch,apiDelete} from "./api.js";
-import {escapeHtml,showToast,modal} from "./ui.js";
+import {escapeHtml,showToast,modal,errorEnFormulario} from "./ui.js";
 import {isRole} from "./auth.js";
 
 async function run(fn,successMsg,refresh){
@@ -101,38 +101,61 @@ function observacionModal(idEncuentro,refresh){
     nullify(body,["codigo_loinc","unidad","valor_texto"]);
     body.valor_numerico=body.valor_numerico===""?null:Number(body.valor_numerico);
     if((body.valor_numerico===null)===(body.valor_texto===null)){
-      showToast("Ingrese exactamente un valor: numérico o de texto","error"); return;
+      errorEnFormulario(e.target,"Ingrese exactamente un valor: numérico o de texto"); return;
     }
-    await run(()=>apiPost("/observaciones",body),"Observación registrada",async()=>{ m.close(); await refresh(); });
+    errorEnFormulario(e.target,[]);
+    try{ await apiPost("/observaciones",body); }
+    catch(err){ errorEnFormulario(e.target,err.message); return; }
+    showToast("Observación registrada","success"); m.close(); await refresh();
   };
 }
 
 
 /* ---------- Signos vitales (varias observaciones de una vez) ---------- */
+// min/max: valores fisiológicamente POSIBLES (los mismos que valida la API), no valores normales.
 export const VITALES=[
-  {key:"pas",loinc:"8480-6",nombre:"Presión arterial sistólica",unidad:"mm[Hg]",label:"PA sistólica",show:"mmHg"},
-  {key:"pad",loinc:"8462-4",nombre:"Presión arterial diastólica",unidad:"mm[Hg]",label:"PA diastólica",show:"mmHg"},
-  {key:"fc",loinc:"8867-4",nombre:"Frecuencia cardíaca",unidad:"/min",label:"Frecuencia cardíaca",show:"lpm"},
-  {key:"fr",loinc:"9279-1",nombre:"Frecuencia respiratoria",unidad:"/min",label:"Frecuencia respiratoria",show:"rpm"},
-  {key:"temp",loinc:"8310-5",nombre:"Temperatura corporal",unidad:"Cel",label:"Temperatura",show:"°C"},
-  {key:"spo2",loinc:"2708-6",nombre:"Saturación de oxígeno",unidad:"%",label:"Saturación O₂",show:"%"},
+  {key:"pas",loinc:"8480-6",nombre:"Presión arterial sistólica",unidad:"mm[Hg]",label:"PA sistólica",show:"mmHg",min:40,max:300},
+  {key:"pad",loinc:"8462-4",nombre:"Presión arterial diastólica",unidad:"mm[Hg]",label:"PA diastólica",show:"mmHg",min:20,max:200},
+  {key:"fc",loinc:"8867-4",nombre:"Frecuencia cardíaca",unidad:"/min",label:"Frecuencia cardíaca",show:"lpm",min:20,max:250},
+  {key:"fr",loinc:"9279-1",nombre:"Frecuencia respiratoria",unidad:"/min",label:"Frecuencia respiratoria",show:"rpm",min:4,max:80},
+  {key:"temp",loinc:"8310-5",nombre:"Temperatura corporal",unidad:"Cel",label:"Temperatura",show:"°C",min:30,max:44},
+  {key:"spo2",loinc:"2708-6",nombre:"Saturación de oxígeno",unidad:"%",label:"Saturación O₂",show:"%",min:50,max:100},
 ];
 function vitalesModal(idEncuentro,refresh){
   const m=modal("Registrar signos vitales",`
-    <form id="f-vit" class="stack-form">
-      <div class="grid grid-2">${VITALES.map(v=>`<label>${v.label} (${v.show})<input name="${v.key}" type="number" step="any" min="0"></label>`).join("")}</div>
+    <form id="f-vit" class="stack-form" novalidate>
+      <div class="grid grid-2">${VITALES.map(v=>`<label>${v.label} (${v.show})<input name="${v.key}" type="number" step="any" min="${v.min}" max="${v.max}" placeholder="${v.min} a ${v.max}"></label>`).join("")}</div>
       <p class="muted small-text">Complete solo los que midió. Cada valor se guarda como una observación.</p>
       <button class="btn btn-primary" type="submit">Guardar signos vitales</button>
     </form>`);
   m.element.querySelector("#f-vit").onsubmit=async e=>{
     e.preventDefault();
     const f=e.target;
-    const items=VITALES.filter(v=>f.elements[v.key].value!=="").map(v=>({
-      id_encuentro:Number(idEncuentro),tipo_observacion:"signos_vitales",codigo_loinc:v.loinc,
-      nombre:v.nombre,valor_numerico:Number(f.elements[v.key].value),unidad:v.unidad
-    }));
-    if(!items.length){showToast("Ingrese al menos un valor","error");return;}
-    await run(()=>Promise.all(items.map(b=>apiPost("/observaciones",b))),"Signos vitales registrados",async()=>{ m.close(); await refresh(); });
+    const llenos=VITALES.filter(v=>f.elements[v.key].value!=="");
+    const errores=[];
+    VITALES.forEach(v=>f.elements[v.key].removeAttribute("aria-invalid"));
+    for(const v of llenos){
+      const n=Number(f.elements[v.key].value);
+      if(!Number.isFinite(n)||n<v.min||n>v.max){
+        errores.push(`${v.label}: ${f.elements[v.key].value} ${v.show} no es un valor posible. Debe estar entre ${v.min} y ${v.max} ${v.show}.`);
+        f.elements[v.key].setAttribute("aria-invalid","true");
+      }
+    }
+    const pas=f.elements.pas.value, pad=f.elements.pad.value;
+    if(pas!==""&&pad!==""&&Number(pas)<=Number(pad)){
+      errores.push(`La PA sistólica (${pas} mmHg) debe ser mayor que la diastólica (${pad} mmHg).`);
+      f.elements.pas.setAttribute("aria-invalid","true"); f.elements.pad.setAttribute("aria-invalid","true");
+    }
+    if(!llenos.length) errores.push("Ingrese al menos un valor.");
+    if(errores.length){ errorEnFormulario(f,errores); return; }
+    errorEnFormulario(f,[]);
+    const boton=f.querySelector("[type=submit]"); boton.disabled=true;
+    try{
+      // Un solo envío: la API guarda todos los signos o ninguno.
+      await apiPost("/observaciones/signos-vitales",{id_encuentro:Number(idEncuentro),
+        signos:llenos.map(v=>({codigo_loinc:v.loinc,nombre:v.nombre,valor_numerico:Number(f.elements[v.key].value),unidad:v.unidad}))});
+    }catch(err){ errorEnFormulario(f,err.message); boton.disabled=false; return; }
+    showToast("Signos vitales registrados","success"); m.close(); await refresh();
   };
 }
 
