@@ -218,6 +218,7 @@ def preparar_motor(monkeypatch, puntaje, generar):
     monkeypatch.setattr(motor, "expandir_contexto",
                         lambda frs, **k: [dict(f, origen_contexto="recuperado") for f in frs])
     monkeypatch.setattr(motor, "generar", generar)
+    monkeypatch.setattr(motor, "traducir_consulta", lambda p: None)  # sin Groq en las pruebas
 
 
 def test_motor_se_abstiene_bajo_el_umbral(monkeypatch):
@@ -255,3 +256,79 @@ def test_motor_normaliza_citas_de_gpt_oss(monkeypatch):
 
 def test_motor_detecta_citas_agrupadas():
     assert motor.normalizar_citas("texto 【F2】") == "texto [F2]"
+
+
+# ---------- Búsqueda bilingüe (pregunta en español + su traducción al inglés) ----------
+
+FRAG_ES = dict(FRAG, id_fragmento="es1", texto="Triaje en urgencias. " * 20)
+FRAG_EN = dict(FRAG, id_fragmento="en1", fuente="nice.pdf", texto="Chest pain assessment. " * 20)
+
+
+def preparar_bilingue(monkeypatch, puntaje_es, puntaje_en, traducir, generar):
+    llamadas = []
+    def buscar(pregunta, **k):
+        llamadas.append(pregunta)
+        if pregunta.startswith("What"):
+            return [dict(FRAG_EN, puntaje=puntaje_en), dict(FRAG_ES, puntaje=puntaje_en - 0.3)]
+        return [dict(FRAG_ES, puntaje=puntaje_es)]
+    monkeypatch.setattr(motor, "buscar", buscar)
+    monkeypatch.setattr(motor, "expandir_contexto",
+                        lambda frs, **k: [dict(f, origen_contexto="recuperado") for f in frs])
+    monkeypatch.setattr(motor, "generar", generar)
+    monkeypatch.setattr(motor, "traducir_consulta", traducir)
+    return llamadas
+
+
+def test_busca_en_espanol_y_en_ingles_y_combina(monkeypatch):
+    preguntas_llm = []
+    def generar(p, c):
+        preguntas_llm.append(p)
+        return "Valorar el dolor torácico [F1]."
+    llamadas = preparar_bilingue(monkeypatch, 0.40, 0.75,
+                                 lambda p: "What does NICE recommend for chest pain?", generar)
+    r = motor.preguntar("¿Qué recomienda NICE para el dolor torácico?", metodo="dense")
+    assert llamadas == ["¿Qué recomienda NICE para el dolor torácico?",
+                        "What does NICE recommend for chest pain?"]
+    assert r["consulta_en"] == "What does NICE recommend for chest pain?"
+    assert [f["id_fragmento"] for f in r["fuentes"]] == ["en1", "es1"]   # cada fragmento una sola vez
+    assert r["fuentes"][1]["puntaje"] == 0.45                            # se queda con el mejor puntaje
+    assert preguntas_llm == ["¿Qué recomienda NICE para el dolor torácico?"]  # se responde en español
+
+
+def test_la_traduccion_puede_evitar_una_abstencion_falsa(monkeypatch):
+    preparar_bilingue(monkeypatch, 0.20, 0.70, lambda p: "What is triage?", lambda p, c: "Respuesta [F1].")
+    r = motor.preguntar("¿Qué es el triaje?", metodo="dense")
+    assert r["modo"] == "llm"
+
+
+def test_si_falla_la_traduccion_busca_solo_en_espanol(monkeypatch):
+    def caida(p):
+        raise RuntimeError("Error code: 429")
+    llamadas = preparar_bilingue(monkeypatch, 0.70, 0.90, caida, lambda p, c: "Respuesta [F1].")
+    r = motor.preguntar("categorías de triaje", metodo="dense")
+    assert llamadas == ["categorías de triaje"]
+    assert r["modo"] == "llm" and r["consulta_en"] is None
+
+
+def test_bilingue_desactivado(monkeypatch):
+    def no_traducir(p):
+        raise AssertionError("no debe traducir")
+    monkeypatch.setattr(motor, "BILINGUE", False)
+    llamadas = preparar_bilingue(monkeypatch, 0.70, 0.90, no_traducir, lambda p, c: "Respuesta [F1].")
+    motor.preguntar("categorías de triaje", metodo="dense")
+    assert llamadas == ["categorías de triaje"]
+
+
+def test_combinar_sin_duplicados_y_ordenado():
+    a = [dict(FRAG, id_fragmento="x", puntaje=0.5), dict(FRAG, id_fragmento="y", puntaje=0.4)]
+    b = [dict(FRAG, id_fragmento="y", puntaje=0.8), dict(FRAG, id_fragmento="z", puntaje=0.3)]
+    r = motor.combinar([a, b], top_k=2)
+    assert [(d["id_fragmento"], d["puntaje"]) for d in r] == [("y", 0.8), ("x", 0.5)]
+
+
+def test_motor_quita_caracteres_invisibles_de_las_citas(monkeypatch):
+    preparar_motor(monkeypatch, 0.70, lambda p, c: "Valoración clínica [\u200bF1]\u200b.")
+    r = motor.preguntar("trauma de tórax", metodo="dense")
+    assert r["respuesta"] == "Valoración clínica [F1]."
+    assert r["fuentes"][0]["citada"] is True
+

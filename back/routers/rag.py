@@ -99,6 +99,7 @@ def preguntar(body: Pregunta, db=Depends(get_db), u=Depends(requerir_roles("Medi
                 "pregunta": pregunta_protegida,
                 "id_encuentro": body.id_encuentro,
                 "metodo": resultado["metodo"],
+                "consulta_en": resultado.get("consulta_en"),
                 "modo": resultado["modo"],
                 "fuentes": [f["id_fragmento"] for f in resultado["fuentes"]],
                 "fuentes_citadas": [f["cita"] for f in resultado["fuentes"] if f["citada"]],

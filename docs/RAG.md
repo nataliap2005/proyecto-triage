@@ -61,6 +61,28 @@ Las preguntas están en `rag/evaluacion/preguntas_prueba.json`. Cada una tiene s
 
 **Método elegido: denso** (`RAG_METODO=dense`). Las preguntas están en español y tres de las cinco guías (NICE) están en inglés. BM25 compara palabras exactas y no puede emparejar "dolor torácico" con "chest pain". El modelo multilingüe sí lo hace, porque compara significado. Por la misma razón el híbrido queda **por debajo** del denso: el ranking ruidoso de BM25 arrastra la fusión RRF. Si el corpus fuera solo en español, valdría la pena volver a medir el híbrido.
 
+### 4.1 Búsqueda bilingüe (español + inglés)
+
+Las preguntas llegan en español y tres de las guías NICE están en inglés. Aunque el modelo de embeddings es multilingüe, una pregunta en inglés se parece más a un fragmento en inglés. Por eso, con el método denso, el motor:
+
+1. Busca con la pregunta original en español (encuentra las guías en español: Resolución 5596, OMS).
+2. Pide a Groq la traducción de la pregunta **ya protegida** (`proteger_texto`) al inglés y busca también con ella.
+3. Une los dos resultados: cada fragmento queda una sola vez con su mejor similitud coseno, y el umbral de abstención se aplica sobre ese mejor valor.
+4. Genera la respuesta **en español** con la pregunta original. La traducción solo se usa para buscar.
+
+Si la traducción falla (límite de Groq o sin conexión), se busca solo en español: el asistente no se cae. Se desactiva con `RAG_BILINGUE=0`. La consulta en inglés queda en la auditoría (`CONSULTA_RAG`, campo `consulta_en`). Código: `rag/cliente_llm.py` (`traducir_consulta`) y `rag/motor.py` (`combinar`); pruebas en `back/tests/test_rag.py`.
+
+Comparación con las mismas 20 preguntas anotadas (`python -m rag.evaluacion.evaluar_bilingue`, 2026-11-21; detalle en `rag/evaluacion/resultados/evaluacion_bilingue.json` y traducciones en `traducciones_consultas.json`):
+
+| Método | Recall@1 | Recall@3 | MRR@20 | Hit@1 | Hit@3 |
+|---|---|---|---|---|---|
+| Denso, solo español | 0,13 | 0,24 | 0,39 | 0,25 | 0,40 |
+| **Denso bilingüe** | **0,16** | **0,29** | **0,48** | **0,35** | **0,50** |
+
+Mejoran 5 preguntas, todas de guías NICE (por ejemplo P10, trauma torácico: el primer fragmento relevante pasa de no aparecer en el top 20 al puesto 1; P14, troponina: del puesto 4 al 1), empeoran 2 por un solo puesto (P09 y P01) y 13 quedan iguales.
+
+> La línea "solo español" de esta corrida es menor que la fila "Denso" de la tabla anterior (medida el 29/10/2026). Lo más probable es que el índice haya crecido desde entonces: en esta corrida aparecen fragmentos de guías que no están en la tabla de la sección 1 (por ejemplo *Head injury*, NICE NG232), y más fragmentos compiten por los primeros puestos. La comparación válida es entre las dos filas de esta tabla, medidas en la misma corrida y con el mismo índice. **Pendiente:** volver a correr `evaluar_recuperacion` y actualizar la tabla anterior y la lista del corpus.
+
 ## 5. Evaluación de la generación (RAGAS)
 
 `python -m rag.evaluacion.evaluar_ragas` (RAGAS 0.2, con Groq como juez). El script es reanudable: guarda después de cada métrica en `resultados/ragas_metricas_dense_progreso.csv`.

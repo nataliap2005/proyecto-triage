@@ -11,6 +11,7 @@ Variables de entorno opcionales:
     RAG_TOP_K         fragmentos recuperados (por defecto 5)
     RAG_MAX_CONTEXTO  fragmentos que viajan al LLM tras expandir vecinos (por defecto 8)
     RAG_UMBRAL_COS    similitud coseno mínima para no abstenerse (por defecto 0.35)
+    RAG_BILINGUE      1 (por defecto) busca con la pregunta en español y en inglés; 0 solo español
 """
 from __future__ import annotations
 
@@ -22,10 +23,10 @@ import re
 
 try:
     from .recuperar import buscar, expandir_contexto, AccesoClinico
-    from .cliente_llm import generar
+    from .cliente_llm import generar, traducir_consulta
 except ImportError:
     from recuperar import buscar, expandir_contexto, AccesoClinico
-    from cliente_llm import generar
+    from cliente_llm import generar, traducir_consulta
 
 try:
     from .seguridad import sanear_fragmento
@@ -40,6 +41,9 @@ MAX_CONTEXTO = int(os.getenv('RAG_MAX_CONTEXTO', '8'))
 # En la evaluación, el primer fragmento de las 20 preguntas clínicas tuvo coseno entre 0,60 y 0,78;
 # una pregunta corta como "¿Qué es el triaje?" sacó 0,41. Confirmar que lo ajeno quede por debajo.
 UMBRAL_COS = float(os.getenv('RAG_UMBRAL_COS', '0.35'))
+# Las preguntas llegan en español y tres de las cinco guías están en inglés: con 'dense' se busca
+# con las dos versiones de la pregunta y se conserva el mejor puntaje de cada fragmento.
+BILINGUE = os.getenv('RAG_BILINGUE', '1') != '0'
 
 
 def _es_limite(exc: Exception) -> bool:
@@ -62,7 +66,10 @@ def normalizar_citas(texto: str) -> str:
     """Lleva cualquier formato de cita al estándar [F#].
 
     gpt-oss cita como 【F1†L6-L9】 o 【F1】; otros modelos como (F1) o [F1, F2].
+    A veces mete caracteres invisibles de ancho cero ([\u200bF6]\u200b): se quitan primero,
+    porque si no la cita no se reconoce y la fuente aparece como no citada.
     """
+    texto = re.sub('[\u200b\u200c\u200d\u2060\ufeff]', '', texto)
     texto = re.sub(r'【\s*(F\d+)[^】]*】', r'[\1]', texto)
     texto = re.sub(r'\((F\d+(?:\s*,\s*F\d+)*)\)', r'[\1]', texto)
     return texto
@@ -76,14 +83,41 @@ def _hay_evidencia(fragmentos: list[dict], metodo: str) -> bool:
     return True  # bm25 ya descarta puntaje 0; en híbrido el RRF no es comparable con un umbral fijo
 
 
+def combinar(listas: list[list[dict]], top_k: int) -> list[dict]:
+    """Une resultados densos de varias versiones de la pregunta: cada fragmento queda una vez,
+    con su mejor similitud coseno (los puntajes del mismo modelo son comparables)."""
+    mejores: dict = {}
+    for lista in listas:
+        for doc in lista:
+            actual = mejores.get(doc['id_fragmento'])
+            if actual is None or doc['puntaje'] > actual['puntaje']:
+                mejores[doc['id_fragmento']] = doc
+    return sorted(mejores.values(), key=lambda d: d['puntaje'], reverse=True)[:top_k]
+
+
+def _consulta_ingles(pregunta: str) -> str | None:
+    try:
+        return traducir_consulta(pregunta)
+    except Exception as exc:  # noqa: BLE001 — sin traducción se busca solo en español
+        log.warning('Sin traducción de la consulta, se busca solo en español: %s: %s', type(exc).__name__, exc)
+        return None
+
+
 def preguntar(pregunta: str, metodo: str | None = None, top_k: int | None = None,
               acceso: AccesoClinico | None = None) -> dict:
     metodo = metodo or METODO_DEFECTO
     top_k = top_k or TOP_K
     fragmentos = buscar(pregunta, metodo=metodo, top_k=top_k, acceso=acceso)
+    consulta_en = None
+    if BILINGUE and metodo == 'dense':
+        consulta_en = _consulta_ingles(pregunta)
+        if consulta_en:
+            en_ingles = buscar(consulta_en, metodo=metodo, top_k=top_k, acceso=acceso)
+            fragmentos = combinar([fragmentos, en_ingles], top_k)
     if not _hay_evidencia(fragmentos, metodo):
         return {'respuesta': SIN_EVIDENCIA, 'modo': 'abstencion', 'aviso': None, 'fuentes': [],
-                'metodo': metodo, 'fragmentos_recuperados': len(fragmentos), 'fragmentos_contexto': 0}
+                'metodo': metodo, 'consulta_en': consulta_en,
+                'fragmentos_recuperados': len(fragmentos), 'fragmentos_contexto': 0}
 
     contexto = expandir_contexto(fragmentos, acceso=acceso, max_fragmentos=MAX_CONTEXTO)
     # Las guías y observaciones pueden contener instrucciones maliciosas.
@@ -115,7 +149,7 @@ def preguntar(pregunta: str, metodo: str | None = None, top_k: int | None = None
                         'origen_contexto': doc['origen_contexto'],
                         'extracto': ' '.join(doc['texto'].split())[:400]})
     return {'respuesta': respuesta, 'modo': modo, 'aviso': aviso, 'fuentes': fuentes,
-            'metodo': metodo, 'fragmentos_recuperados': len(fragmentos),
+            'metodo': metodo, 'consulta_en': consulta_en, 'fragmentos_recuperados': len(fragmentos),
             'fragmentos_contexto': len(contexto)}
 
 
