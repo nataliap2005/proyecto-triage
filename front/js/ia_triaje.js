@@ -1,6 +1,6 @@
 
 import {apiPatch,apiPost,apiPut} from "./api.js";
-import {escapeHtml,showToast} from "./ui.js";
+import {escapeHtml,showToast,errorEnFormulario} from "./ui.js";
 
 const NIVELES={1:"Resucitación",2:"Emergencia",3:"Urgente",4:"Menos urgente",5:"No urgente"};
 const CATEGORIA={
@@ -81,7 +81,7 @@ function pasoDatos(est){
       if(est.reporte.alerta) showToast("Alerta crítica generada: el equipo ya fue notificado","error");
       pasoSugerencia(est);
     }catch(e){
-      showToast(e.message,"error");
+      errorEnFormulario(f,e.message);   // visible dentro de la ventana abierta
       boton.disabled=false;boton.textContent="Obtener sugerencia de la IA";
     }
   });

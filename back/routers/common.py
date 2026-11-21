@@ -108,7 +108,8 @@ def obtener_registro(cursor,tabla,pk,id_registro):
     cursor.execute(f"SELECT * FROM {tabla} WHERE {pk}=%s;",(id_registro,))
     r=cursor.fetchone()
     return dict(r) if r else None
-def clinical_create(db,u,tabla,pk,data:dict,campo_autor="registrado_por"):
+def clinical_create(db,u,tabla,pk,data:dict,campo_autor="registrado_por",confirmar=True):
+    """Inserta un registro clínico y lo audita. Con confirmar=False no hace commit (lotes atómicos)."""
     cur=db.cursor(cursor_factory=RealDictCursor)
 
     try:
@@ -150,7 +151,8 @@ def clinical_create(db,u,tabla,pk,data:dict,campo_autor="registrado_por"):
             u["numero_documento_usuario"],nuevos=nuevo
         )
 
-        db.commit()
+        if confirmar:
+            db.commit()
         return nuevo
 
     except:

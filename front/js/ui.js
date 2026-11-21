@@ -71,3 +71,13 @@ export function enhanceTables(container){
     apply();
   });
 }
+/* Error visible dentro del formulario abierto (no solo como aviso flotante). */
+export function errorEnFormulario(form,mensajes){
+  let caja=form.querySelector(".form-error");
+  if(!caja){caja=document.createElement("div");caja.className="form-error";caja.setAttribute("role","alert");
+    let ref=form.querySelector("[type=submit]");while(ref&&ref.parentElement!==form)ref=ref.parentElement;form.insertBefore(caja,ref||null);}
+  const lista=(Array.isArray(mensajes)?mensajes:[mensajes]).filter(Boolean);
+  caja.hidden=!lista.length;
+  caja.innerHTML=lista.length>1?`<ul>${lista.map(m=>`<li>${escapeHtml(m)}</li>`).join("")}</ul>`:escapeHtml(lista[0]||"");
+  if(lista.length) caja.scrollIntoView({block:"nearest"});
+}

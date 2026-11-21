@@ -130,3 +130,7 @@ hr{border:0;border-top:1px solid var(--border);margin:1rem 0}
 .table-pager-nav{display:flex;align-items:center;gap:.6rem}
 .table-pager-nav .btn-icon{min-width:38px;min-height:38px;padding:.3rem;font-size:1.2rem;line-height:1;border-radius:50%}
 .table-pager-page{min-width:96px;text-align:center;font-weight:650;color:var(--ink-2)}
+/* Errores de validación dentro del formulario abierto */
+.form-error{background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger-bd);border-radius:12px;padding:.65rem .9rem;font-weight:600;font-size:.9rem;margin:.4rem 0}
+.form-error ul{margin:0;padding-left:1.1rem}
+input[aria-invalid="true"]{border-color:var(--danger)!important;background:var(--danger-bg)}
