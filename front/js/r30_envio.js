@@ -63,10 +63,10 @@ export async function confirmarEnvioR30(id, boton, etiqueta){
     aceptar.addEventListener('change',()=>confirmar.disabled = !aceptar.checked);
     confirmar.addEventListener('click',async()=>{
       confirmar.disabled = true; aceptar.disabled = true; cancelar.disabled = true;
-      feedback.textContent = 'Enviando y comprobando confirmación de HAPI FHIR…';
+      feedback.textContent = 'Enviando y comprobando la confirmación del socio…';
       try {
         const r = await apiPost(`/fhir/remisiones-r30/${id}/enviar`, {});
-        if (r.estado !== 'confirmado' || r.respuesta_fhir !== 'transaction-response') {
+        if (r.estado !== 'confirmado' || !r.respuesta_fhir) {
           throw new Error('El receptor no confirmó la transacción completa');
         }
         feedback.textContent = `Confirmado: ${r.recursos} recursos · Task ${r.task_fhir_id ?? '—'}`;

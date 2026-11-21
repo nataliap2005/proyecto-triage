@@ -153,6 +153,36 @@ def validar_bundle(bundle: dict) -> None:
         raise ValueError("Datos demográficos no autorizados para este canal")
 
 
+# Estados de un Task con los que el socio confirma que RECIBIÓ la remisión.
+ESTADOS_TASK_RECIBIDO = {"requested", "received", "accepted", "in-progress", "completed"}
+
+
+def evaluar_confirmacion(confirmado, recursos_enviados: int) -> tuple[str | None, str | None]:
+    """Decide si la respuesta del socio confirma la recepción. Devuelve (tipo, error).
+
+    Se aceptan dos formas, porque cada socio responde distinto:
+      - Bundle transaction-response con una respuesta 200/201 por cada recurso
+        (lo que devuelve un servidor FHIR, como HAPI);
+      - un Task FHIR con estado de recibido (socios que responden con Task, p. ej.
+        el Hospital UCI responde 201 + Task "completed").
+    """
+    if not isinstance(confirmado, dict):
+        return None, "Respuesta FHIR no válida"
+    tipo = confirmado.get("resourceType")
+    if tipo == "Bundle" and confirmado.get("type") == "transaction-response":
+        entradas = confirmado.get("entry", [])
+        if len(entradas) != recursos_enviados or any(
+            not str((e or {}).get("response", {}).get("status", "")).startswith(("200", "201")) for e in entradas
+        ):
+            return None, "Respuesta transaccional parcial o inválida"
+        return "transaction-response", None
+    if tipo == "Task":
+        if confirmado.get("status") in ESTADOS_TASK_RECIBIDO:
+            return f"Task {confirmado.get('status')}", None
+        return None, "El socio respondió con un Task que no confirma la recepción"
+    return None, "El socio no confirmó la recepción con un recurso FHIR"
+
+
 def construir_bundle(remision: dict, observaciones: list[dict], reportes: list[dict], consentimiento: dict) -> dict:
     # Nunca crear Consent a partir de un valor predeterminado o una suposición.
     if not consentimiento or consentimiento.get("vigente") is not True:
@@ -400,13 +430,9 @@ def enviar(id_remision: int, db=Depends(get_db), u=Depends(requerir_roles("Medic
             confirmado = response.json()
         except ValueError:
             return rechazo(502,"Respuesta FHIR no válida","processing")
-        if confirmado.get("resourceType") != "Bundle" or confirmado.get("type") != "transaction-response":
-            return rechazo(502,"El socio no confirmó una transacción FHIR", "processing")
-        entradas = confirmado.get("entry", [])
-        if len(entradas) != len(bundle["entry"]) or any(
-            not str(e.get("response",{}).get("status","")).startswith(("200", "201")) for e in entradas
-        ):
-            return rechazo(502,"Respuesta transaccional parcial o inválida", "processing")
+        tipo_confirmacion, error = evaluar_confirmacion(confirmado, len(bundle["entry"]))
+        if error:
+            return rechazo(502, error, "processing")
         cur.execute("""INSERT INTO r30_envios(id_remision,socio,remitido_por,estado,recursos,fecha_hora)
                        VALUES (%s,%s,%s,'confirmado',%s,now())""",
                     (id_remision,socio_id(),u["numero_documento_usuario"],len(bundle["entry"])))
@@ -415,6 +441,7 @@ def enviar(id_remision: int, db=Depends(get_db), u=Depends(requerir_roles("Medic
                                "socio": socio_id(), "estado": "confirmado",
                                "recursos": len(bundle["entry"]),
                                "task_fhir_id": _id_fhir("task", id_remision),
+                               "confirmacion_socio": tipo_confirmacion,
                                "consent_fhir_id": _id_fhir("con", r["id_paciente"])})
         db.commit()
         # R17/R18: notificación interna al médico remitente, después de la confirmación.
@@ -425,7 +452,7 @@ def enviar(id_remision: int, db=Depends(get_db), u=Depends(requerir_roles("Medic
                  mensaje="El sistema socio confirmó la remisión FHIR",
                  datos={"remision_id": id_remision, "recursos": len(bundle["entry"])})
         return {"estado":"confirmado", "id_remision":id_remision,
-                "recursos":len(bundle["entry"]),"respuesta_fhir":"transaction-response",
+                "recursos":len(bundle["entry"]),"respuesta_fhir":tipo_confirmacion,
                 "task_fhir_id":_id_fhir("task", id_remision)}
     except HTTPException:
         db.rollback()
