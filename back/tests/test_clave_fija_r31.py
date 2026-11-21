@@ -193,3 +193,36 @@ def test_ping_responde_200_sin_escribir():
                               "application/json", None, cabecera_ping="true")
     assert r.status_code == 200 and json.loads(r.body)["resourceType"] == "OperationOutcome"
     assert db.sql == []
+
+
+def test_bundle_real_del_socio_con_referencia_por_documento():
+    """Ejemplo enviado por el socio: el Patient tiene id EXT-CC-<doc> y los demás
+    recursos lo referencian como Patient/<doc> (su identifier)."""
+    ref = {"reference": "Patient/1006458912"}
+    b = {"resourceType": "Bundle", "type": "collection",
+         "security_envelope": {"algoritmo": "AES-256-Fernet + HMAC-SHA256", "ciphertext": "x"},
+         "entry": [
+             {"resource": {"resourceType": "Patient", "id": "EXT-CC-1006458912",
+                           "identifier": [{"system": "urn:hospital-socio:documento", "value": "1006458912"}],
+                           "name": [{"text": "Paciente Sintético"}], "gender": "female"}},
+             {"resource": {"resourceType": "ServiceRequest", "id": "SR-FHIR-1", "status": "active",
+                           "intent": "order", "subject": dict(ref),
+                           "code": {"coding": [{"system": rx.SNOMED, "code": "305351004"}]},
+                           "reasonCode": [{"text": "Insuficiencia respiratoria aguda"}]}},
+             {"resource": {"resourceType": "Consent", "id": "CONSENT-FHIR-1", "status": "active",
+                           "scope": {"text": "Ley 1581/2012"}, "patient": dict(ref)}},
+             {"resource": {"resourceType": "Observation", "id": "OBS-1", "status": "final",
+                           "code": {"coding": [{"system": rx.LOINC, "code": "8867-4"}]},
+                           "subject": dict(ref), "valueQuantity": {"value": 108.0, "unit": "beats/min"}}},
+         ]}
+    v = rx.validar_bundle_entrante(rx.adaptar_bundle_socio(b))
+    assert v.entradas[v.solicitud].recurso["subject"] == {"reference": "Patient/EXT-CC-1006458912"}
+    assert rx.extraer_resumen(v)["motivo"] == "Insuficiencia respiratoria aguda"
+    transaccion, mapa = rx.reescribir_para_hapi(v, "socio-uci")
+    assert transaccion["type"] == "transaction" and len(transaccion["entry"]) == 4
+
+
+def test_ping_del_socio_con_parameters():
+    cuerpo = {"resourceType": "Parameters", "id": "PING-VERIFICACION-R31",
+              "parameter": [{"name": "mode", "valueString": "verify_m2m_credentials"}]}
+    assert rx.es_ping(cuerpo, "true")

@@ -629,7 +629,8 @@ def adaptar_bundle_socio(bundle):
     - ServiceRequest sin status/intent: active/order; con solo code.text: se le
       agrega el código SNOMED CT de remisión y se conserva su texto.
     - Observation sin status: final.
-    - Sin referencia al paciente: se apunta al único Patient del Bundle.
+    - Sin referencia al paciente, o referencia por su documento (identifier):
+      se apunta al único Patient del Bundle. Otro paciente se sigue rechazando.
     - Consent activo sin provision.type: permit (un deny se sigue rechazando).
     """
     if not isinstance(bundle, dict) or not isinstance(bundle.get("entry"), list):
@@ -652,9 +653,23 @@ def adaptar_bundle_socio(bundle):
         ref_paciente = (f"Patient/{p['resource']['id']}" if p["resource"].get("id") is not None
                         else p.get("fullUrl"))
 
+    # Algunos socios referencian al paciente por su documento ("Patient/1006458912")
+    # aunque el id del recurso sea otro ("EXT-CC-1006458912"). Si el valor coincide
+    # con un identifier del ÚNICO Patient del Bundle, es ese paciente.
+    alias = set()
+    if ref_paciente:
+        pr = pacientes[0]["resource"]
+        alias = {f"Patient/{i.get('value')}" for i in pr.get("identifier") or []
+                 if isinstance(i, dict) and i.get("value")}
+
     def con_paciente(r, campo):
-        if ref_paciente and not (isinstance(r.get(campo), dict) and r[campo].get("reference")):
+        if not ref_paciente:
+            return
+        actual = r.get(campo).get("reference") if isinstance(r.get(campo), dict) else None
+        if not actual:
             r[campo] = {"reference": ref_paciente}
+        elif actual in alias:
+            r[campo]["reference"] = ref_paciente
 
     for e in entradas:
         r, tipo = e["resource"], e["resource"].get("resourceType")
