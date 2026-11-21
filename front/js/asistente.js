@@ -265,30 +265,22 @@ function burbujaRespuesta(r){
   const modo=MODO[r.modo]||MODO.llm;
   const nodo=document.createElement("div");
   nodo.className="rag-msg rag-bot";
+  // Pantalla limpia: solo la recomendación. Las citas [F#] y las fuentes se conservan en la
+  // respuesta de la API y en la auditoría (R23), y quedan plegadas en "Ver fuentes consultadas".
   const citadas=r.fuentes.filter(f=>f.citada);
-  const resto=r.fuentes.filter(f=>!f.citada);
+  const visibles=citadas.length?citadas:r.fuentes;
+  const avisoModo=r.modo&&r.modo!=="llm"?`<div class="rag-meta"><span class="badge ${modo.clase}">${modo.texto}</span></div>`:"";
   nodo.innerHTML=`
     <div class="rag-burbuja">
-      <div class="rag-meta"><span class="badge ${modo.clase}">${modo.texto}</span>
-        ${r.con_historia?'<span class="badge info">Incluye historia aprobada</span>':""}
-        <span class="muted small-text">método: ${escapeHtml(r.metodo)}</span></div>
+      ${avisoModo}
+      ${r.con_historia?'<div class="rag-meta"><span class="badge info">Incluye historia aprobada</span></div>':""}
       ${r.aviso?`<div class="rag-aviso">${escapeHtml(r.aviso)}</div>`:""}
       <div class="rag-texto">${formatear(r.respuesta)}</div>
-      ${r.fuentes.length?`<div class="rag-fuentes">
-        <p class="rag-fuentes-titulo">Fuentes${citadas.length?" citadas":""}</p>
-        ${(citadas.length?citadas:r.fuentes).map(tarjetaFuente).join("")}
-        ${citadas.length&&resto.length?`<details><summary>${resto.length===1?"1 fragmento más":`${resto.length} fragmentos más`} de contexto</summary>${resto.map(tarjetaFuente).join("")}</details>`:""}
-      </div>`:""}
+      ${visibles.length?`<details class="rag-fuentes rag-fuentes-plegadas">
+        <summary>Ver fuentes consultadas (${visibles.length})</summary>
+        ${visibles.map(tarjetaFuente).join("")}
+      </details>`:""}
     </div>`;
-  // Clic en [F#] → resalta y despliega la fuente correspondiente.
-  nodo.querySelectorAll("[data-cita]").forEach(b=>b.onclick=()=>{
-    const f=nodo.querySelector(`[data-fuente="${b.dataset.cita}"]`);
-    if(!f)return;
-    f.closest("details")?.setAttribute("open","");
-    f.open=true;
-    f.classList.remove("rag-resaltada");void f.offsetWidth;f.classList.add("rag-resaltada");
-    f.scrollIntoView({behavior:"smooth",block:"nearest"});
-  });
   return nodo;
 }
 
@@ -305,7 +297,7 @@ function tarjetaFuente(f){
 }
 
 // Markdown mínimo y seguro: se escapa TODO primero y luego se aplican negritas, viñetas,
-// tablas sencillas y las citas [F#] como botones.
+// tablas sencillas; las marcas de cita [F#] se quitan del texto visible.
 function formatear(texto){
   const lineas=escapeHtml(texto||"").split(/\r?\n/);
   let html="",enLista=false,tabla=[];
@@ -331,5 +323,6 @@ function formatear(texto){
   cerrarLista();cerrarTabla();
   return html
     .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
-    .replace(/\[(F\d+(?:\s*,\s*F\d+)*)\]/g,(_,g)=>g.split(/\s*,\s*/).map(c=>`<button type="button" class="rag-cita" data-cita="${c}">${c}</button>`).join(""));
+    // Las marcas [F#] no se muestran: la respuesta se lee limpia (las fuentes van plegadas abajo).
+    .replace(/\s*\[F\d+(?:\s*,\s*F\d+)*\](?:\s*,\s*\[F\d+(?:\s*,\s*F\d+)*\])*/g,"");
 }
