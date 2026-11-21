@@ -24,7 +24,7 @@ proyecto_triaje/
     └── R34_OPERACION.md
 ```
 
-**PENDIENTE: URL GitHub / GitLab compartida — ...**. Confirmar que el docente tiene acceso de lectura. **PENDIENTE: PR de Natalia y revisión de conflictos — ...**
+Repositorio: `https://github.com/nataliap2005/proyecto-triage`. **Pendiente:** confirmar que el docente tiene acceso de lectura. Los PR del equipo están fusionados en `main` sin conflictos.
 
 ## 2. Arranque reproducible (PowerShell, raíz del repositorio)
 
@@ -65,7 +65,7 @@ python -m pytest back/tests/test_remisiones_fhir_r30.py -q  # ejecutar desde ent
 
 El comando de secretos no debería mostrar archivos sensibles. **ALERTA:** el `tester.yaml` revisado contiene contraseñas de cuentas demo en texto claro y `url_publica` vacía. Antes de publicar, revisar y rotar cualquier credencial que haya salido de un entorno sintético controlado. Coordinar con el docente el formato requerido para usuarios de evaluación; nunca publicar credenciales administrativas de uso real.
 
-**Regresión R23–R30 reportada anteriormente:** `66 passed, 1 warning`. **PENDIENTE:** volver a ejecutar la suite tras el último backend y frontend, registrar salida con fecha y commit `...`.
+**Regresión completa:** `python -m pytest tests -q` desde `back/` → **213 passed** (2026-11-20, `main` en `f03550f`; incluye R23–R32). Antes se habían reportado 66 para R23–R30.
 
 ## 5. Evidencias sugeridas para la carpeta de entrega
 
@@ -74,7 +74,7 @@ El comando de secretos no debería mostrar archivos sensibles. **ALERTA:** el `t
 - R25: rechazo, intento registrado (IP observada interna) y ciclo de bloqueo/desbloqueo.
 - R26: captura del DFD STRIDE y matriz con controles de Sarah/Annie.
 - R30: consentimiento vigente, vista previa 11 recursos, HTTP 422 OperationOutcome, HTTP 200 transaction-response y botón “FHIR enviado”.
-- R33: **PENDIENTE** request/response institucional, Task del socio, timestamps y notificaciones entre equipos.
+- R29–R30 (entrada): `docs/evidencias/R29_R30/prueba_recepcion.txt` (12 de 12). R33: **pendiente** request/response con el socio asignado, Task del socio, timestamps y notificaciones entre equipos.
 
 Evitar capturas con nombres de pacientes reales, documentos reales, contraseñas, JWT, tokens o cadenas de conexión.
 
@@ -92,8 +92,8 @@ Evitar capturas con nombres de pacientes reales, documentos reales, contraseñas
 
 | Dependencia | Persona | Evidencia / enlace pendiente |
 |---|---|---|
-| Cifrado AES-GCM, auditoría encadenada, identidad institucional | Sarah | `...` |
-| Receptor institucional, webhook seguro, retorno Task aceptación/rechazo | Annie | `...` |
-| URL pública sostenida durante toda la jornada | Equipo | `...` |
-| Repositorio público / permiso docente + PR + tester.yaml | Equipo / Natalia | `...` |
-| Demo cruzada y firma de entrega | Equipo | `...` |
+| Cifrado AES-GCM, auditoría encadenada, identidad institucional | Sarah | Hecho: `docs/evidencias/R27/`, `docs/evidencias/R28_R31/` |
+| Receptor institucional, webhook seguro, retorno Task aceptación/rechazo | Annie | Hecho: `docs/CONTRATO_R30.md`, `docs/evidencias/R29_R30/` |
+| URL pública sostenida durante toda la jornada | Equipo | **Pendiente:** URL vigente en `tester.yaml` y responsable de monitoreo |
+| Repositorio público / permiso docente + PR + tester.yaml | Equipo / Natalia | Repositorio `https://github.com/nataliap2005/proyecto-triage`, PR fusionados. **Pendiente:** acceso docente y `url_publica` |
+| Demo cruzada y firma de entrega | Equipo | **Pendiente:** R33 con el socio asignado |

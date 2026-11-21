@@ -59,7 +59,7 @@
 
 La matriz en `docs/STRIDE.md` cubre las seis clases S/T/R/I/D/E, activos, trayectorias, fronteras de confianza y riesgos residuales. El documento distingue controles comprobados de medidas previstas y no constituye certificado de cumplimiento de Ley 1581, Res. 1995, Res. 866 o Res. 3100.
 
-**Falta:** anexar evidencias y resultados de las partes de Sarah (AES-GCM, auditoría encadenada, credenciales institucionales) y Annie (webhooks, verificación de entrada FHIR y respuestas del socio). **PENDIENTE: ...**
+**Evidencias anexadas:** Sarah en `docs/evidencias/R27/` (cifrado AES-GCM) y `docs/evidencias/R28_R31/` (auditoría encadenada y credenciales institucionales); Annie en `docs/evidencias/R29_R30/` (webhooks, validación de entrada FHIR y respuestas del socio). La tabla R34 de `docs/STRIDE.md` las resume.
 
 ## 6. Diseño de R30 · Envío FHIR R4
 
@@ -103,10 +103,11 @@ sequenceDiagram
   A->>H: Bundle transaction (piloto local validado)
   H-->>A: transaction-response (validado)
   A-->>M: FHIR enviado + evento interno
-  A-->>S: ... Credencial institucional / firma (PENDIENTE)
-  A-->>X: ... Envío externo HTTPS (PENDIENTE)
-  X-->>A: ... Aceptación/rechazo vía Task (PENDIENTE)
-  A-->>M: ... Estado clínico y notificación socio (PENDIENTE)
+  S-->>X: Credencial institucional R31 para el socio
+  A->>X: Envío externo HTTPS con credenciales del socio
+  X-->>A: Aceptación o rechazo vía Task (token R31 + x-nonce)
+  A-->>M: Estado clínico y notificación del socio (SSE)
+  Note over A,X: Implementado y probado en autoprueba local; pendiente con el socio asignado (R33)
 ```
 
 ## 8. Pruebas reproducibles y evidencias que conviene adjuntar
@@ -152,8 +153,8 @@ Histórico reportado: **66 passed, 1 warning**. Las modificaciones posteriores d
 
 ## 11. Apartados a completar por compañeras
 
-**Sarah — seguridad / R27, R28, R31:** `...` (mecanismos finales, rutas, evidencia de pruebas y responsable técnico).
+**Sarah — seguridad / R27, R28, R31:** AES-256-GCM para documento, teléfono y dirección (`back/core/cifrado.py`, `back/core/identidad.py`), cadena SHA-256 de auditoría (`GET /auditoria/verificar-cadena`) y OAuth2 client credentials para instituciones (`POST /oauth/token`); evidencias en `docs/evidencias/R27/` y `docs/evidencias/R28_R31/`.
 
-**Annie — receptor / R30–R33:** `...` (URL institucional, endpoint, recepción, firma/token, OperationOutcome, Task de retorno y notificaciones).
+**Annie — receptor / R29–R32:** `POST /fhir/remisiones-r30/recibir` y `/respuesta` con token R31 + `x-nonce`, validación con `OperationOutcome`, `Task` de retorno y notificaciones (`docs/CONTRATO_R30.md`, `docs/evidencias/R29_R30/`).
 
-**Equipo — Git / sustentación:** `...` (URL repo, PR, URL pública y monitoreo, evidencias cruzadas).
+**Equipo — Git / sustentación:** repositorio `https://github.com/nataliap2005/proyecto-triage` con los PR fusionados en `main`; evidencias en `docs/evidencias/`. **Pendiente:** URL pública vigente y responsable de monitorearla durante la jornada (R34).

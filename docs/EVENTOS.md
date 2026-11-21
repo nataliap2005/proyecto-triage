@@ -102,7 +102,19 @@ El módulo `back/routers/remisiones_fhir_r30.py` publica un evento **después** 
 | Evento | Disparador | Destinatario | Datos mínimos | Persistencia / canal | Evidencia |
 |---|---|---|---|---|---|
 | `remision_fhir_confirmada` | `POST /fhir/remisiones-r30/{id}/enviar` retorna confirmación completa | Médico remitente | `remision_id`, `recursos` | `core.eventos.publicar`; notificación interna y SSE existente | Código de R30; remisión 14, HTTP 200, 11 recursos y estado “FHIR enviado” en interfaz |
-| **PENDIENTE R33** `remision_socio_aceptada` / `remision_socio_rechazada` *(nombres por acordar)* | Respuesta autenticada del socio; actualización de `Task` | Médico remitente y actores pertinentes | ID técnico remisión, estado y tiempo (sin PII en evento) | `...` | **Annie + Sarah: ...** |
+| `remision_socio_aceptada` / `remision_socio_rechazada` | El socio responde con un `Task` `accepted`/`rejected` en `POST /fhir/remisiones-r30/respuesta` (token R31 con `task:write` + `x-nonce`), solo para remisiones que le enviamos | Médico remitente | `remision_id`, institución, estado, motivo y `paciente_id` | `core.eventos.publicar`: bandeja persistente + SSE; auditoría `RESPUESTA_SOCIO` con `origen = SOCIO` (cadena R28) | `back/routers/recepcion_externa.py`; `back/tests/test_devolucion_r30.py`; ida y vuelta en autoprueba local el 2026-11-18 |
+
+## R30 · Eventos de entrada desde la institución socia (R19 ampliado)
+
+El enunciado del proyecto final pide agregar al catálogo los eventos externos: remisión recibida de otro sistema, respuesta del socio y rechazo por validación. Los publica `back/routers/recepcion_externa.py`; todos quedan además en la auditoría con `origen = SOCIO` y `realizado_por` vacío (hecho causado por otra institución), dentro de la cadena de R28.
+
+| Evento | Disparador | Destinatario | Datos mínimos | Auditoría | Evidencia |
+|---|---|---|---|---|---|
+| `remision_externa_recibida` | `POST /fhir/remisiones-r30/recibir` con un Bundle válido (token R31 con `bundle:write` + `x-nonce` nuevo) | Especialistas de la especialidad pedida; si no hay o no se reconoce, todos los especialistas y Admin | `remision_externa_id`, institución, `client_id`, especialidad, prioridad | `RECIBIR_REMISION_EXTERNA` | `back/tests/test_recepcion_externa_r30.py`; `docs/evidencias/R29_R30/prueba_recepcion.txt` (Bundle válido → 200) |
+| `remision_externa_invalida` | El Bundle del socio se rechaza por validación (400, 413, 415 o 422 con `OperationOutcome`); no se guarda nada del Bundle | Admin | `client_id`, código HTTP y motivo | `RECHAZO_VALIDACION_EXTERNA` | `docs/evidencias/R29_R30/prueba_recepcion.txt` (9 rechazos esperados) |
+| `remision_socio_aceptada` / `remision_socio_rechazada` | Respuesta del socio a una remisión nuestra (ver tabla anterior) | Médico remitente | `remision_id`, estado, motivo | `RESPUESTA_SOCIO` | `back/tests/test_devolucion_r30.py` |
+
+Cuando nuestro especialista acepta o rechaza una remisión externa (`PATCH /remisiones-externas/{id}/aceptar` o `/rechazar`), se audita `ACEPTAR_REMISION_EXTERNA` o `RECHAZAR_REMISION_EXTERNA` y se envía al socio un `Task` con el estado (contrato en [`CONTRATO_R30.md`](CONTRATO_R30.md)). La bandeja de trabajo del especialista cuenta también las remisiones externas pendientes.
 
 ### Secuencia del evento R30
 
