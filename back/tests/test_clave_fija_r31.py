@@ -17,6 +17,19 @@ CLAVE = "clave-del-socio-de-prueba-no-real-0123456789"
 HASH = hash_password(CLAVE)
 
 
+def _eventos_de_la_migracion() -> set:
+    """Eventos que acepta oauth_eventos según la migración 020 (la restricción vigente)."""
+    import re
+    from pathlib import Path
+    sql = (Path(__file__).resolve().parent.parent / "migrations"
+           / "020_oauth_eventos_clave_fija_r31.sql").read_text(encoding="utf-8")
+    bloque = sql.split("ADD CONSTRAINT oauth_eventos_evento_check", 1)[1]
+    return set(re.findall(r"'([A-Z_]+)'", bloque))
+
+
+EVENTOS_PERMITIDOS = _eventos_de_la_migracion()
+
+
 class Cursor:
     def __init__(self, db):
         self.db, self.fila = db, None
@@ -29,6 +42,8 @@ class Cursor:
             c = self.db.clientes.get(params[0])
             self.fila = None if c is None else {"nombre": "Socio UCI", "scopes": c["scopes"], "activo": c["activo"]}
         elif "INSERT INTO oauth_eventos" in sql:
+            # Igual que la restricción CHECK de la base (migraciones 015 y 020).
+            assert params[1] in EVENTOS_PERMITIDOS, f"evento no admitido por la base: {params[1]}"
             self.db.eventos.append(params[1])
         elif "INSERT INTO oauth_nonces" in sql:
             clave = (params[0], params[1])
