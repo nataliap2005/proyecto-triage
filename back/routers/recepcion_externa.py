@@ -43,7 +43,7 @@ from auth.service import requerir_roles
 from core.database import get_db
 from core.eventos import publicar, usuarios_por_rol
 from core.socio_cliente import (SocioError, SocioNoConfigurado, enviar_fhir,
-                                institucion_propia, url_respuesta)
+                                institucion_propia, socio_id, url_respuesta)
 from routers.common import registrar_auditoria
 
 log = logging.getLogger("uvicorn.error")
@@ -868,6 +868,14 @@ def enviar_respuesta_al_socio(db, id_externa: int, post=None) -> dict:
         return {"respuesta_enviada": False, "detalle": "La remisión aún no tiene respuesta"}
     if fila["respuesta_enviada"]:
         return {"respuesta_enviada": True, "detalle": "La respuesta ya había sido entregada"}
+    # La respuesta solo puede ir a la institución que ENVIÓ la remisión. Las URL y
+    # credenciales de salida son de un único socio (R30_SOCIO_ID): si la remisión llegó
+    # de otra institución, no se le manda a la equivocada; queda para reenviar cuando
+    # el servidor se configure para esa institución.
+    if fila["socio_client_id"] != socio_id():
+        return {"respuesta_enviada": False,
+                "detalle": f"La remisión llegó de '{fila['socio_client_id']}', pero el servidor está "
+                           f"configurado para responder a '{socio_id()}'; no se envió"}
     try:
         respuesta = enviar_fhir(url_respuesta(), construir_task_respuesta(fila), post=post)
     except SocioNoConfigurado as e:

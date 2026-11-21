@@ -63,8 +63,6 @@ rutas:
   tiempo_real: "/api/eventos/stream"
 
   # R21: HAPI FHIR se expone por Nginx bajo /fhir/ usando la misma URL pública.
-  fhir_observation: "/fhir/Observation"
-
   # R29: de HAPI solo quedan públicos POST /fhir/Observation, PUT /fhir/Observation/{id}
   # y GET /fhir/metadata; cualquier otra ruta /fhir/ responde 403.
   fhir_observation: "/fhir/Observation"

@@ -224,6 +224,24 @@ def test_si_el_socio_no_responde_queda_para_reintentar(monkeypatch, silencio):
     assert not db.ejecuto("SET respuesta_enviada = TRUE")
 
 
+def test_la_respuesta_nunca_va_a_una_institucion_distinta_a_la_que_remitio(monkeypatch, silencio):
+    # Llegó de "grupo-b", pero el servidor está configurado para responder a "grupo-a".
+    monkeypatch.setenv("R30_SOCIO_ID", "grupo-a")
+    monkeypatch.setenv("R30_SOCIO_RESPUESTA_URL", "https://grupo-a.example.org/api/respuesta")
+    monkeypatch.setenv("R30_SOCIO_API_KEY", "k")
+    http = Http()
+    monkeypatch.setattr(sc.requests, "post", http)
+    fila = fila_externa(socio_client_id="grupo-b")
+    db = Base({"FOR UPDATE": fila_externa(estado="pendiente", socio_client_id="grupo-b"),
+               "FROM usuario_especialidades": {"?column?": 1},
+               "UPDATE remisiones_externas SET estado": fila,
+               "SELECT * FROM remisiones_externas": fila})
+    r = rx.aceptar_remision_externa(7, rx.Decision(), db=db, u=ESPECIALISTA)
+    assert r["estado"] == "aceptada" and r["respuesta_enviada"] is False
+    assert "grupo-b" in r["detalle"]
+    assert http.llamadas == []                              # nada salió hacia grupo-a
+
+
 def test_no_se_decide_dos_veces_ni_en_otra_especialidad(silencio):
     with pytest.raises(HTTPException) as e:
         rx.aceptar_remision_externa(7, rx.Decision(), db=base_decision(estado="aceptada"), u=ESPECIALISTA)
