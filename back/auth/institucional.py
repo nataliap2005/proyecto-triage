@@ -8,6 +8,13 @@
 #      scope suficiente (401 sin token, 403 sin permiso) y, si se pide, un
 #      nonce que no se haya usado antes (protección contra repetición).
 #   3. Bitácora propia en oauth_eventos para cada decisión.
+#   4. Modo de clave fija (API key por institución), que R31 también admite
+#      ("client credentials o API key por institución"), para socios que no
+#      piden token. Se activa solo con R30_ENTRADA_CLIENT_ID en pass.env: la
+#      clave es el client_secret de esa institución (en la base solo está su
+#      hash), así que rotarla o desactivarla con el script la revoca al instante
+#      y sus permisos son los registrados. Como todo R31, solo abre los
+#      endpoints de entrada del socio, nunca la API clínica.
 #
 # Diseño deliberado:
 #  - El token institucional se firma con INSTITUCION_JWT_SECRET, distinto de
@@ -97,6 +104,35 @@ def registrar_evento(cur, client_id, evento: str, exitoso: bool, detalle: str | 
         """,
         ((client_id or None) and str(client_id)[:64], evento, exitoso, detalle),
     )
+
+
+def es_jwt(valor: str) -> bool:
+    partes = valor.split(".")
+    return len(partes) == 3 and all(partes)
+
+
+def clave_fija_client_id() -> str | None:
+    """Institución autorizada a entrar con clave fija, o None si el modo está apagado."""
+    return os.getenv("R30_ENTRADA_CLIENT_ID", "").strip() or None
+
+
+def clave_fija_valida(db, client_id: str, clave: str) -> bool:
+    """La clave fija es el client_secret de la institución; se compara contra su hash."""
+    if not clave or len(clave) > 256:
+        return False
+    cur = db.cursor()
+    try:
+        cur.execute("SELECT secret_hash FROM clientes_institucionales WHERE client_id = %s;", (client_id,))
+        fila = cur.fetchone()
+    finally:
+        cur.close()
+    if fila is None:
+        _verificar_con_hash_ficticio(clave)
+        return False
+    try:
+        return bool(verificar_password(clave, fila[0]))
+    except Exception:
+        return False
 
 
 def error_oauth(codigo_http: int, error: str, descripcion: str, cabeceras: dict | None = None):
@@ -276,25 +312,43 @@ def requerir_institucion(scope: str | None = None, exigir_nonce: bool = False):
     def dependencia(
         credenciales: HTTPAuthorizationCredentials | None = Depends(_bearer),
         x_nonce: str | None = Header(default=None),
+        x_system_key: str | None = Header(default=None),
+        x_api_key: str | None = Header(default=None),
         db=Depends(get_db),
     ) -> dict:
-        if credenciales is None or credenciales.scheme.lower() != "bearer":
-            raise _no_autenticado("Falta el token institucional")
-
-        try:
-            claims = decodificar_token(credenciales.credentials)
-        except HTTPException:
-            raise                                   # configuración (503)
-        except jwt.PyJWTError:
-            cur = db.cursor()
+        def rechazar(client_id, evento: str, detalle: str, mensaje: str):
+            cur_e = db.cursor()
             try:
-                registrar_evento(cur, None, "TOKEN_RECHAZADO", False, "Token inválido o vencido")
+                registrar_evento(cur_e, client_id, evento, False, detalle)
                 db.commit()
             finally:
-                cur.close()
-            raise _no_autenticado("Token institucional inválido o vencido")
+                cur_e.close()
+            raise _no_autenticado(mensaje)
 
-        client_id = claims["sub"]
+        bearer = (credenciales.credentials.strip()
+                  if credenciales is not None and credenciales.scheme.lower() == "bearer" else None)
+        # Una clave fija llega en X-System-Key, X-API-Key o como Bearer que no es un JWT.
+        clave = (x_system_key or x_api_key or "").strip() or (
+            bearer if bearer and not es_jwt(bearer) else None)
+
+        if clave is not None:
+            client_id = clave_fija_client_id()
+            if not client_id or not clave_fija_valida(db, client_id, clave):
+                rechazar(client_id, "CLAVE_RECHAZADA", "Clave fija inválida o modo no habilitado",
+                         "Clave institucional inválida")
+            modo_clave, scopes_token = True, None
+        elif bearer is None:
+            raise _no_autenticado("Falta la credencial institucional")
+        else:
+            try:
+                claims = decodificar_token(bearer)
+            except HTTPException:
+                raise                                   # configuración (503)
+            except jwt.PyJWTError:
+                rechazar(None, "TOKEN_RECHAZADO", "Token inválido o vencido",
+                         "Token institucional inválido o vencido")
+            client_id = claims["sub"]
+            modo_clave, scopes_token = False, set(claims["scope"].split())
         cur = db.cursor(cursor_factory=RealDictCursor)
         try:
             # El token solo vale si la institución sigue activa y conserva el permiso HOY:
@@ -310,8 +364,9 @@ def requerir_institucion(scope: str | None = None, exigir_nonce: bool = False):
                 db.commit()
                 raise _no_autenticado("Token institucional inválido o vencido")
 
-            scopes_token = set(claims["scope"].split())
-            scopes_vigentes = scopes_token.intersection(cliente["scopes"])
+            # Con clave fija, los permisos son los que la institución tiene registrados.
+            scopes_vigentes = (set(cliente["scopes"]) if scopes_token is None
+                               else scopes_token.intersection(cliente["scopes"]))
 
             if scope is not None and scope not in scopes_vigentes:
                 registrar_evento(cur, client_id, "SCOPE_DENEGADO", False,
@@ -323,7 +378,9 @@ def requerir_institucion(scope: str | None = None, exigir_nonce: bool = False):
                     headers={"WWW-Authenticate": f'Bearer error="insufficient_scope", scope="{scope}"'},
                 )
 
-            if exigir_nonce:
+            # Con clave fija el nonce es opcional (ese socio no lo envía); si llega se
+            # valida igual. Una remisión repetida se sigue rechazando con 409.
+            if exigir_nonce and not (modo_clave and not x_nonce):
                 if not x_nonce or not PATRON_NONCE.match(x_nonce):
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
@@ -350,11 +407,15 @@ def requerir_institucion(scope: str | None = None, exigir_nonce: bool = False):
                         status_code=status.HTTP_409_CONFLICT,
                         detail="Solicitud repetida: el nonce ya fue usado",
                     )
+            if modo_clave:
+                registrar_evento(cur, client_id, "CLAVE_ACEPTADA", True,
+                                 f"Acceso con clave fija ({scope or 'sin permiso específico'})")
             db.commit()
             return {
                 "client_id": client_id,
                 "nombre": cliente["nombre"],
                 "scopes": sorted(scopes_vigentes),
+                "autenticacion": "clave_fija" if modo_clave else "token",
             }
         except HTTPException:
             raise

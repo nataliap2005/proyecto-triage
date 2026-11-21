@@ -604,13 +604,90 @@ def _exigir_consentimiento() -> bool:
     return os.getenv("R30_EXIGIR_CONSENT", "true").strip().lower() not in ("false", "0", "no")
 
 
+# ---------------------------------------------------------------------
+# Compatibilidad con socios de clave fija (R31 "API key por institución")
+# ---------------------------------------------------------------------
+# SNOMED CT 3457005 "Patient referral": el ServiceRequest ES una remisión.
+CODIGO_REMISION = {"system": SNOMED, "code": "3457005", "display": "Patient referral"}
+CAMPOS_AJENOS = ("security_envelope",)
+
+
+def es_ping(cuerpo, cabecera_ping: str | None) -> bool:
+    """Prueba de conexión del socio: cabecera X-Interop-Ping o un Parameters vacío."""
+    if str(cabecera_ping or "").strip().lower() in ("true", "1", "yes"):
+        return True
+    return isinstance(cuerpo, dict) and cuerpo.get("resourceType") == "Parameters"
+
+
+def adaptar_bundle_socio(bundle):
+    """Completa SOLO lo que falta en el Bundle de un socio de clave fija, sin
+    cambiar nada de lo que sí trae: luego pasa por la misma validación de siempre
+    (un valor presente e inválido se sigue rechazando con 422).
+
+    - Quita campos ajenos a FHIR (security_envelope) para que HAPI no los rechace.
+    - Entrada sin id ni fullUrl: se le asigna un urn:uuid.
+    - ServiceRequest sin status/intent: active/order; con solo code.text: se le
+      agrega el código SNOMED CT de remisión y se conserva su texto.
+    - Observation sin status: final.
+    - Sin referencia al paciente: se apunta al único Patient del Bundle.
+    - Consent activo sin provision.type: permit (un deny se sigue rechazando).
+    """
+    if not isinstance(bundle, dict) or not isinstance(bundle.get("entry"), list):
+        return bundle
+    for campo in CAMPOS_AJENOS:
+        bundle.pop(campo, None)
+    entradas = [e for e in bundle["entry"] if isinstance(e, dict) and isinstance(e.get("resource"), dict)]
+    for e in entradas:
+        for campo in CAMPOS_AJENOS:
+            e.pop(campo, None)
+            e["resource"].pop(campo, None)
+        r = e["resource"]
+        if r.get("id") is None and not e.get("fullUrl"):
+            e["fullUrl"] = f"urn:uuid:{uuid.uuid4()}"
+
+    pacientes = [e for e in entradas if e["resource"].get("resourceType") == "Patient"]
+    ref_paciente = None
+    if len(pacientes) == 1:
+        p = pacientes[0]
+        ref_paciente = (f"Patient/{p['resource']['id']}" if p["resource"].get("id") is not None
+                        else p.get("fullUrl"))
+
+    def con_paciente(r, campo):
+        if ref_paciente and not (isinstance(r.get(campo), dict) and r[campo].get("reference")):
+            r[campo] = {"reference": ref_paciente}
+
+    for e in entradas:
+        r, tipo = e["resource"], e["resource"].get("resourceType")
+        if tipo == "ServiceRequest":
+            r.setdefault("status", "active")
+            r.setdefault("intent", "order")
+            con_paciente(r, "subject")
+            codigo = r.get("code") if isinstance(r.get("code"), dict) else None
+            if codigo is not None and not _tiene_codigo(codigo, {SNOMED, LOINC}) and codigo.get("text"):
+                codigo.setdefault("coding", []).append(dict(CODIGO_REMISION))
+            elif codigo is None:
+                r["code"] = {"coding": [dict(CODIGO_REMISION)], "text": "Remisión"}
+        elif tipo == "Observation":
+            r.setdefault("status", "final")
+            con_paciente(r, "subject")
+        elif tipo == "DiagnosticReport":
+            con_paciente(r, "subject")
+        elif tipo == "Consent":
+            con_paciente(r, "patient")
+            provision = r.get("provision")
+            if not isinstance(provision, dict):
+                r["provision"] = provision = {}
+            provision.setdefault("type", "permit")
+    return bundle
+
+
 def _content_type_valido(content_type: str | None) -> bool:
     principal = (content_type or "").split(";")[0].strip().lower()
     return principal in ("application/fhir+json", "application/json")
 
 
 def procesar_recepcion(db, inst: dict, crudo: bytes, content_type: str | None, ip: str | None,
-                       hapi_post=None) -> JSONResponse:
+                       hapi_post=None, cabecera_ping: str | None = None) -> JSONResponse:
     hapi_post = hapi_post or requests.post
     client_id = inst["client_id"]
 
@@ -624,6 +701,14 @@ def procesar_recepcion(db, inst: dict, crudo: bytes, content_type: str | None, i
             bundle = json.loads(crudo)
         except (ValueError, RecursionError):
             raise ErrorValidacion("El cuerpo no es JSON válido", 400, "structure")
+        if es_ping(bundle, cabecera_ping):
+            # La credencial ya fue validada por R31: solo se confirma la conexión.
+            return JSONResponse(status_code=200, media_type="application/fhir+json", content={
+                "resourceType": "OperationOutcome",
+                "issue": [{"severity": "information", "code": "informational",
+                           "diagnostics": f"Conexión verificada con {inst.get('nombre') or client_id}"}]})
+        if inst.get("autenticacion") == "clave_fija":
+            bundle = adaptar_bundle_socio(bundle)
         validado = validar_bundle_entrante(bundle, _exigir_consentimiento())
     except ErrorValidacion as error:
         registrar_rechazo(db, inst, error, ip)
@@ -747,7 +832,8 @@ async def recibir_remision_externa(
     crudo = await request.body()
     return await run_in_threadpool(
         procesar_recepcion, db, inst, crudo,
-        request.headers.get("content-type"), ip_cliente(request))
+        request.headers.get("content-type"), ip_cliente(request),
+        cabecera_ping=request.headers.get("x-interop-ping"))
 
 
 @router.get("/remisiones-externas", tags=["Remisiones"])
