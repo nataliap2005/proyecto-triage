@@ -23,7 +23,18 @@ Registro de la prueba hecha el 21 de noviembre de 2026 (hora de Bogotá) con dos
 
 - **Credencial en nuestro sistema:** `socio-prueba2`, entregada por chat privado junto con nuestra URL pública.
 - **Credenciales en su sistema:** nos entregaron `client_id`, `client_secret` y una API key; su sistema acepta token o API key.
-- **Resultado (reportado por Annie):** se conectaron con la versión vigente del código, sin cambios adicionales; la remisión llegó y apareció al Admin y a la especialista de Cardiología, que pudo aceptarla o rechazarla.
+- **Mecanismo R31:** **token** (OAuth2 client credentials): `oauth_eventos` registra `TOKEN_EMITIDO` para `socio-prueba2` a las 19:51 y 19:55 (hora de Bogotá), con permisos `bundle:write task:write` y vigencia de 10 minutos.
+- **Resultado:** se conectaron con la versión vigente del código, sin cambios adicionales. La remisión externa #9 (`Cirugía cardiovascular`, prioridad `urgent`, `Consent` activo, 4 recursos) llegó y la especialista la **aceptó** (`estado = aceptada`). Annie reportó además la notificación al Admin y a la especialista de Cardiología.
+
+## Capturas (Swagger como Admin, base compartida)
+
+Las horas de las respuestas están en UTC (`+00:00`); en Bogotá son 5 horas menos.
+
+| Archivo | Qué muestra |
+|---|---|
+| `R33_eventos_oauth_admin_200.png` | `GET /oauth/eventos`: `socio-prueba2` con `TOKEN_EMITIDO` (token) y `socio-predictivoseb` con `CLAVE_ACEPTADA` (clave fija, 19:08 en Bogotá). Las dos formas de R31 con socios reales |
+| `R33_remisiones_externas_recibidas_200.png` | `GET /remisiones-externas`: remisión #9 de `socio-prueba2`, `Consent` activo, `estado = aceptada`. Nombre, fecha de nacimiento y documento de la especialista tapados |
+| `R33_cadena_R28_integra_200.png` | `GET /auditoria/verificar-cadena` después de la prueba: íntegra, 383 eslabones, 0 sin encadenar (22 de noviembre, 00:53 en Bogotá) |
 
 ## Cambios de código que salieron de la prueba
 
@@ -35,9 +46,8 @@ Registro de la prueba hecha el 21 de noviembre de 2026 (hora de Bogotá) con dos
 
 ## Por confirmar con evidencia
 
-- Capturas con hora de: la notificación en nuestra bandeja, `GET /oauth/eventos` (filas de cada credencial) y `GET /auditoria/verificar-cadena` después de la prueba.
+- Captura de la notificación en la bandeja (pantalla de la app).
 - Envío desde nuestro sistema hacia cada equipo (botón "Enviar remisión FHIR") y la respuesta vista en su sistema.
-- Con qué mecanismo exacto entró el equipo 2 a nuestro sistema (`TOKEN_EMITIDO` o `CLAVE_ACEPTADA` en `oauth_eventos`).
 
 ## Operación para la sustentación
 
