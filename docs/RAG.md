@@ -89,10 +89,10 @@ Mejoran 5 preguntas, todas de guías NICE (por ejemplo P10, trauma torácico: el
 
 | Métrica | Preguntas evaluadas | Promedio |
 |---|---|---|
-| Faithfulness (¿la respuesta se apoya en el contexto?) | 8 de 20 | 0,85 |
-| Answer relevancy (¿responde lo que se preguntó?) | 8 de 20 | 0,78 |
+| Faithfulness (¿la respuesta se apoya en el contexto?) | 20 de 20 | 0,87 (mín. 0,36; máx. 1,00) |
+| Answer relevancy (¿responde lo que se preguntó?) | 20 de 20 | 0,79 (mín. 0,64; máx. 0,96) |
 
-> **Pendiente:** completar P09 a P20 (faithfulness) y P09 a P20 (answer relevancy). La corrida se cortó porque Groq devolvió **HTTP 429 por el límite de 8.000 tokens por minuto (TPM)**, no por cupo diario: el juez de faithfulness manda prompts largos. El evaluador es reanudable, así que basta repetir el comando con una pausa más larga entre métricas: `python -m rag.evaluacion.evaluar_ragas --limite 20 --pausa 90`. Al terminar, registrar aquí el promedio **y** cuántas preguntas quedaron válidas (la primera corrida dio `faithfulness = NaN` por fallos del juez y no debe presentarse como completa).
+> Resultados en `rag/evaluacion/resultados/ragas_metricas_dense_progreso.csv` (P01 a P20, todas con valor). La corrida se hizo por partes porque Groq limita a 8.000 tokens por minuto (HTTP 429); el evaluador es reanudable (`python -m rag.evaluacion.evaluar_ragas --limite 20 --pausa 90`). El archivo `ragas_metricas_dense.csv` es la primera corrida, con `faithfulness` vacío por fallos del juez: **no se usa**. Estas métricas son anteriores a la búsqueda bilingüe (sección 4.1).
 
 ## 6. Filtros clínicos
 

@@ -25,6 +25,20 @@ Cada petición de entrada lleva:
 | `x-nonce` | Valor **nuevo en cada envío**: 16 a 128 caracteres de `A-Z a-z 0-9 - _` (un UUID sin llaves sirve) |
 | `Content-Type` | `application/fhir+json` |
 
+### 1.1 Alternativa: clave fija por institución (sin token)
+
+R31 admite "client credentials **o API key** por institución". Si su sistema no pide token, puede entrar con una **clave fija**: es el mismo `client_secret` que les entregamos, enviado directamente en cada petición. Este modo lo activamos para **una institución a la vez** (`R30_ENTRADA_CLIENT_ID` en nuestro servidor); confírmenlo con nosotros antes de usarlo.
+
+| Cabecera | Valor |
+|---|---|
+| `X-System-Key` (o `X-API-Key`, o `Authorization: Bearer <clave>`) | Su `client_secret` |
+| `Content-Type` | `application/fhir+json` o `application/json` |
+| `x-nonce` | Opcional en este modo; si lo envían, se valida igual (409 si se repite) |
+
+- Clave vacía o incorrecta: **401**. Rotar o desactivar la credencial con nuestro script la revoca de inmediato.
+- **Prueba de conexión:** `POST <base>/fhir/remisiones-r30/recibir` con la cabecera `X-Interop-Ping: true` o un cuerpo `{"resourceType": "Parameters"}` responde **200** con un `OperationOutcome` informativo, sin guardar nada.
+- Para socios de clave fija toleramos diferencias de formato que no cambian el contenido clínico: se ignora `security_envelope`; si faltan, se completan `ServiceRequest.status = active` / `intent = order`, `Observation.status = final`, `Consent.provision.type = permit` y la referencia al único `Patient` del Bundle (también si lo nombran por su documento en `identifier`); un `ServiceRequest` que solo trae `code.text` recibe además el código SNOMED CT `3457005` (remisión) sin perder su texto. Un valor presente e inválido (por ejemplo `provision.type = deny` o un recurso de otro paciente) se sigue rechazando con 422.
+
 ## 2. Ustedes nos remiten un paciente
 
 ```http
@@ -86,6 +100,8 @@ Cuando nuestro especialista acepta o rechaza, enviamos un `Task` a **su** endpoi
 `status` es `accepted` o `rejected`. Esperamos de ustedes un **200 o 201**; con cualquier otro código la respuesta queda pendiente y nuestro especialista puede reintentar.
 
 **Necesitamos de ustedes:** la URL de ese endpoint y nuestras credenciales en su sistema (URL de token, `client_id` y `client_secret`, o una API key y el nombre de su cabecera).
+
+**Cuando les enviamos una remisión**, damos el envío por confirmado si su sistema responde 200 o 201 con **un** `Bundle` `transaction-response` (una respuesta 200/201 por recurso) **o** con un `Task` en estado `requested`, `received`, `accepted`, `in-progress` o `completed`. Un `Task` `rejected` o cualquier otra respuesta se muestra como envío no confirmado.
 
 ## 4. Ustedes nos responden (a remisiones que les enviamos)
 

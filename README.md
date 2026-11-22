@@ -114,7 +114,7 @@ HAPI FHIR R4 corre como servicio Docker y se expone mediante Nginx bajo `/fhir/`
 
 **R30 (salida):** un paciente autenticado con rol `Paciente` registra o revoca el consentimiento para el socio piloto; el médico remitente consulta una vista previa y transmite una remisión existente. FastAPI verifica titularidad, origen sintético, consentimiento y reportes aprobados y genera un `Bundle` FHIR R4 `transaction` con `Patient`, `Consent`, `ServiceRequest`, `Task`, observaciones LOINC y, cuando corresponde, un `DiagnosticReport` final aprobado. El `ServiceRequest` utiliza SNOMED CT `306206005`; las IDs son derivadas con HMAC de un secreto local. El receptor piloto autentica con `X-R30-Token`, valida el paquete y lo remite a HAPI para procesamiento transaccional. Se registra `r30_envios`, auditoría y evento interno `remision_fhir_confirmada` únicamente después de una confirmación íntegra.
 
-**Prueba de referencia:** remisión sintética `14`, encuentro `459`, 11 recursos, respuesta HTTP 200 `Bundle.type=transaction-response`; rechazo de paquete inválido HTTP 422 con `OperationOutcome`. La pantalla médica muestra **FHIR enviado** y deshabilita un segundo envío confirmado. Esta confirmación es **técnica**, no equivale a aceptación clínica por el socio. La comunicación real con el equipo receptor y la devolución posterior de `Task` corresponden a R33 y siguen pendientes.
+**Prueba de referencia:** remisión sintética `14`, encuentro `459`, 11 recursos, respuesta HTTP 200 `Bundle.type=transaction-response`; rechazo de paquete inválido HTTP 422 con `OperationOutcome`. La pantalla médica muestra **FHIR enviado** y deshabilita un segundo envío confirmado. Esta confirmación es **técnica**, no equivale a aceptación clínica por el socio. La conexión con equipos reales se probó el 2026-11-21 (R33, `docs/evidencias/R33/`): el envío se da por confirmado con un `transaction-response` o con un `Task` de recibido/aceptado del socio.
 
 Más detalles: [`docs/R30_FHIR.md`](docs/R30_FHIR.md) y [`docs/R34_NATALIA.md`](docs/R34_NATALIA.md).
 
@@ -333,7 +333,7 @@ sequenceDiagram
   Rx->>API: POST /fhir/remisiones-r30/respuesta (Task accepted o rejected, token R31 + x-nonce)
   API->>DB: Auditoria RESPUESTA_SOCIO (origen SOCIO, cadena R28)
   API-->>Web: Aviso en vivo al medico remitente
-  Note over Rx,API: Ida y vuelta probada en autoprueba local (2026-11-18); pendiente con el socio asignado (R33)
+  Note over Rx,API: Autoprueba local (2026-11-18) y prueba con dos equipos externos (2026-11-21, R33)
 ```
 
 ## R34 · Entrega, disponibilidad y verificación
