@@ -66,10 +66,10 @@ El emisor crea `Task.status = requested`, `Task.intent = order`, `Task.focus = S
 
 - La atomicidad de HAPI protege **sus escrituras FHIR**, no una transacción distribuida entre HAPI y Neon; un fallo tras la confirmación remota puede dejar la bitácora local sin actualizar. Reconciliación/outbox pendiente.
 - El receptor piloto valida un subconjunto significativo de FHIR y depende de HAPI para validación más completa. Verificar su CapabilityStatement, perfiles, versiones y transacciones reales.
-- La IP/identidad institucional del socio todavía exige acuerdo R31; el token compartido no equivale a mTLS ni a OAuth institucional.
+- La identidad del socio la resuelve R31 (token de 10 minutos o clave fija por institución); ninguna de las dos equivale a mTLS ni a firma del cuerpo.
 - El `Consent` ya intercambiado no se revoca automáticamente en el receptor si el paciente cambia la autorización local. Esta sincronización es pendiente de diseño y prueba.
 - Las notificaciones por SSE dependen de la configuración real de un proceso/worker de API y del usuario conectado. No se ha probado el SSE del sistema socio.
-- `Task` registra el **inicio** del proceso. Aceptación, rechazo, finalización y respuesta/notificación interinstitucional son pendientes R33.
+- `Task` registra el **inicio** del proceso. La aceptación o el rechazo viajan como `Task` (implementado por Annie, `docs/CONTRATO_R30.md`); con socios que aceptan automáticamente, su `Task` de respuesta confirma la recepción técnica, no una valoración clínica.
 - R28: la auditoría encadenada todavía no se ha implementado en este paquete.
 
 ## Pruebas previstas

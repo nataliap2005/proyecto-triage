@@ -74,7 +74,7 @@ El comando de secretos no debería mostrar archivos sensibles. **ALERTA:** el `t
 - R25: rechazo, intento registrado (IP observada interna) y ciclo de bloqueo/desbloqueo.
 - R26: captura del DFD STRIDE y matriz con controles de Sarah/Annie.
 - R30: consentimiento vigente, vista previa 11 recursos, HTTP 422 OperationOutcome, HTTP 200 transaction-response y botón “FHIR enviado”.
-- R29–R30 (entrada): `docs/evidencias/R29_R30/prueba_recepcion.txt` (12 de 12). R33: **pendiente** request/response con el socio asignado, Task del socio, timestamps y notificaciones entre equipos.
+- R29–R30 (entrada): `docs/evidencias/R29_R30/prueba_recepcion.txt` (12 de 12). R33: registro de la prueba con dos equipos externos (2026-11-21) en `docs/evidencias/R33/`.
 
 Evitar capturas con nombres de pacientes reales, documentos reales, contraseñas, JWT, tokens o cadenas de conexión.
 
@@ -96,4 +96,4 @@ Evitar capturas con nombres de pacientes reales, documentos reales, contraseñas
 | Receptor institucional, webhook seguro, retorno Task aceptación/rechazo | Annie | Hecho: `docs/CONTRATO_R30.md`, `docs/evidencias/R29_R30/` |
 | URL pública sostenida durante toda la jornada | Equipo | **Pendiente:** URL vigente en `tester.yaml` y responsable de monitoreo |
 | Repositorio público / permiso docente + PR + tester.yaml | Equipo / Natalia | Repositorio `https://github.com/nataliap2005/proyecto-triage`, PR fusionados. **Pendiente:** acceso docente y `url_publica` |
-| Demo cruzada y firma de entrega | Equipo | **Pendiente:** R33 con el socio asignado |
+| Demo cruzada y firma de entrega | Equipo | Probado con dos equipos el 2026-11-21 (`docs/evidencias/R33/`); falta la demostración en la sustentación |

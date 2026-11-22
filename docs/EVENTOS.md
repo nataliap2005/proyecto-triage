@@ -139,4 +139,4 @@ sequenceDiagram
   end
 ```
 
-**Pendientes de comprobación en vivo:** confirmar registro y destinatario en bandeja, llegada efectiva del evento SSE y retorno del sistema socio. El código emite la notificación, pero la entrega SSE **no fue verificada** en las pruebas reportadas.
+**Comprobación en vivo (2026-11-21, R33):** las remisiones que llegaron de los dos equipos externos aparecieron como notificación al Admin y a la especialista de Cardiología, que pudo aceptarlas o rechazarlas. **Por confirmar con evidencia:** captura del evento SSE y del retorno visto en el sistema socio.
